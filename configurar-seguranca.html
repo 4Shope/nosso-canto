@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Configurar proteção — Nosso Canto</title>
+<style>
+:root{color-scheme:dark}*{box-sizing:border-box}body{background:#100f1b;color:#f8f5ff;font:16px system-ui,sans-serif;margin:0;min-height:100vh;display:grid;place-items:center;padding:20px}
+main{width:min(100%,480px);padding:26px;border:1px solid #49405d;border-radius:20px;background:#211c32}
+h1{font-size:1.35rem;margin:0 0 16px}p{line-height:1.5;color:#ded5ed}label{display:block;margin:18px 0 7px;font-weight:600}input{width:100%;padding:13px;border:1px solid #776a90;border-radius:10px;background:#130f20;color:white;font-size:1rem}button{margin-top:18px;width:100%;padding:14px;border:0;border-radius:12px;background:#ddbdff;color:#23152c;font-weight:800;font-size:1rem}button:disabled{opacity:.45}small{display:block;line-height:1.5;color:#c4bad4;margin-top:9px}#status{white-space:pre-wrap;overflow-wrap:anywhere}
+</style>
+</head>
+<body><main>
+<h1>🔐 Configurações privadas do Nosso Canto</h1>
+<p>Somente a conta do Fabricio pode salvar. Configure um <strong>novo PIN de 6 a 8 dígitos</strong>. Não reutilize o PIN antigo que já ficou no código público.</p>
+<div id="status" role="status">Conferindo login no Firebase...</div>
+<form id="form" hidden>
+<label for="pin">Novo PIN (6 a 8 números)</label>
+<input id="pin" type="password" inputmode="numeric" autocomplete="new-password" minlength="6" maxlength="8" pattern="[0-9]{6,8}" required>
+<label for="confirmar">Confirmar novo PIN</label>
+<input id="confirmar" type="password" inputmode="numeric" autocomplete="new-password" minlength="6" maxlength="8" pattern="[0-9]{6,8}" required>
+<label for="youtube">Chave do YouTube Data API (opcional)</label>
+<input id="youtube" type="password" autocomplete="off" maxlength="128" placeholder="Deixe vazio se ainda não criou a nova chave">
+<small>Esta chave fica fora do GitHub, mas ainda pode ser vista por quem estiver autenticado no site. Restrinja a chave no Google Cloud e, de preferência, gere outra: a antiga já foi pública.</small>
+<button id="salvar" type="submit">Salvar no Firebase</button>
+</form>
+<small>O PIN é uma trava de interface, não substitui o login nem as regras do Firestore. Depois de salvar, avise no ChatGPT para ativarmos a leitura no site.</small>
+</main>
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+import { getAuth,onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
+import { getFirestore,doc,setDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+const firebaseConfig={
+            apiKey: "AIzaSyAEyJHxEP96ZpSYfAgNO4wdQZIiArseGm4",
+            authDomain: "nosso-canto-5d714.firebaseapp.com",
+            projectId: "nosso-canto-5d714",
+            storageBucket: "nosso-canto-5d714.firebasestorage.app",
+            messagingSenderId: "1042257316625",
+            appId: "1:1042257316625:web:b96e37ad034b598ea61ab0"
+        };
+const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
+const uidFabricio='PPYyjohwQ5TLEeHSN4F44jWJF5x1';
+const status=document.getElementById('status'),form=document.getElementById('form'),btn=document.getElementById('salvar');
+onAuthStateChanged(auth,u=>{const ok=u?.uid===uidFabricio;form.hidden=!ok;status.textContent=ok?'Conta autorizada. Preencha os campos abaixo.':u?'Somente a conta do Fabricio pode configurar.':'Faça login na página principal e volte aqui.';},e=>status.textContent='Erro ao conferir login: '+e.message);
+form.addEventListener('submit',async e=>{
+ e.preventDefault();const u=auth.currentUser;if(u?.uid!==uidFabricio)return;
+ const pin=document.getElementById('pin').value,confirmar=document.getElementById('confirmar').value,youtubeApiKey=document.getElementById('youtube').value.trim();
+ if(!/^[0-9]{6,8}$/.test(pin)||pin!==confirmar){status.textContent='PIN inválido ou confirmação diferente.';return;}
+ if(youtubeApiKey.length>128){status.textContent='Chave do YouTube muito longa.';return;}
+ btn.disabled=true;status.textContent='Salvando no Firestore...';
+ try{
+ await setDoc(doc(db,'configuracoes_privadas','acesso'),{pin,youtubeApiKey,atualizadoEm:Date.now()});
+ form.reset();status.textContent='SUCESSO! Configurações gravadas no Firebase. Volte ao ChatGPT para ativar a leitura no site.';
+ }catch(err){status.textContent='Falha ao salvar: '+err.message+'\nConfira se publicou as regras novas do Firestore.';}
+ finally{btn.disabled=false;}
+});
+</script></body></html>

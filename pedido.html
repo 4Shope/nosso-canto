@@ -1,0 +1,309 @@
+<!doctype html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no"><meta name="theme-color" content="#050408"><title>dois ❤️</title><style>
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;overflow:hidden;background:#050408;color:#fff}body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif}button{font:inherit}#app{position:fixed;inset:0;overflow:hidden;background:#050408}.bg{position:absolute;inset:0;background:radial-gradient(circle at 50% 45%,rgba(255,96,145,.13),transparent 32%),linear-gradient(180deg,#09070c,#050408 70%,#020204)}.vignette{position:absolute;inset:-5%;pointer-events:none;background:radial-gradient(ellipse at center,transparent 35%,rgba(0,0,0,.74) 100%);z-index:8}.grain{position:absolute;inset:0;opacity:.045;pointer-events:none;z-index:9;background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E")}
+#start{position:absolute;inset:0;z-index:30;display:flex;align-items:center;justify-content:center;padding:28px;background:radial-gradient(circle at 50% 45%,rgba(255,87,145,.14),rgba(4,3,7,.985) 68%);transition:opacity 1.4s ease}.start-btn{border:1px solid rgba(255,205,220,.38);background:linear-gradient(135deg,rgba(255,105,150,.96),rgba(143,72,128,.96));color:#fff;border-radius:999px;padding:15px 30px;min-width:170px;font-family:Georgia,serif;font-size:1.05rem;letter-spacing:.06em;cursor:pointer;box-shadow:0 18px 65px rgba(255,78,136,.2);transition:transform .35s ease,box-shadow .35s ease,opacity .35s ease}.start-btn:hover{transform:translateY(-2px);box-shadow:0 22px 75px rgba(255,78,136,.28)}#stage{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease}#stage.live{opacity:1}#backMessages{position:absolute;inset:0;z-index:6;overflow:hidden;pointer-events:none}.timeline-date{position:absolute;z-index:12;top:4.2vh;left:50%;transform:translateX(-50%);display:flex;align-items:baseline;gap:7px;padding:7px 15px;border:1px solid rgba(255,184,208,.14);border-radius:999px;background:rgba(8,5,10,.34);backdrop-filter:blur(8px);color:rgba(255,220,231,.78);font-size:clamp(.62rem,2vw,.78rem);letter-spacing:.15em;text-transform:uppercase;white-space:nowrap;text-shadow:0 2px 14px #000}.timeline-day{display:inline-block;font-family:Georgia,serif;font-size:clamp(1.05rem,4vw,1.5rem);font-weight:400;letter-spacing:.03em;min-width:1.3em;text-align:right;transition:opacity .42s ease,transform .42s ease;will-change:opacity,transform}.timeline-day.change{opacity:.12;transform:translateY(-5px)}.timeline-rest{opacity:.68}.declaration-float{position:absolute;z-index:2;width:max-content;max-width:min(40vw,300px);padding:5px 8px;color:rgba(255,245,249,.96);font-family:Georgia,serif;font-size:clamp(.78rem,2.15vw,1.08rem);font-weight:400;line-height:1.24;text-align:center;text-shadow:0 2px 18px rgba(0,0,0,.9),0 0 28px rgba(255,75,139,.28);white-space:normal;overflow-wrap:break-word;word-break:normal;hyphens:none;animation:declFloat var(--dur,0.62s) cubic-bezier(.2,.75,.2,1) forwards;transform:translate(-50%,-50%) scale(.92);will-change:transform,opacity}.declaration-float::after{content:'♥';display:block;margin-top:3px;font-family:Arial,sans-serif;font-size:.45em;color:rgba(255,139,174,.55);text-shadow:0 0 14px rgba(255,91,145,.45)}@keyframes declFloat{0%{opacity:0;transform:translate(-50%,-50%) scale(.94) rotate(var(--r,0deg));filter:blur(2px)}12%{opacity:1;transform:translate(-50%,-50%) scale(1) rotate(0deg);filter:blur(0)}66%{opacity:1;transform:translate(calc(-50% + var(--dx,0px)),calc(-50% + var(--dy,0px))) scale(1.01);filter:blur(0)}100%{opacity:0;transform:translate(calc(-50% + var(--dx2,0px)),calc(-50% + var(--dy2,0px))) scale(.97);filter:blur(1.5px)}}#front{position:absolute;inset:0;z-index:4;pointer-events:none;opacity:0;visibility:hidden}#front::after{content:"";position:absolute;inset:0;background:radial-gradient(circle at center,rgba(0,0,0,.04),rgba(0,0,0,.36) 72%);pointer-events:none}.card{position:relative;z-index:2;width:min(90vw,720px);min-height:120px;display:flex;align-items:center;justify-content:center;opacity:1;transform:none}.card.show{opacity:1;transform:none}.word{display:inline-block;padding:21px 24px;border-radius:24px 24px 7px 24px;background:transparent;border:0;box-shadow:none;font-size:clamp(1.15rem,4.6vw,2.25rem);line-height:1.25;word-break:break-word;color:#fff;text-shadow:0 3px 28px rgba(0,0,0,.9),0 0 34px rgba(255,93,148,.26)}.front-author{margin-top:12px;color:rgba(255,226,235,.62);font-size:.72rem}.front-meta{margin-top:5px;color:rgba(255,210,224,.38);font-size:.62rem;letter-spacing:.05em}#photoScene{position:absolute;inset:0;z-index:20;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;background:#020203;transition:opacity 2.8s cubic-bezier(.22,.72,.18,1),visibility 2.8s}#photoScene.show{opacity:1;visibility:visible}.photo-glow{position:absolute;inset:-15%;background:radial-gradient(circle,rgba(255,91,145,.28),transparent 52%);filter:blur(35px)}.photo-box{position:relative;width:92vw;height:90vh;display:flex;align-items:center;justify-content:center;padding:18px}#photo{position:relative;z-index:2;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;border-radius:18px;border:1px solid rgba(255,255,255,.16);box-shadow:0 40px 110px rgba(0,0,0,.75);opacity:0;transform:scale(1.055);animation:photoIn 3.8s cubic-bezier(.2,.72,.16,1) forwards}@keyframes photoIn{0%{opacity:0;transform:scale(1.045);filter:blur(7px) brightness(.78)}38%{opacity:.55;transform:scale(1.022);filter:blur(2.5px) brightness(.9)}72%{opacity:.9;transform:scale(1.008);filter:blur(.7px) brightness(.98)}100%{opacity:1;transform:scale(1);filter:blur(0) brightness(1)}}.photo-caption{position:absolute;z-index:3;left:0;right:0;bottom:4.5vh;text-align:center;opacity:0;animation:captionIn 2.2s 1.8s forwards;text-shadow:0 2px 20px #000}.photo-caption span{font-size:.62rem;letter-spacing:.34em;text-transform:uppercase;color:#ffc0d4}.photo-caption h2{font:400 clamp(1.7rem,6vw,3.2rem)/1 Georgia,serif;margin:8px 0 0}@keyframes captionIn{to{opacity:1}}#fadeOut{position:absolute;inset:0;background:#000;z-index:30;opacity:0;pointer-events:none;transition:opacity 1.8s ease}#fadeOut.on{opacity:1}.hearts{position:absolute;inset:0;z-index:1;overflow:hidden;pointer-events:none}.heart{position:absolute;bottom:-30px;color:rgba(255,135,171,.18);animation:float linear forwards}@keyframes float{to{transform:translate3d(var(--x),-115vh,0) rotate(25deg);opacity:0}}#start.hide{opacity:0;pointer-events:none}@media(max-width:600px){.word{padding:17px 18px;border-radius:20px 20px 6px 20px}.back{max-width:82vw}.declaration-float{max-width:44vw;font-size:clamp(.72rem,3.2vw,1rem);padding:4px 5px}.photo-box{height:84vh;padding:12px}}</style></head><body>
+<a href="index.html" aria-label="Voltar para a página principal" style="position:fixed;top:18px;left:18px;z-index:9999;display:inline-flex;align-items:center;gap:7px;padding:10px 15px;border-radius:999px;background:rgba(255,255,255,.10);border:1px solid rgba(255,255,255,.22);color:#fff;text-decoration:none;font:600 14px/1 system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);box-shadow:0 8px 24px rgba(0,0,0,.18);">← Voltar</a><div id="app"><div class="bg"></div><div class="hearts" id="hearts"></div><div class="vignette"></div><div class="grain"></div><section id="start"><button class="start-btn" id="begin">26/09/2026</button></section><main id="stage"><div id="timelineDate" class="timeline-date"><span class="timeline-day" id="timelineDay">12</span><span class="timeline-rest" id="timelineRest">DE MAIO DE 2026</span></div><div id="backMessages"></div><div id="front"><div class="card" id="card"><div><div class="word" id="word"></div><div class="front-author" id="frontAuthor"></div><div class="front-meta" id="frontMeta"></div></div></div></div></main><section id="photoScene"><div class="photo-glow"></div><div class="photo-box"><img id="photo" alt="o dia do pedido"><div class="photo-caption"><span>26 de setembro de 2026</span><h2>e então, virou nós dois. ❤️</h2></div></div></section><div id="fadeOut"></div><audio id="music" preload="auto"></audio></div><div id="pedido-loading" role="status" style="position:fixed;inset:0;z-index:99999;display:flex;align-items:center;justify-content:center;background:#050408;color:#fff;font:600 16px system-ui;text-align:center;padding:24px">Verificando acesso privado…</div><script type="module">
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+import { getAuth } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+import { getFirestore, doc, getDoc } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+
+const aviso = document.getElementById('pedido-loading');
+const mostrarEstado = (texto) => { if (aviso) aviso.textContent = texto; };
+const app = initializeApp({apiKey:"AIzaSyAEyJHxEP96ZpSYfAgNO4wdQZIiArseGm4",authDomain:"nosso-canto-5d714.firebaseapp.com",projectId:"nosso-canto-5d714",storageBucket:"nosso-canto-5d714.firebasestorage.app",messagingSenderId:"1042257316625",appId:"1:1042257316625:web:b96e37ad034b598ea61ab0"});
+const auth = getAuth(app);
+const db = getFirestore(app);
+await auth.authStateReady();
+const permitidos = {
+  'PPYyjohwQ5TLEeHSN4F44jWJF5x1': 'Fabricio',
+  'Uj8dsCLH0fSGP2XZfZWCdhdTCHK2': 'Maria'
+};
+if (!auth.currentUser || !permitidos[auth.currentUser.uid]) {
+  window.location.replace('index.html');
+  throw new Error('Acesso negado: faça login com uma das duas contas autorizadas.');
+}
+function jsonEstavel(valor) {
+  function ordenar(v) {
+    if (Array.isArray(v)) return v.map(ordenar);
+    if (v && typeof v === 'object') {
+      const o = {};
+      for (const chave of Object.keys(v).sort()) o[chave] = ordenar(v[chave]);
+      return o;
+    }
+    return v;
+  }
+  return JSON.stringify(ordenar(valor));
+}
+function sha256(texto) {
+  return crypto.subtle.digest('SHA-256', new TextEncoder().encode(texto)).then(buf =>
+    Array.from(new Uint8Array(buf), b => b.toString(16).padStart(2, '0')).join(''));
+}
+async function lerParte(id, campo) {
+  const snap = await getDoc(doc(db, 'pedido_privado', id));
+  if (!snap.exists()) throw new Error('Parte ausente: ' + id);
+  const valor = snap.data()[campo];
+  if (campo === 'itens' ? !Array.isArray(valor) : typeof valor !== 'string') throw new Error('Dados inválidos em ' + id);
+  return valor;
+}
+let dadosPrivados;
+try {
+  mostrarEstado('Carregando nossa apresentação privada…');
+  const snap = await getDoc(doc(db, 'pedido_privado', 'manifest'));
+  if (!snap.exists() || snap.data().completo !== true) throw new Error('A migração privada ainda não foi concluída.');
+  const m = snap.data();
+  if (m.versao !== 1 || !Number.isInteger(m.blocosMensagens) || !Number.isInteger(m.blocosAudio) ||
+      m.blocosMensagens < 1 || m.blocosMensagens > 100 || m.blocosAudio < 1 || m.blocosAudio > 100) throw new Error('Manifesto privado inválido.');
+  const blocosMensagens = await Promise.all(Array.from({length:m.blocosMensagens}, (_,i) =>
+    lerParte('declaracoes_' + String(i).padStart(3,'0'), 'itens')));
+  const blocosAudio = await Promise.all(Array.from({length:m.blocosAudio}, (_,i) =>
+    lerParte('audio_' + String(i).padStart(3,'0'), 'trecho')));
+  const mensagens = blocosMensagens.flat();
+  const audioBase64 = blocosAudio.join('');
+  const extras = Array.isArray(m.frasesAdicionais) ? m.frasesAdicionais.map(x => [x.data, x.autor, x.texto]) : null;
+  if (!Array.isArray(extras) || extras.some(x => x.some(v => typeof v !== 'string')) || mensagens.length !== m.totalMensagens || extras.length !== m.totalFrases ||
+      audioBase64.length !== m.tamanhoAudio ||
+      await sha256(jsonEstavel(mensagens)) !== m.hashMensagens ||
+      await sha256(jsonEstavel(extras)) !== m.hashFrases ||
+      await sha256(audioBase64) !== m.hashAudio) throw new Error('A verificação de integridade falhou.');
+  dadosPrivados = { mensagens, extras, audio: audioBase64, foto: m.foto };
+} catch (erro) {
+  console.error('Falha ao abrir pedido privado:', erro);
+  mostrarEstado('Não foi possível carregar a apresentação privada. Verifique se a migração foi concluída e se as regras do Firebase estão publicadas.');
+  throw erro;
+}
+const DECLARATIONS = dadosPrivados.mensagens;
+const BACK = dadosPrivados.extras;
+const AUDIO_SRC = 'data:audio/mpeg;base64,' + dadosPrivados.audio;
+const PHOTO_SRC = dadosPrivados.foto;
+mostrarEstado('');
+if (aviso) aviso.remove();
+
+const TOTAL=47.804082;
+const PHOTO_START=42.40;
+const music=document.getElementById('music');
+const photo=document.getElementById('photo');
+const start=document.getElementById('start');
+const stage=document.getElementById('stage');
+const begin=document.getElementById('begin');
+const card=document.getElementById('card');
+const word=document.getElementById('word');
+const frontAuthor=document.getElementById('frontAuthor');
+const frontMeta=document.getElementById('frontMeta');
+const backLayer=document.getElementById('backMessages');
+const photoScene=document.getElementById('photoScene');
+const fadeOut=document.getElementById('fadeOut');
+const hearts=document.getElementById('hearts');
+
+let started=false, photoShown=false, ended=false, lastIndex=-1, raf=0;
+let wallStart=0;
+let audioActuallyPlaying=false;
+let activeDeclarations=[];
+let timelineCursor=0;
+
+music.src=AUDIO_SRC;
+music.preload='auto';
+music.load();
+photo.src=PHOTO_SRC;
+
+function formatDate(iso){const [y,m,d]=iso.split('-');return `${d}/${m}/${y}`;}
+function escapeHtml(s){return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));}
+
+// Mantemos praticamente todas as declarações: só evitamos as realmente gigantes.
+const DISPLAY_DECLARATIONS=DECLARATIONS.filter(x=>String(x.text||'').trim().length<=120);
+
+// Muitos pontos pequenos e bem distribuídos: o topo fica reservado para a data.
+const DECL_SPOTS=[
+ [7,18],[18,18],[30,18],[42,18],[55,18],[68,18],[81,18],[93,18],
+ [6,30],[16,31],[27,29],[39,31],[51,29],[63,31],[75,29],[86,31],[95,29],
+ [7,43],[18,41],[30,44],[42,42],[55,44],[68,42],[80,44],[92,42],
+ [6,56],[17,58],[29,55],[41,58],[53,56],[65,58],[77,55],[89,58],[96,55],
+ [8,70],[20,68],[32,72],[45,69],[57,72],[69,69],[81,72],[93,69],
+ [12,83],[25,86],[39,82],[52,86],[65,83],[78,86],[91,82],
+ [20,93],[38,94],[58,93],[76,94]
+];
+
+function spotDistance(a,b){const dx=a[0]-b[0],dy=a[1]-b[1];return Math.hypot(dx,dy);}
+function chooseSpot(){
+ const used=activeDeclarations.map(x=>x.spot);
+ const free=DECL_SPOTS.map((p,i)=>({p,i})).filter(x=>!used.includes(x.i));
+ const pool=free.length?free:DECL_SPOTS.map((p,i)=>({p,i}));
+ if(!used.length)return pool[Math.floor(Math.random()*pool.length)];
+ // Escolhe entre os pontos mais distantes de tudo que já está na tela.
+ let best=null,bestScore=-1;
+ for(const candidate of pool){
+   const score=Math.min(...used.map(i=>spotDistance(candidate.p,DECL_SPOTS[i])));
+   if(score>bestScore){bestScore=score;best=candidate;}
+ }
+ return best||pool[0];
+}
+
+const MONTHS=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+let lastTimelineDate='';
+function updateTimelineDate(index){
+ const x=DECLARATIONS[Math.max(0,Math.min(index,DECLARATIONS.length-1))];
+ const dayEl=document.getElementById('timelineDay');
+ const restEl=document.getElementById('timelineRest');
+ if(!x||!dayEl||!restEl)return;
+ const [y,m,d]=x.date.split('-');
+ const key=x.date;
+ if(key===lastTimelineDate)return;
+ const oldDay=dayEl.textContent;
+ const newDay=String(Number(d));
+ const newRest=`DE ${MONTHS[Number(m)-1].toUpperCase()} DE ${y}`;
+ lastTimelineDate=key;
+ if(oldDay===newDay){restEl.textContent=newRest;return;}
+ dayEl.classList.add('change');
+ setTimeout(()=>{
+   dayEl.textContent=newDay;
+   restEl.textContent=newRest;
+   requestAnimationFrame(()=>dayEl.classList.remove('change'));
+ },210);
+}
+
+function addDeclaration(x){
+ if(!x)return;
+ const chosen=chooseSpot();
+ const el=document.createElement('div');
+ el.className='declaration-float';
+ el.textContent=x.text;
+ el.style.left=chosen.p[0]+'%';
+ el.style.top=chosen.p[1]+'%';
+ const dur=0.46+Math.random()*0.24;
+ el.style.setProperty('--dur',dur.toFixed(2)+'s');
+ el.style.setProperty('--dx',((Math.random()*16)-8).toFixed(1)+'px');
+ el.style.setProperty('--dy',((Math.random()*16)-8).toFixed(1)+'px');
+ el.style.setProperty('--dx2',((Math.random()*24)-12).toFixed(1)+'px');
+ el.style.setProperty('--dy2',((Math.random()*24)-12).toFixed(1)+'px');
+ el.style.setProperty('--r',((Math.random()*2.4)-1.2).toFixed(1)+'deg');
+ el.title=`${x.author} · ${formatDate(x.date)} · ${x.time}`;
+ backLayer.appendChild(el);
+ const item={el,spot:chosen.i};
+ activeDeclarations.push(item);
+ setTimeout(()=>{el.remove();activeDeclarations=activeDeclarations.filter(a=>a!==item);},dur*1000+80);
+}
+
+function declarationIndex(t){
+ const p=Math.min(1,Math.max(0,t/PHOTO_START));
+ // Toda a sequência é percorrida até o último instante, com aceleração no final.
+ return Math.min(DISPLAY_DECLARATIONS.length-1,Math.floor(Math.pow(p,1.18)*(DISPLAY_DECLARATIONS.length-1)));
+}
+
+function animateDeclarations(t){
+ const target=declarationIndex(t);
+ const dateSource=DISPLAY_DECLARATIONS[Math.min(target,DISPLAY_DECLARATIONS.length-1)];
+ updateTimelineDate(DISPLAY_DECLARATIONS.indexOf(dateSource));
+ const p=Math.min(1,t/PHOTO_START);
+ // O ritmo cresce bastante: no final dezenas de declarações entram por segundo.
+ const desired=Math.min(52,18+Math.floor(p*34));
+ const interval=Math.max(0.055,0.15-(p*0.095));
+ if(!animateDeclarations.lastAdd)animateDeclarations.lastAdd=-999;
+ let added=0;
+ while(t-animateDeclarations.lastAdd>=interval && timelineCursor<=target && added<12){
+   addDeclaration(DISPLAY_DECLARATIONS[timelineCursor]);
+   timelineCursor++;
+   animateDeclarations.lastAdd += interval;
+   added++;
+ }
+ // Recupera rapidamente qualquer atraso sem esperar outro frame.
+ let burst=0;
+ while(activeDeclarations.length<desired && timelineCursor<=target && burst<10){
+   addDeclaration(DISPLAY_DECLARATIONS[timelineCursor]);
+   timelineCursor++;
+   burst++;
+ }
+}
+
+function timelineTime(){
+  if(audioActuallyPlaying && Number.isFinite(music.currentTime)) return music.currentTime;
+  if(!wallStart) return 0;
+  return Math.min(TOTAL, (performance.now()-wallStart)/1000);
+}
+function render(){
+  if(!started||ended)return;
+  const t=timelineTime();
+  if(t<PHOTO_START){
+    animateDeclarations(t);
+    // Nos últimos 1,4s, deixamos as frases terminarem naturalmente para a foto entrar limpa.
+    if(t>PHOTO_START-0.9){
+      activeDeclarations.forEach(a=>a.el.style.setProperty('--fade-ready','1'));
+    }
+  }else if(!photoShown){
+    photoShown=true;
+    stage.style.opacity='0';
+    photoScene.classList.add('show');
+  }
+  if(t>=TOTAL){finishExperience();return;}
+  raf=requestAnimationFrame(render);
+}
+function finishExperience(){
+  if(ended)return;
+  ended=true;
+  cancelAnimationFrame(raf);
+  activeDeclarations.forEach(a=>a.el.remove());
+  activeDeclarations=[];
+  if(!photoShown){
+    photoShown=true;
+    stage.style.opacity='0';
+    photoScene.classList.add('show');
+  }
+  // A foto respira por alguns segundos; depois a experiência fecha e volta ao início.
+  setTimeout(()=>{
+    fadeOut.classList.add('on');
+    setTimeout(resetExperience,1900);
+  },5200);
+}
+
+function resetExperience(){
+  // Reinício real da página: elimina completamente o estado da animação,
+  // áudio, timers e elementos antigos antes de mostrar a tela inicial novamente.
+  window.location.reload();
+}
+
+begin.addEventListener('click',()=>{
+  if(started)return;
+  started=true;
+  ended=false;
+  photoShown=false;
+  lastIndex=-1;
+  timelineCursor=0;
+  animateDeclarations.lastAdd=-999;
+  lastTimelineDate='';
+  activeDeclarations.forEach(a=>a.el.remove());
+  activeDeclarations=[];
+  wallStart=performance.now();
+  start.classList.add('hide');
+  stage.classList.add('live');
+  cancelAnimationFrame(raf);
+  raf=requestAnimationFrame(render);
+
+  music.currentTime=0;
+  const playPromise=music.play();
+  if(playPromise && typeof playPromise.then==='function'){
+    playPromise.then(()=>{
+      audioActuallyPlaying=true;
+      wallStart=performance.now()-music.currentTime*1000;
+    }).catch(err=>{
+      audioActuallyPlaying=false;
+      console.error('Áudio não iniciou:',err);
+      begin.textContent='26/09/2026';
+    });
+  }
+});
+
+music.addEventListener('playing',()=>{
+  audioActuallyPlaying=true;
+  wallStart=performance.now()-music.currentTime*1000;
+});
+music.addEventListener('pause',()=>{ if(!music.ended) audioActuallyPlaying=false; });
+music.addEventListener('ended',finishExperience);
+music.addEventListener('error',()=>{
+  audioActuallyPlaying=false;
+  console.error('Erro no áudio:',music.error);
+});
+
+setInterval(()=>{
+  if(!started||ended)return;
+  const h=document.createElement('span');h.className='heart';h.textContent=['♥','♡','✦'][Math.floor(Math.random()*3)];
+  h.style.left=(Math.random()*100)+'%';h.style.fontSize=(10+Math.random()*18)+'px';h.style.setProperty('--x',(Math.random()*90-45)+'px');h.style.animationDuration=(5+Math.random()*5)+'s';
+  hearts.appendChild(h);setTimeout(()=>h.remove(),11000);
+},900);
+</script></body></html>

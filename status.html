@@ -1,0 +1,1363 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Nosso Histórico de Amor ❤️ - Edição Especial</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+  <style>
+    :root {
+      --primary: #8c625d;
+      --secondary: #a68580;
+      --border-color: #e6b3a8;
+      --bg-card: #ffffff;
+      --text-color: #4a3e3d;
+      --text-muted: #8a7573;
+      --bg-main: #fff3f2;
+      
+      --fabricio-bg: #4a154b;
+      --fabricio-border: #6b21a8;
+      --fabricio-text: #ffffff;
+      
+      --maria-bg: #1e293b;
+      --maria-border: #3b82f6;
+      --maria-text: #f8fafc;
+    }
+
+    /* Tema escuro no mesmo estilo da página principal */
+    body.dark-mode {
+      --primary: #8c625d;
+      --secondary: #a68580;
+      --border-color: #514448;
+      --bg-card: #242022;
+      --text-color: #eee6e4;
+      --text-muted: #b9aaa8;
+      --bg-main: #161415;
+      --fabricio-bg: #3a2c31;
+      --fabricio-border: #66575b;
+      --fabricio-text: #ffffff;
+      --maria-bg: #302a2d;
+      --maria-border: #514448;
+      --maria-text: #f8fafc;
+    }
+    body.dark-mode .card,
+    body.dark-mode .top-header,
+    body.dark-mode .tabs-nav,
+    body.dark-mode .tab-btn,
+    body.dark-mode input,
+    body.dark-mode select,
+    body.dark-mode textarea {
+      border-color: #514448;
+    }
+
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body { width: 100%; overflow-x: hidden; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      background-color: var(--bg-main);
+      color: var(--text-color);
+      padding: 12px;
+      padding-top: 20px;
+      display: flex;
+      justify-content: center;
+      line-height: 1.5;
+      -webkit-font-smoothing: antialiased;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    .theme-toggle {
+      background: none; border: 1px solid var(--border-color); border-radius: 18px;
+      padding: 6px 10px; cursor: pointer; font-size: 1.05rem; line-height: 1;
+      color: var(--text-color);
+    }
+    .theme-toggle:hover { transform: scale(1.04); }
+    .container { max-width: 900px; width: 100%; }
+    .card {
+      background-color: var(--bg-card);
+      border: 1px solid rgba(230, 179, 168, 0.4);
+      border-radius: 20px;
+      padding: 16px;
+      box-shadow: 0 10px 25px rgba(140, 98, 93, 0.12);
+      width: 100%;
+      margin-bottom: 16px;
+    }
+    .file-dropzone {
+      border: 2px dashed var(--border-color);
+      border-radius: 14px;
+      padding: 20px 14px;
+      text-align: center;
+      cursor: pointer;
+      background: var(--bg-card);
+      position: relative;
+      margin-bottom: 15px;
+      transition: all 0.2s;
+      word-break: break-word;
+    }
+    .file-dropzone:hover { opacity: 0.9; border-color: var(--primary); }
+    input[type="file"] {
+      position: absolute; top: 0; left: 0; width: 100%; height: 100%;
+      opacity: 0; cursor: pointer;
+    }
+    .status-text { text-align: center; font-weight: bold; color: var(--primary); margin-bottom: 10px; font-size: 0.85rem; min-height: 20px; word-break: break-word; }
+    .error-text { color: #d9534f !important; }
+    
+    .progress-container {
+      width: 100%; background-color: rgba(0,0,0,0.1); border-radius: 12px; overflow: hidden;
+      margin-bottom: 20px; display: none; box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
+      position: relative; height: 24px;
+    }
+    .progress-bar { height: 100%; width: 0%; background: var(--primary); transition: width 0.15s linear; border-radius: 12px; }
+    .progress-text { position: absolute; top: 0; left: 0; width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 0.8rem; font-weight: bold; color: #ffffff; text-shadow: 0 1px 2px rgba(0,0,0,0.6); }
+
+    .stats-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-bottom: 20px; display: none; }
+    @media (max-width: 768px) { .stats-grid { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 480px) { .stats-grid { grid-template-columns: 1fr; } }
+    
+    .stat-card {
+      background: rgba(140, 98, 93, 0.05);
+      border: 1px solid var(--border-color); padding: 12px; border-radius: 16px; text-align: center;
+    }
+    .stat-card.fabricio { background: rgba(74, 21, 75, 0.08); border-color: rgba(107, 33, 168, 0.3); }
+    .stat-card.maria { background: rgba(30, 41, 59, 0.08); border-color: rgba(59, 130, 246, 0.3); }
+    .stat-title { font-size: 0.72rem; color: var(--secondary); text-transform: uppercase; letter-spacing: 0.5px; font-weight: bold; }
+    .stat-number { font-size: 1.5rem; font-weight: 800; color: var(--primary); margin: 4px 0; word-break: break-word; }
+    .stat-card.fabricio .stat-number { color: #4a154b; }
+    .stat-card.maria .stat-number { color: #1e293b; }
+    .stat-desc { font-size: 0.7rem; color: var(--text-muted); }
+
+    .section-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; flex-wrap: wrap; gap: 8px; }
+    .section-title { font-size: 0.9rem; font-weight: bold; color: var(--primary); text-transform: uppercase; letter-spacing: 0.5px; }
+    
+    .btn {
+      background: var(--bg-card); border: 1px solid var(--border-color); color: var(--primary);
+      padding: 6px 12px; border-radius: 10px; font-size: 0.75rem; cursor: pointer;
+      display: flex; align-items: center; gap: 4px; font-weight: bold; transition: all 0.2s;
+    }
+    .btn:hover { background: var(--primary); color: #fff; }
+    .btn-primary { background: var(--primary); color: #fff; }
+    .btn-primary:hover { opacity: 0.9; }
+
+    .tabs-nav { display: none; gap: 8px; margin-bottom: 16px; overflow-x: auto; padding-bottom: 4px; }
+    .tab-btn {
+      padding: 8px 14px; border-radius: 12px; border: 1px solid var(--border-color);
+      background: var(--bg-card); color: var(--text-color); font-size: 0.8rem; font-weight: bold;
+      cursor: pointer; white-space: nowrap; transition: all 0.2s;
+    }
+    .tab-btn.active { background: var(--primary); color: #ffffff; border-color: var(--primary); }
+
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    .charts-wrapper { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; margin-bottom: 16px; }
+    @media (max-width: 650px) { .charts-wrapper { grid-template-columns: 1fr; } }
+    .chart-box { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; padding: 12px; width: 100%; }
+
+    .cloud-box { display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; padding: 10px; }
+    .word-chip { background: var(--bg-card); border: 1px solid var(--border-color); padding: 4px 8px; border-radius: 8px; font-size: 0.8rem; display: flex; align-items: center; gap: 4px; }
+    .word-count { font-weight: bold; color: var(--primary); font-size: 0.75rem; }
+
+    .memory-card { background: var(--bg-card); border: 1px dashed var(--primary); border-radius: 14px; padding: 14px; margin-bottom: 16px; }
+
+    .chat-controls { display: flex; flex-direction: column; gap: 10px; background: var(--bg-card); padding: 12px; border-radius: 14px; border: 1px solid var(--border-color); margin-bottom: 12px; }
+    .search-row { display: flex; gap: 8px; align-items: center; position: relative; flex-wrap: wrap; }
+    .input-wrapper { position: relative; flex: 1; min-width: 180px; }
+    .input-wrapper input { width: 100%; padding: 10px 12px 10px 34px; border-radius: 12px; border: 1px solid var(--border-color); background: var(--bg-card); color: var(--text-color); font-size: 0.85rem; outline: none; }
+    .search-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); opacity: 0.6; }
+    .date-row { display: flex; gap: 8px; align-items: center; font-size: 0.8rem; color: var(--secondary); flex-wrap: wrap; width: 100%; }
+    .date-row label { display: flex; align-items: center; gap: 4px; flex: 1; min-width: 130px; }
+    .date-row input { width: 100%; background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-color); padding: 6px 8px; border-radius: 8px; font-size: 0.8rem; }
+    
+    .tags-container { position: relative; }
+    .tags-popover { display: none; position: absolute; top: 110%; right: 0; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 14px; padding: 10px; box-shadow: 0 10px 25px rgba(0,0,0,0.18); grid-template-columns: repeat(2, 1fr); gap: 6px; z-index: 1000; width: 240px; max-width: 90vw; }
+    .tags-popover.active { display: grid; }
+    .tag-item { background: var(--bg-card); border: 1px solid var(--border-color); color: var(--text-color); padding: 6px 8px; border-radius: 8px; font-size: 0.75rem; cursor: pointer; text-align: left; }
+    .tag-item:hover { background: var(--primary); color: #fff; }
+
+    .chat-feed { height: 450px; overflow-y: auto; padding: 10px; background: var(--bg-card); border-radius: 14px; border: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 10px; }
+    .msg-bubble { max-width: 88%; padding: 10px 12px; border-radius: 14px; font-size: 0.85rem; line-height: 1.4; word-wrap: break-word; overflow-wrap: break-word; word-break: break-word; }
+    .msg-fabricio { align-self: flex-end; background-color: var(--fabricio-bg); border: 1px solid var(--fabricio-border); color: var(--fabricio-text); border-bottom-right-radius: 2px; }
+    .msg-maria { align-self: flex-start; background-color: var(--maria-bg); border: 1px solid var(--maria-border); color: var(--maria-text); border-bottom-left-radius: 2px; }
+    .msg-header { font-size: 0.7rem; font-weight: bold; margin-bottom: 4px; display: flex; justify-content: space-between; gap: 8px; opacity: 0.85; }
+    .highlight { background-color: #fef08a; color: #854d0e; font-weight: bold; padding: 1px 3px; border-radius: 3px; }
+    .load-more-btn { background: var(--primary); color: #ffffff; border: none; padding: 8px 14px; border-radius: 12px; cursor: pointer; margin: 8px 0; font-size: 0.8rem; font-weight: bold; align-self: center; }
+
+    /* MÍDIAS DA GALERIA */
+    .media-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; padding: 10px; }
+    .media-card-item { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; overflow: hidden; display: flex; flex-direction: column; }
+    .media-card-item img { width: 100%; height: 120px; object-fit: cover; cursor: pointer; }
+    .media-card-info { padding: 6px; font-size: 0.65rem; color: var(--text-muted); text-align: center; }
+
+    .audio-list { display: flex; flex-direction: column; gap: 10px; }
+    .audio-item { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 10px; display: flex; flex-direction: column; gap: 4px; }
+
+    .links-list { display: flex; flex-direction: column; gap: 8px; }
+    .link-item { background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 10px; padding: 10px; font-size: 0.8rem; word-break: break-all; }
+
+    .wrap-story { width: 340px; min-height: 600px; }
+    .wrap-square { width: 420px; min-height: 420px; }
+    .wrap-landscape { width: 550px; min-height: 310px; }
+
+    .theme-light { background: linear-gradient(135deg, #fff3f2, #f6e8e5); color: #4a3e3d; }
+    .theme-dark { background: linear-gradient(135deg, #242022, #161415); color: #eee6e4; }
+
+    #exportCard {
+      border-radius: 20px; padding: 24px; text-align: center;
+      display: flex; flex-direction: column; justify-content: space-between;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.3); transition: all 0.3s ease; margin: 0 auto;
+    }
+    #exportCard h2 { font-size: 1.3rem; margin-bottom: 4px; }
+    #exportCard p { font-size: 0.8rem; opacity: 0.9; }
+    .wrapped-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin: 16px 0; }
+    .wrapped-item { background: rgba(255,255,255,0.12); padding: 10px; border-radius: 12px; font-size: 0.75rem; text-align: center; }
+    .wrapped-val { font-size: 1.1rem; font-weight: bold; display: block; margin-top: 4px; word-break: break-word; }
+
+    .media-img { max-width: 100%; max-height: 200px; border-radius: 8px; margin-top: 6px; display: block; }
+    audio { width: 100%; height: 36px; margin-top: 6px; }
+
+    .fullscreen-mode {
+      position: fixed !important; top: 0; left: 0; right: 0; bottom: 0; z-index: 9999;
+      background: var(--bg-main) !important; border-radius: 0 !important; padding: 16px !important;
+      margin: 0 !important; display: flex !important; flex-direction: column; gap: 12px;
+    }
+    .fullscreen-mode .chat-feed { max-height: none !important; height: 100% !important; flex: 1; }
+
+
+    /* EXPERIÊNCIA E CONTROLES APRIMORADOS */
+    .top-header { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:16px; padding:10px 0; }
+    .brand-title { font-size:1.05rem; font-weight:800; color:var(--primary); }
+    .brand-subtitle { font-size:.75rem; color:var(--text-muted); }
+    .home-btn { text-decoration:none; white-space:nowrap; }
+    .chart-controls { display:flex; flex-wrap:wrap; gap:10px; align-items:center; margin:0 0 12px; padding:10px; border-radius:12px; background:rgba(140,98,93,.06); }
+    .chart-controls label { font-size:.78rem; font-weight:700; color:var(--secondary); display:flex; align-items:center; gap:8px; }
+    .hour-range { flex:1; min-width:180px; accent-color:var(--primary); }
+    .chart-hint { font-size:.72rem; color:var(--text-muted); margin-top:8px; }
+    .hour-detail { margin-top:10px; padding:9px 12px; border:1px solid var(--border-color); border-radius:10px; font-size:.8rem; background:var(--bg-card); }
+    .wrap-controls { display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:12px; margin-bottom:16px; }
+    .wrap-control { padding:10px; border:1px solid var(--border-color); border-radius:12px; background:rgba(140,98,93,.04); }
+    .wrap-control label { font-size:.78rem; font-weight:700; display:block; }
+    .wrap-control input,.wrap-control select { width:100%; padding:8px; border-radius:8px; border:1px solid var(--border-color); margin-top:5px; background:var(--bg-card); color:var(--text-color); }
+    .wrap-control input[type="range"] { padding:0; }
+    #exportCard { position:relative; overflow:hidden; isolation:isolate; }
+    #wrapBgImage { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; z-index:-1; opacity:.18; pointer-events:none; }
+    .card-section-note { font-size:.78rem; color:var(--text-muted); margin-bottom:12px; }
+
+    @media print {
+      body { background: #fff; padding: 0; }
+      .tabs-nav, .file-dropzone, .btn, .chat-controls { display: none !important; }
+      .tab-content { display: block !important; page-break-after: always; }
+      .card { box-shadow: none; border: 1px solid #ccc; }
+    }
+  
+
+    .mini-meter{height:8px;border-radius:999px;background:var(--border-color);overflow:hidden;margin-top:8px}.mini-meter i{display:block;height:100%;background:var(--primary);border-radius:999px}.metric-note{font-size:.72rem;color:var(--text-muted);margin-top:6px}.deep-highlight{border-left:3px solid var(--primary)}
+    .advanced-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin-top:12px}.insight-card{padding:14px;border:1px solid var(--border-color);border-radius:14px;background:var(--bg-card);box-shadow:0 4px 14px rgba(0,0,0,.05)}.insight-card b{display:block;font-size:1.05rem;margin-top:5px}.insight-card span{font-size:.74rem;color:var(--text-muted)}.insight-card small{font-size:.72rem;color:var(--text-muted)}.chart-box canvas{max-height:280px}.comparison-bar{height:10px;border-radius:99px;background:var(--border-color);overflow:hidden;margin:7px 0}.comparison-fill{height:100%;background:var(--primary);border-radius:99px}.filter-chip{border:1px solid var(--border-color);border-radius:999px;padding:7px 10px;background:var(--bg-card);color:var(--text-color);font-size:.75rem}
+
+  
+    .advanced-grid .insight-card{min-height:94px}.pattern-tag{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:.68rem;background:var(--bg-secondary);color:var(--text-muted);margin-top:5px}.section-title{letter-spacing:.01em}
+</style>
+</head>
+<body>
+
+  <div class="container">
+    <header class="top-header">
+      <div><div class="brand-title">💖 Nosso Histórico de Amor</div><div class="brand-subtitle">Explore, compare e transforme as conversas em lembranças.</div></div>
+      <div style="display:flex; align-items:center; gap:8px;">
+        <button class="theme-toggle" id="btn-theme-toggle" aria-label="Alternar modo claro e noturno" title="Modo noturno">☀️</button>
+        <a class="btn home-btn" href="index.html">← Página inicial</a>
+      </div>
+    </header>
+    <div class="card">
+      <div style="background: rgba(140, 98, 93, 0.08); border: 1px solid var(--border-color); padding: 8px 12px; border-radius: 10px; font-size: 0.75rem; text-align: center; margin-bottom: 12px;">
+        💖 <b>Estatísticas:</b> Algumas estatísticas de nossas conversas.
+      </div>
+
+      <div class="file-dropzone" id="dropzoneBox">
+        <span id="dropzoneText">📁 Selecione a conversa do WhatsApp (.txt ou .zip com mídias)</span>
+        <input type="file" id="fileInput" accept=".txt,.zip">
+      </div>
+
+      <div id="status" class="status-text"></div>
+
+      <div id="progressContainer" class="progress-container">
+        <div id="progressBar" class="progress-bar"></div>
+        <div id="progressText" class="progress-text">0%</div>
+      </div>
+
+      <div id="statsGrid" class="stats-grid">
+        <div class="stat-card">
+          <div class="stat-title">Declarações "Te Amo" ❤️</div>
+          <div id="counterNumber" class="stat-number">0</div>
+          <div class="stat-desc">Contagem rigorosa</div>
+        </div>
+        <div class="stat-card">
+          <div class="stat-title">Total de Mensagens 💬</div>
+          <div id="totalMessages" class="stat-number">0</div>
+          <div class="stat-desc">No histórico carregado</div>
+        </div>
+        <div class="stat-card fabricio">
+          <div class="stat-title">Fabricio 💜</div>
+          <div id="fabricioMessages" class="stat-number">0</div>
+          <div id="fabricioPercent" class="stat-desc">0% do total</div>
+        </div>
+        <div class="stat-card maria">
+          <div class="stat-title">Meu Amor 💙</div>
+          <div id="mariaMessages" class="stat-number">0</div>
+          <div id="mariaPercent" class="stat-desc">0% do total</div>
+        </div>
+      </div>
+    </div>
+
+    <div id="tabsNav" class="tabs-nav">
+      <button class="tab-btn active" onclick="switchTab('analyticsTab')">📊 Análises</button>
+      <button class="tab-btn" onclick="switchTab('insightsTab')">🧠 Insights</button>
+      <button class="tab-btn" onclick="switchTab('memoriesTab')">✨ Recordações & Dicionário</button>
+      <button class="tab-btn" onclick="switchTab('deepTab')">🧩 Padrões</button>
+      <button class="tab-btn" onclick="switchTab('compareTab')">📌 Comparar</button>
+      <button class="tab-btn" onclick="switchTab('chatTab')">💬 Histórico & Busca</button>
+      <button class="tab-btn" id="tabGalleryBtn" style="display:none;" onclick="switchTab('galleryTab')">🖼️ Fotos</button>
+      <button class="tab-btn" id="tabAudiosBtn" style="display:none;" onclick="switchTab('audiosTab')">🎙️ Áudios</button>
+      <button class="tab-btn" onclick="switchTab('linksTab')">🎵 Músicas & Links</button>
+      <button class="tab-btn" onclick="switchTab('wrappedTab')">🎨 Gerar Card</button>
+      <button class="tab-btn" onclick="exportPDFReport()" style="margin-left: auto;">🖨️ PDF</button>
+    </div>
+
+    <div id="analyticsTab" class="tab-content">
+      <div class="card">
+        <div class="section-title" style="margin-bottom: 12px;">📈 Nossa História em Gráficos</div>
+        <div class="charts-wrapper">
+          <div class="chart-box">
+            <canvas id="timeSeriesChart"></canvas>
+          </div>
+          <div class="chart-box">
+            <canvas id="hourlyChart"></canvas>
+            <div class="hour-selector" style="margin-top:12px; padding-top:10px; border-top:1px solid var(--border-color);">
+              <div style="display:flex; justify-content:space-between; align-items:center; gap:8px; margin-bottom:8px; font-size:.8rem;">
+                <b>Selecionar horário</b><span id="hourRangeValue">Todas</span>
+              </div>
+              <input id="hourRange" type="range" min="0" max="23" step="1" value="12" style="width:100%;">
+              <div style="display:flex; justify-content:space-between; font-size:.68rem; color:var(--text-muted);"><span>00h</span><span>12h</span><span>23h</span></div>
+              <p id="hourDetail" style="font-size:.78rem; color:var(--text-muted); margin:8px 0;">Toque em uma barra ou use o controle acima para ver um horário específico.</p>
+              <button class="btn" type="button" onclick="resetHourSelection()">↺ Ver todos os horários</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="charts-wrapper" style="margin-top:12px;">
+        <div class="chart-box"><div class="section-title" style="font-size:.9rem;margin-bottom:8px;">📅 Atividade por dia da semana</div><canvas id="weekdayChart"></canvas></div>
+        <div class="chart-box"><div class="section-title" style="font-size:.9rem;margin-bottom:8px;">🌙 Ritmo ao longo do dia</div><canvas id="periodChart"></canvas></div>
+      </div>
+    </div>
+
+    <div id="insightsTab" class="tab-content">
+      <div class="card"><div class="section-title">🧠 Descobertas do histórico</div><p class="card-section-note">Uma leitura rápida dos hábitos, ritmo e diferenças da conversa.</p><div id="advancedInsights" class="advanced-grid"></div></div>
+      <div class="card"><div class="section-title">⚖️ Comparação entre vocês</div><div id="comparisonInsights"></div></div>
+    </div>
+
+    <div id="deepTab" class="tab-content">
+      <div class="card"><div class="section-title">🧩 Padrões da conversa</div><p class="card-section-note">Aqui ficam comportamentos diferentes dos números básicos: constância, sessões e ritmo.</p><div id="deepInsights" class="advanced-grid"></div></div>
+      <div class="charts-wrapper"><div class="chart-box"><div class="section-title" style="font-size:.9rem;margin-bottom:8px;">📆 Evolução por mês</div><canvas id="intensityChart"></canvas></div><div class="chart-box"><div class="section-title" style="font-size:.9rem;margin-bottom:8px;">🗓️ Semana × fim de semana</div><canvas id="heatChart"></canvas></div></div>
+      <div class="card"><div class="section-title">🧭 Momentos da história</div><div id="timelineInsights" class="advanced-grid"></div></div>
+    </div>
+    <div id="compareTab" class="tab-content">
+      <div class="card"><div class="section-title">📌 Comparações úteis</div><p class="card-section-note">Diferenças de hábito, sem repetir o total de mensagens mostrado no resumo.</p><div id="compareDetailed" class="advanced-grid"></div></div>
+      <div class="charts-wrapper"><div class="chart-box"><div class="section-title" style="font-size:.9rem;margin-bottom:8px;">👥 Participação por período</div><canvas id="authorPeriodChart"></canvas></div><div class="chart-box"><div class="section-title" style="font-size:.9rem;margin-bottom:8px;">🕒 Horários de cada um</div><canvas id="authorHourChart"></canvas></div></div>
+    </div>
+    <div id="memoriesTab" class="tab-content">
+      <div class="card">
+        <div id="memoryLaneBox" class="memory-card">
+          <div class="section-title">📅 Neste Dia na Nossa História</div>
+          <p id="memoryLaneSub" style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 10px;">Carregando mensagens antigas trocadas no dia de hoje...</p>
+          <div id="memoryLaneContent" style="display: flex; flex-direction: column; gap: 8px;"></div>
+        </div>
+
+        <div class="chart-box" style="margin-bottom: 16px;">
+          <div class="section-title" style="margin-bottom: 8px;">🗣️ Dicionário do Casal (Gírias & Apelidos)</div>
+          <p style="font-size: 0.75rem; color: var(--text-muted); margin-bottom: 10px;">Termos fofos, apelidos e palavras únicas do histórico de vocês:</p>
+          <div id="coupleDictionaryBox" class="cloud-box"></div>
+        </div>
+
+        <div class="charts-wrapper">
+          <div class="chart-box">
+            <div class="section-title" style="margin-bottom: 8px;">🏆 Recordes do Casal</div>
+            <div id="recordsContent" style="font-size: 0.85rem; display: flex; flex-direction: column; gap: 8px;"></div>
+          </div>
+          <div class="chart-box">
+            <div class="section-title" style="margin-bottom: 8px;">☁️ Palavras Mais Usadas</div>
+            <div id="wordCloudBox" class="cloud-box"></div>
+          </div>
+        </div>
+
+        <div class="chart-box" style="margin-top: 12px;">
+          <div class="section-title" style="margin-bottom: 8px;">😍 Duelo de Emojis mais Usados</div>
+          <div id="emojiRankBox" style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px; font-size: 0.85rem;"></div>
+        </div>
+      </div>
+    </div>
+
+
+    <div id="chatTab" class="tab-content">
+      <div class="card" id="chatSection">
+        <div class="section-header">
+          <div class="section-title">💬 Histórico Completo:</div>
+          <button class="btn" onclick="toggleFullscreen('chatSection')">⛶ Tela Cheia</button>
+        </div>
+
+        <div class="chat-controls">
+          <div class="search-row">
+            <div class="input-wrapper">
+              <span class="search-icon">🔍</span>
+              <input type="text" id="searchInput" placeholder="Pesquisar termo no chat...">
+            </div>
+            <div id="searchCounter" class="btn" style="background: var(--primary); color:#fff; display:none;">0 resultados</div>
+
+            <div class="tags-container">
+              <button class="btn" onclick="toggleTagsMenu(event)">🏷️ Tags <span style="font-size:0.7rem">▼</span></button>
+              <div id="tagsPopover" class="tags-popover">
+                <button class="tag-item" onclick="applyTag('te amo')">❤️ Te Amo</button>
+                <button class="tag-item" onclick="applyTag('saudade')">🥺 Saudades</button>
+                <button class="tag-item" onclick="applyTag('bom dia')">☀️ Bom dia</button>
+                <button class="tag-item" onclick="applyTag('boa noite')">🌙 Boa noite</button>
+                <button class="tag-item" onclick="applyTag('meu amor')">💖 Meu Amor</button>
+                <button class="tag-item" onclick="applyTag('fome')">🍕 Fome</button>
+              </div>
+            </div>
+          </div>
+
+          <div class="date-row">
+            <label>De: <input type="date" id="dateStart"></label>
+            <label>Até: <input type="date" id="dateEnd"></label>
+            <button class="btn" style="margin-left:auto" onclick="clearFilters()">🔄 Limpar</button>
+          </div>
+        </div>
+
+        <div id="chatFeed" class="chat-feed"></div>
+      </div>
+    </div>
+
+    <div id="galleryTab" class="tab-content">
+      <div class="card">
+        <div class="section-title" style="margin-bottom: 12px;">🖼️ Galeria de Fotos e Imagens</div>
+        <div id="mediaGallery" class="media-grid"></div>
+      </div>
+    </div>
+
+    <div id="audiosTab" class="tab-content">
+      <div class="card">
+        <div class="section-title" style="margin-bottom: 12px;">🎙️ Mural de Áudios Trocados</div>
+        <div id="audioGallery" class="audio-list"></div>
+      </div>
+    </div>
+
+    <div id="linksTab" class="tab-content">
+      <div class="card">
+        <div class="section-title" style="margin-bottom: 12px;">🎵 Playlist do Casal & Links Compartilhados</div>
+        <div id="linksGallery" class="links-list"></div>
+      </div>
+    </div>
+
+    <div id="wrappedTab" class="tab-content">
+      <div class="card">
+        <div class="section-title" style="margin-bottom: 12px;">🎨 Personalizar Card (Wrapped)</div>
+        
+        <p class="card-section-note">Personalize o formato, conteúdo, textos e visual antes de gerar a imagem.</p><div class="wrap-controls">
+          <label style="font-size: 0.8rem; font-weight: bold;">Formato:
+            <select id="wrapFormat" onchange="updateWrappedPreview()" style="width:100%; padding: 6px; border-radius: 8px; border: 1px solid var(--border-color); margin-top:4px;">
+              <option value="story">📱 Instagram Stories (9:16)</option>
+              <option value="square">🔲 Quadrado Feed (1:1)</option>
+              <option value="landscape">💻 Banner Retangular (16:9)</option>
+            </select>
+          </label>
+
+          <label style="font-size: 0.8rem; font-weight: bold;">Estilo Visual:
+            <select id="wrapTheme" onchange="updateWrappedPreview()" style="width:100%; padding: 6px; border-radius: 8px; border: 1px solid var(--border-color); margin-top:4px;">
+              <option value="light">☀️ Tema claro</option>
+              <option value="dark">🌙 Tema escuro</option>
+            </select>
+          </label>
+
+          <label style="font-size: 0.8rem; font-weight: bold;">Conteúdo em Destaque:
+            <select id="wrapContentType" onchange="updateWrappedPreview()" style="width:100%; padding: 6px; border-radius: 8px; border: 1px solid var(--border-color); margin-top:4px;">
+              <option value="general">📊 Visão Geral do Casal</option>
+              <option value="love">❤️ Foco no Amor & Carinho</option>
+              <option value="fun">🤡 Curiosidades Engraçadas</option>
+              <option value="rhythm">⚡ Ritmo & Atividade</option>
+              <option value="compare">⚖️ Comparação do Casal</option>
+              <option value="words">🗣️ Palavras & Expressões</option>
+              <option value="deep">🔬 História Profunda</option>
+              <option value="milestones">🏁 Marcos & Recordes</option>
+            </select>
+          </label>
+          <div class="wrap-control">
+            <label>Título personalizado:<input id="wrapCustomTitle" type="text" placeholder="Deixe vazio para automático" oninput="updateWrappedPreview()"></label>
+          </div>
+          <div class="wrap-control">
+            <label>Subtítulo:<input id="wrapCustomSubtitle" type="text" placeholder="Ex.: Nossa história em números" oninput="updateWrappedPreview()"></label>
+          </div>
+          <div class="wrap-control">
+            <label>Imagem de fundo (opcional):<input id="wrapImageInput" type="file" accept="image/*" onchange="loadWrapImage(event)"></label>
+          </div>
+          <div class="wrap-control">
+            <label>Transparência da imagem: <span id="wrapOpacityValue">18%</span><input id="wrapImageOpacity" type="range" min="0" max="70" value="18" oninput="updateWrappedPreview()"></label>
+          </div>
+          <div class="wrap-control">
+            <label>Estatísticas exibidas:<select id="wrapItemsCount" onchange="updateWrappedPreview()"><option value="4">4 itens</option><option value="2">2 itens</option><option value="6">6 itens</option><option value="8">8 itens</option></select></label>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" onclick="downloadWrappedImage()" style="margin: 0 auto 16px auto;">📥 Baixar Imagem do Card</button>
+
+        <div id="exportCardWrapper" style="display: flex; justify-content: center; overflow-x: auto; padding: 10px 0;">
+          <div id="exportCard" class="wrap-story theme-light">
+            <img id="wrapBgImage" alt="" style="display:none;">
+            <div>
+              <h2 id="wrapTitle">Nosso Histórico de Amor ❤️</h2>
+              <p id="wrapSubtitle">Estatísticas do nosso relacionamento</p>
+            </div>
+            
+            <div class="wrapped-grid" id="wrappedGrid"></div>
+            
+            <p style="font-size: 0.7rem; opacity: 0.7; margin-top: 10px;">Gerado com o Nosso Histórico do WhatsApp 🥰</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script>
+    let parsedMessages = [];
+    let filteredMessages = [];
+    let mediaFiles = {}; 
+    let hasMediaZip = false;
+    let currentPage = 1;
+    const PAGE_SIZE = 100;
+
+    let timeChartInstance = null;
+    let hourlyChartInstance = null;
+    let weekdayChartInstance = null;
+    let periodChartInstance = null;
+    let selectedHour = null;
+    let wrapImageUrl = null;
+    let quizCurrentQuestion = null;
+    let quizScorePoints = 0;
+
+    const patternEU = /(?:e+u+[\s,]*)/.source;
+    const patternTE_TI = /[tt]+[ei]+/.source;
+    const patternAMO = /a+m+o+/.source;
+    const patternVOCE = /(?:v+o*c+[eê]*|v+c+)/.source;
+    const patternTE_AMO = new RegExp(`\\b(?:${patternEU})?${patternTE_TI}[\\s,]+${patternAMO}\\b`, 'gi');
+    const patternAMO_VOCE = new RegExp(`\\b${patternAMO}[\\s,]+(?:${patternEU})?${patternVOCE}\\b`, 'gi');
+    const masterLoveRegex = new RegExp(`${patternTE_AMO.source}|${patternAMO_VOCE.source}`, 'gi');
+
+    function regexForTermWithIntensifiers(term) {
+      const cleanTerm = term.trim().toLowerCase();
+      if (cleanTerm === 'bom dia') return /\bb+o+m+[\s,]+d+i+a*s*\b/gi;
+      if (cleanTerm === 'boa noite') return /\bb+o+a+[\s,]+n+o+i+t+e*s*\b/gi;
+      if (cleanTerm === 'meu amor') return /\bm+e+u+[\s,]+a+m+o+r+e*s*\b/gi;
+
+      const pattern = cleanTerm.split('').map(char => {
+        if (/[a-zA-Zà-úÀ-Ú]/.test(char)) return `${escapeRegExp(char)}+`;
+        if (/\s/.test(char)) return '[\\s,]+';
+        return escapeRegExp(char);
+      }).join('');
+
+      return new RegExp(`\\b${pattern}\\b`, 'gi');
+    }
+
+    const statusEl = document.getElementById('status');
+    const progressContainer = document.getElementById('progressContainer');
+    const progressBar = document.getElementById('progressBar');
+    const progressText = document.getElementById('progressText');
+
+    const sleep = (ms = 10) => new Promise(resolve => setTimeout(resolve, ms));
+
+    // Mesmo sistema de tema da página principal: somente claro e escuro.
+    const botaoTema = document.getElementById('btn-theme-toggle');
+    function aplicarTema(modo) {
+      const escuro = modo === 'dark';
+      document.body.classList.toggle('dark-mode', escuro);
+      if (botaoTema) {
+        botaoTema.textContent = escuro ? '🌙' : '☀️';
+        botaoTema.title = escuro ? 'Modo noturno ativo — trocar para modo claro' : 'Modo claro ativo — trocar para modo noturno';
+      }
+      localStorage.setItem('tema_canto', escuro ? 'dark' : 'light');
+    }
+    aplicarTema(localStorage.getItem('tema_canto') || 'dark');
+    if (botaoTema) {
+      botaoTema.addEventListener('click', () => {
+        aplicarTema(document.body.classList.contains('dark-mode') ? 'light' : 'dark');
+      });
+    }
+
+    async function updateProgress(percent, label = "") {
+      const p = Math.min(100, Math.max(0, Math.round(percent)));
+      progressContainer.style.display = 'block';
+      progressBar.style.width = p + '%';
+      progressText.innerText = label ? `${label} (${p}%)` : `${p}%`;
+      await sleep(5);
+    }
+
+    function hideProgress() {
+      progressContainer.style.display = 'none';
+      progressBar.style.width = '0%';
+    }
+
+    function showStatus(msg, isError = false) {
+      statusEl.innerText = msg;
+      if (isError) statusEl.classList.add('error-text');
+      else statusEl.classList.remove('error-text');
+    }
+
+    function switchTab(tabId) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      document.getElementById(tabId).classList.add('active');
+      
+      const btn = Array.from(document.querySelectorAll('.tab-btn')).find(b => b.getAttribute('onclick') && b.getAttribute('onclick').includes(tabId));
+      if (btn) btn.classList.add('active');
+
+      if (tabId === 'wrappedTab') updateWrappedPreview();
+    }
+
+    function exportPDFReport() { window.print(); }
+
+    document.getElementById('fileInput').addEventListener('change', async function(e) {
+      const file = e.target.files[0];
+      if (!file) return;
+
+      document.getElementById('dropzoneText').innerText = `📄 ${file.name}`;
+      showStatus("Lendo arquivo local...");
+      await updateProgress(10, "Lendo arquivo");
+
+      hasMediaZip = false;
+      document.getElementById('tabGalleryBtn').style.display = 'none';
+      document.getElementById('tabAudiosBtn').style.display = 'none';
+
+      try {
+        let rawText = "";
+        mediaFiles = {};
+
+        if (file.name.toLowerCase().endsWith('.zip')) {
+          const zip = new JSZip();
+          const zipContent = await zip.loadAsync(file);
+          const txtFileName = Object.keys(zipContent.files).find(name => name.toLowerCase().endsWith('.txt'));
+          
+          if (!txtFileName) {
+            showStatus("Arquivo .txt não encontrado dentro do .zip", true);
+            hideProgress();
+            return;
+          }
+
+          rawText = await zipContent.files[txtFileName].async('string');
+
+          const mediaKeys = Object.keys(zipContent.files).filter(f => !f.endsWith('.txt') && !zipContent.files[f].dir);
+          if (mediaKeys.length > 0) {
+            hasMediaZip = true;
+          }
+
+          const totalFiles = mediaKeys.length || 1;
+          let loaded = 0;
+          for (let fileName of mediaKeys) {
+            const blob = await zipContent.files[fileName].async('blob');
+            mediaFiles[fileName] = URL.createObjectURL(blob);
+            loaded++;
+            if (loaded % 20 === 0) await updateProgress(10 + (loaded/totalFiles)*40, "Carregando Mídias");
+          }
+
+        } else {
+          rawText = await file.text();
+        }
+
+        await updateProgress(60, "Processando mensagens");
+        parseWhatsAppText(rawText);
+
+        await updateProgress(80, "Gerando estatísticas");
+        renderDashboard();
+        generateCharts();
+        generateAdvancedInsights();
+        generateMemoriesAndRecords();
+        generateLinksTab();
+
+        if (hasMediaZip) {
+          generateMediaGallery();
+          generateAudioGallery();
+          document.getElementById('tabGalleryBtn').style.display = 'inline-block';
+          document.getElementById('tabAudiosBtn').style.display = 'inline-block';
+        }
+
+        document.getElementById('tabsNav').style.display = 'flex';
+        switchTab('analyticsTab');
+
+        showStatus("");
+        hideProgress();
+
+      } catch (err) {
+        showStatus("Erro ao processar o arquivo: " + (err?.message || "verifique se o arquivo é um .txt ou .zip válido."), true);
+        hideProgress();
+        console.error(err);
+      }
+    });
+
+    function parseWhatsAppText(text) {
+      parsedMessages = [];
+      const lines = text.split('\n');
+      const msgRegex = /^\[?(\d{1,2}[\/\.-]\d{1,2}[\/\.-]\d{2,4}),?\s+(\d{1,2}:\d{2}(?::\d{2})?(?:\s?[AP]M)?)\]?\s*(?:-|\Live)?\s*([^:]+):\s*(.*)$/i;
+
+      for (let i = 0; i < lines.length; i++) {
+        const line = lines[i];
+        const match = line.match(msgRegex);
+
+        if (match) {
+          const content = match[4].trim();
+          
+          const dateParts = match[1].split(/[\/\.-]/);
+          let isoDate = "";
+          if (dateParts.length === 3) {
+            let year = dateParts[2].length === 2 ? '20' + dateParts[2] : dateParts[2];
+            let month = dateParts[1].padStart(2, '0');
+            let day = dateParts[0].padStart(2, '0');
+            isoDate = `${year}-${month}-${day}`;
+          }
+
+          let hour = 0;
+          const timeMatch = match[2].match(/(\d{1,2}):(\d{2})/);
+          if (timeMatch) hour = parseInt(timeMatch[1], 10);
+
+          parsedMessages.push({
+            date: isoDate, dateRaw: match[1], time: match[2], hour: hour,
+            author: match[3].trim(), content: content
+          });
+        } else if (parsedMessages.length > 0) {
+          const extraLine = line.trim();
+          if (extraLine) {
+            parsedMessages[parsedMessages.length - 1].content += "\n" + extraLine;
+          }
+        }
+      }
+    }
+
+    function isFabricio(author) {
+      const name = author.toLowerCase();
+      return name.includes('fabricio') || name.includes('fabrício');
+    }
+
+    function renderDashboard() {
+      let loveCount = 0;
+      let fabricioCount = 0;
+      let mariaCount = 0;
+
+      parsedMessages.forEach(msg => {
+        if (isFabricio(msg.author)) fabricioCount++;
+        else mariaCount++;
+
+        const matches = msg.content.match(masterLoveRegex);
+        if (matches) loveCount += matches.length;
+      });
+
+      const total = parsedMessages.length || 1;
+      document.getElementById('counterNumber').innerText = loveCount;
+      document.getElementById('totalMessages').innerText = parsedMessages.length;
+      document.getElementById('fabricioMessages').innerText = fabricioCount;
+      document.getElementById('mariaMessages').innerText = mariaCount;
+
+      document.getElementById('fabricioPercent').innerText = `${((fabricioCount/total)*100).toFixed(1)}% do total`;
+      document.getElementById('mariaPercent').innerText = `${((mariaCount/total)*100).toFixed(1)}% do total`;
+
+      document.getElementById('statsGrid').style.display = 'grid';
+      applyFilters();
+    }
+
+    function generateCharts() {
+      const monthlyData = {};
+      const hoursData = Array(24).fill(0);
+
+      parsedMessages.forEach(msg => {
+        if (msg.date) {
+          const monthKey = msg.date.substring(0, 7);
+          if (!monthlyData[monthKey]) monthlyData[monthKey] = { fabricio: 0, maria: 0 };
+          if (isFabricio(msg.author)) monthlyData[monthKey].fabricio++;
+          else monthlyData[monthKey].maria++;
+        }
+        if (msg.hour >= 0 && msg.hour < 24) hoursData[msg.hour]++;
+      });
+
+      const monthsLabels = Object.keys(monthlyData).sort();
+      const fabricioMonthly = monthsLabels.map(m => monthlyData[m].fabricio);
+      const mariaMonthly = monthsLabels.map(m => monthlyData[m].maria);
+
+      if (timeChartInstance) timeChartInstance.destroy();
+      const ctx1 = document.getElementById('timeSeriesChart').getContext('2d');
+      timeChartInstance = new Chart(ctx1, {
+        type: 'line',
+        data: {
+          labels: monthsLabels,
+          datasets: [
+            { label: 'Fabricio 💜', data: fabricioMonthly, borderColor: '#6b21a8', backgroundColor: 'rgba(107,33,168,0.1)', fill: true, tension: 0.3 },
+            { label: 'Meu Amor 💙', data: mariaMonthly, borderColor: '#3b82f6', backgroundColor: 'rgba(59,130,246,0.1)', fill: true, tension: 0.3 }
+          ]
+        },
+        options: { responsive: true, plugins: { title: { display: true, text: 'Mensagens por Mês' } } }
+      });
+
+      if (hourlyChartInstance) hourlyChartInstance.destroy();
+      const ctx2 = document.getElementById('hourlyChart').getContext('2d');
+      hourlyChartInstance = new Chart(ctx2, {
+        type: 'bar',
+        data: {
+          labels: Array.from({length: 24}, (_, i) => `${i}h`),
+          datasets: [{ label: 'Mensagens Trocadas', data: hoursData, backgroundColor: '#8c625d' }]
+        },
+        options: { responsive: true, onClick: (evt, elements) => { if (elements.length) selectHour(elements[0].index); }, plugins: { title: { display: false }, tooltip: { callbacks: { label: c => `${c.raw} mensagens às ${c.label}` } } } }
+      });
+      const hourRange = document.getElementById('hourRange');
+      if (hourRange) hourRange.oninput = e => selectHour(parseInt(e.target.value, 10));
+      resetHourSelection();
+      generateAdvancedCharts();
+    }
+
+    function selectHour(hour) {
+      selectedHour = hour;
+      const value = document.getElementById('hourRangeValue');
+      const detail = document.getElementById('hourDetail');
+      const count = parsedMessages.filter(m => m.hour === hour).length;
+      if (value) value.textContent = `${String(hour).padStart(2,'0')}:00`;
+      if (detail) detail.innerHTML = `<b>${count}</b> mensagens registradas entre <b>${String(hour).padStart(2,'0')}:00</b> e <b>${String(hour).padStart(2,'0')}:59</b>.`;
+      if (hourlyChartInstance) {
+        hourlyChartInstance.data.datasets[0].backgroundColor = hourlyChartInstance.data.labels.map((_,i)=> i===hour ? '#d97706' : '#8c625d');
+        hourlyChartInstance.update();
+      }
+    }
+    function resetHourSelection() {
+      selectedHour = null;
+      const range=document.getElementById('hourRange'), value=document.getElementById('hourRangeValue'), detail=document.getElementById('hourDetail');
+      if (!range) return;
+      if (value) value.textContent='Todas'; if (detail) detail.textContent='Toque em uma barra ou use o controle acima para ver um horário específico.';
+      if (hourlyChartInstance) { hourlyChartInstance.data.datasets[0].backgroundColor='#8c625d'; hourlyChartInstance.update(); }
+    }
+
+    function getAdvancedStats() {
+      const valid = parsedMessages.filter(m=>m.date);
+      const byDate={}, weekdays=Array(7).fill(0), periods=[0,0,0,0];
+      const byAuthor={fabricio:0,maria:0};
+      valid.forEach(m=>{byDate[m.date]=(byDate[m.date]||0)+1; weekdays[new Date(m.date+'T12:00:00').getDay()]++; if(m.hour<6)periods[0]++; else if(m.hour<12)periods[1]++; else if(m.hour<18)periods[2]++; else periods[3]++; isFabricio(m.author)?byAuthor.fabricio++:byAuthor.maria++;});
+      const days=Object.keys(byDate).sort(); const busiest=days.reduce((a,b)=>!a||byDate[b]>byDate[a]?b:a,null);
+      const first=days[0], last=days[days.length-1]; const span=first&&last?Math.max(1,Math.round((new Date(last)-new Date(first))/86400000)+1):0;
+      const activeDays=days.length, avg=activeDays?valid.length/activeDays:0;
+      const topHour=Array.from({length:24},(_,h)=>valid.filter(m=>m.hour===h).length).reduce((best,v,h,arr)=>v>arr[best]?h:best,0);
+      return {valid,weekdays,periods,byAuthor,days,busiest,first,last,span,activeDays,avg,topHour,byDate};
+    }
+
+    function generateAdvancedInsights(){
+      const st=getAdvancedStats(); const box=document.getElementById('advancedInsights'), cmp=document.getElementById('comparisonInsights'); if(!box||!cmp)return;
+      if(!parsedMessages.length){box.innerHTML='';cmp.innerHTML='';return}
+      const week=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb']; const bestDay=st.weekdays.reduce((a,v,i)=>v>st.weekdays[a]?i:a,0); const periodNames=['Madrugada','Manhã','Tarde','Noite']; const bestPeriod=st.periods.reduce((a,v,i)=>v>st.periods[a]?i:a,0);
+      const longest=(()=>{let max=0,run=0,prev=null;st.days.forEach(d=>{const dt=new Date(d+'T12:00:00');if(prev && (dt-prev)===86400000)run++;else run=1;max=Math.max(max,run);prev=dt});return max})();
+      const items=[['💬','Dias conversando',st.activeDays,`${st.span?Math.round(st.activeDays/st.span*100):0}% dos dias do período`],['📈','Média por dia ativo',st.avg.toFixed(1),'mensagens por dia'],['🔥','Maior sequência',longest,'dias seguidos conversando'],['🏆','Dia mais intenso',st.busiest||'—',st.busiest?`${st.byDate[st.busiest]} mensagens`:'' ],['🕒','Horário favorito',String(st.topHour).padStart(2,'0')+'h',`${st.valid.filter(m=>m.hour===st.topHour).length} mensagens nesse horário`],['📅','Dia da semana campeão',week[bestDay],`${st.weekdays[bestDay]} mensagens`],['🌙','Período favorito',periodNames[bestPeriod],`${st.periods[bestPeriod]} mensagens`],['📆','História analisada',st.first&&st.last?`${st.first} → ${st.last}`:'—',`${st.span} dias de intervalo`]];
+      box.innerHTML=items.map(x=>`<div class="insight-card"><span>${x[0]} ${x[1]}</span><b>${x[2]}</b><small>${x[3]}</small></div>`).join('');
+      const total=st.byAuthor.fabricio+st.byAuthor.maria||1, fp=st.byAuthor.fabricio/total*100, mp=100-fp;
+      cmp.innerHTML=`<div class="insight-card" style="margin-top:10px"><span>Participação na conversa</span><div style="display:flex;justify-content:space-between;margin-top:8px"><b>Fabricio 💜 ${fp.toFixed(1)}%</b><b>Meu Amor 💙 ${mp.toFixed(1)}%</b></div><div class="comparison-bar"><div class="comparison-fill" style="width:${fp}%"></div></div><small>${Math.abs(st.byAuthor.fabricio-st.byAuthor.maria).toLocaleString('pt-BR')} mensagens de diferença</small></div>`;
+    }
+
+    function generateAdvancedCharts(){
+      if(!window.Chart)return; const st=getAdvancedStats(); const w=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'], p=['Madrugada','Manhã','Tarde','Noite'];
+      const wc=document.getElementById('weekdayChart'), pc=document.getElementById('periodChart'); if(wc){if(weekdayChartInstance)weekdayChartInstance.destroy();weekdayChartInstance=new Chart(wc.getContext('2d'),{type:'bar',data:{labels:w,datasets:[{label:'Mensagens',data:st.weekdays,backgroundColor:'#8c625d'}]},options:{responsive:true,plugins:{legend:{display:false}}}})}
+      if(pc){if(periodChartInstance)periodChartInstance.destroy();periodChartInstance=new Chart(pc.getContext('2d'),{type:'doughnut',data:{labels:p,datasets:[{data:st.periods,backgroundColor:['#8c625d','#d97706','#6b21a8','#2563eb']}]},options:{responsive:true,plugins:{legend:{position:'bottom'}}}})}
+    }
+
+    function generateMemoriesAndRecords() {
+      const today = new Date();
+      const monthDay = `${String(today.getMonth() + 1).padStart(2, '0')}-${String(today.getDate()).padStart(2, '0')}`;
+      
+      const memories = parsedMessages.filter(m => m.date && m.date.endsWith(monthDay));
+      const memoryContent = document.getElementById('memoryLaneContent');
+      memoryContent.innerHTML = "";
+
+      if (memories.length === 0) {
+        memoryContent.innerHTML = "<p style='font-size:0.8rem; opacity:0.8;'>Nenhuma mensagem encontrada neste mesmo dia em anos anteriores.</p>";
+      } else {
+        memories.slice(0, 5).forEach(m => {
+          const div = document.createElement('div');
+          div.className = `msg-bubble ${isFabricio(m.author) ? 'msg-fabricio' : 'msg-maria'}`;
+          div.innerHTML = `<div class="msg-header"><span>${escapeHTML(m.author)}</span><span>${escapeHTML(m.dateRaw)}</span></div><div>${escapeHTML(m.content)}</div>`;
+          memoryContent.appendChild(div);
+        });
+      }
+
+      const dateCounts = {};
+      let bomDiaFab = 0, bomDiaMar = 0;
+      const wordFreq = {};
+      const coupleDict = {};
+      const emojiFreqFab = {}, emojiFreqMar = {};
+      const emojiRegex = /(\p{Emoji_Presentation}|\p{Extended_Pictographic})/gu;
+      const bomDiaRegex = regexForTermWithIntensifiers('bom dia');
+
+      parsedMessages.forEach((m) => {
+        dateCounts[m.dateRaw] = (dateCounts[m.dateRaw] || 0) + 1;
+
+        if (bomDiaRegex.test(m.content)) {
+          if (isFabricio(m.author)) bomDiaFab++;
+          else bomDiaMar++;
+        }
+
+        const words = m.content.toLowerCase().split(/\s+/);
+        words.forEach(w => {
+          const clean = w.replace(/[^\wáàâãéèêíóôõúç]/gi, '');
+          if (clean.length > 3 && !['que', 'para', 'como', 'mais', 'você', 'uma', 'este', 'essa', 'isso', 'com', 'por', 'meu', 'minha'].includes(clean)) {
+            wordFreq[clean] = (wordFreq[clean] || 0) + 1;
+            
+            if (['vida', 'amor', 'linda', 'lindo', 'beijo', 'beijos', 'princesa', 'saudade', 'fome', 'fofinho', 'mô', 'mo', 'denguinho', 'neném', 'nenem'].includes(clean)) {
+              if (!coupleDict[clean]) coupleDict[clean] = { fab: 0, mar: 0 };
+              if (isFabricio(m.author)) coupleDict[clean].fab++;
+              else coupleDict[clean].mar++;
+            }
+          }
+        });
+
+        const emojis = m.content.match(emojiRegex);
+        if (emojis) {
+          emojis.forEach(e => {
+            if (isFabricio(m.author)) emojiFreqFab[e] = (emojiFreqFab[e] || 0) + 1;
+            else emojiFreqMar[e] = (emojiFreqMar[e] || 0) + 1;
+          });
+        }
+      });
+
+      let topDay = "-", maxMsgs = 0;
+      for (let d in dateCounts) {
+        if (dateCounts[d] > maxMsgs) { maxMsgs = dateCounts[d]; topDay = d; }
+      }
+
+      const recBox = document.getElementById('recordsContent');
+      recBox.innerHTML = `
+        <div>📌 <b>Dia mais ativo:</b> ${topDay} (${maxMsgs} mensagens)</div>
+        <div>☀️ <b>Primeiro Bom Dia:</b> Fabricio (${bomDiaFab}x) | Meu Amor (${bomDiaMar}x)</div>
+        <div>🏆 <b>Campeão do "Bom dia":</b> ${bomDiaFab > bomDiaMar ? 'Fabricio 💜' : 'Meu Amor 💙'}</div>
+      `;
+
+      const dictBox = document.getElementById('coupleDictionaryBox');
+      const dictEntries = Object.entries(coupleDict);
+      if (dictEntries.length === 0) {
+        dictBox.innerHTML = "<span style='font-size:0.8rem; color:var(--text-muted);'>Nenhum termo do dicionário identificado ainda.</span>";
+      } else {
+        dictBox.innerHTML = dictEntries.map(([term, counts]) => `
+          <span class="word-chip">
+            <b>${escapeHTML(term)}</b>: 💜${counts.fab} x 💙${counts.mar}
+          </span>
+        `).join('');
+      }
+
+      const sortedWords = Object.entries(wordFreq).sort((a,b) => b[1] - a[1]).slice(0, 15);
+      const cloudBox = document.getElementById('wordCloudBox');
+      cloudBox.innerHTML = sortedWords.map(([w, c]) => `<span class="word-chip">${escapeHTML(w)} <span class="word-count">${c}</span></span>`).join('');
+
+      const topEmojiFab = Object.entries(emojiFreqFab).sort((a,b) => b[1] - a[1]).slice(0, 5);
+      const topEmojiMar = Object.entries(emojiFreqMar).sort((a,b) => b[1] - a[1]).slice(0, 5);
+
+      const emojiBox = document.getElementById('emojiRankBox');
+      emojiBox.innerHTML = `
+        <div>
+          <b>Fabricio 💜</b><br>
+          ${topEmojiFab.map(([e, c]) => `${escapeHTML(e)} (${c})`).join(' ')}
+        </div>
+        <div>
+          <b>Meu Amor 💙</b><br>
+          ${topEmojiMar.map(([e, c]) => `${escapeHTML(e)} (${c})`).join(' ')}
+        </div>
+      `;
+    }
+
+    function generateMediaGallery() {
+      const container = document.getElementById('mediaGallery');
+      container.innerHTML = "";
+      
+      let count = 0;
+      for (let fileName in mediaFiles) {
+        if (fileName.endsWith('.jpg') || fileName.endsWith('.png') || fileName.endsWith('.jpeg')) {
+          count++;
+          const card = document.createElement('div');
+          card.className = "media-card-item";
+          const img = document.createElement('img');
+          img.src = mediaFiles[fileName];
+          img.alt = 'Foto da conversa';
+          img.addEventListener('click', () => window.open(mediaFiles[fileName], '_blank', 'noopener,noreferrer'));
+          const nome = document.createElement('div');
+          nome.className = 'media-card-info';
+          nome.textContent = fileName;
+          card.append(img, nome);
+          container.appendChild(card);
+        }
+      }
+      if (count === 0) container.innerHTML = "<p style='font-size:0.8rem;'>Nenhuma foto encontrada no zip.</p>";
+    }
+
+    function generateAudioGallery() {
+      const container = document.getElementById('audioGallery');
+      container.innerHTML = "";
+
+      let count = 0;
+      parsedMessages.forEach(msg => {
+        for (let fileName in mediaFiles) {
+          if (msg.content.includes(fileName) && (fileName.endsWith('.opus') || fileName.endsWith('.m4a') || fileName.endsWith('.mp3'))) {
+            count++;
+            const item = document.createElement('div');
+            item.className = "audio-item";
+            item.innerHTML = `
+              <div style="font-size:0.75rem; font-weight:bold;">${escapeHTML(msg.author)} - ${escapeHTML(msg.dateRaw)} ${escapeHTML(msg.time)}</div>
+              <audio controls src="${escapeHTML(mediaFiles[fileName])}"></audio>
+            `;
+            container.appendChild(item);
+          }
+        }
+      });
+      if (count === 0) container.innerHTML = "<p style='font-size:0.8rem;'>Nenhum áudio encontrado no zip.</p>";
+    }
+
+    function generateLinksTab() {
+      const container = document.getElementById('linksGallery');
+      container.innerHTML = "";
+      const urlRegex = /(https?:\/\/[^\s]+)/g;
+
+      let count = 0;
+      parsedMessages.forEach(msg => {
+        const matches = msg.content.match(urlRegex);
+        if (matches) {
+          matches.forEach(url => {
+            count++;
+            const item = document.createElement('div');
+            item.className = "link-item";
+            item.innerHTML = `
+              <b>${escapeHTML(msg.author)}</b> (${escapeHTML(msg.dateRaw)}):<br>
+              <a href="${escapeHTML(url)}" target="_blank" rel="noopener noreferrer" style="color:var(--primary); font-weight:bold;">${escapeHTML(url)}</a>
+            `;
+            container.appendChild(item);
+          });
+        }
+      });
+
+      if (count === 0) container.innerHTML = "<p style='font-size:0.8rem;'>Nenhum link trocado no chat.</p>";
+    }
+
+    function generateQuizQuestion() {
+      if (parsedMessages.length === 0) return;
+
+      const qBox = document.getElementById('quizQuestion');
+      const optBox = document.getElementById('quizOptions');
+      optBox.innerHTML = "";
+
+      const quizTypes = ['top_love', 'top_bomdia', 'top_boanoite', 'night_owl', 'total_approx', 'audio_king'];
+      const chosen = quizTypes[Math.floor(Math.random() * quizTypes.length)];
+
+      let questionText = "";
+      let correctAnswer = "";
+      let options = [];
+
+      if (chosen === 'top_love') {
+        let fab = 0, mar = 0;
+        parsedMessages.forEach(m => {
+          const match = m.content.match(masterLoveRegex);
+          if (match) { if (isFabricio(m.author)) fab += match.length; else mar += match.length; }
+        });
+        questionText = "Quem disse mais vezes 'Te Amo' na história do chat?";
+        correctAnswer = fab >= mar ? "Fabricio 💜" : "Meu Amor 💙";
+        options = ["Fabricio 💜", "Meu Amor 💙"];
+      }
+      else if (chosen === 'top_bomdia') {
+        let fab = 0, mar = 0;
+        const bdRegex = regexForTermWithIntensifiers('bom dia');
+        parsedMessages.forEach(m => {
+          if (bdRegex.test(m.content)) { if (isFabricio(m.author)) fab++; else mar++; }
+        });
+        questionText = "Quem manda mais 'Bom Dia' no dia a dia?";
+        correctAnswer = fab >= mar ? "Fabricio 💜" : "Meu Amor 💙";
+        options = ["Fabricio 💜", "Meu Amor 💙"];
+      }
+      else if (chosen === 'top_boanoite') {
+        let fab = 0, mar = 0;
+        const bnRegex = regexForTermWithIntensifiers('boa noite');
+        parsedMessages.forEach(m => {
+          if (bnRegex.test(m.content)) { if (isFabricio(m.author)) fab++; else mar++; }
+        });
+        questionText = "Quem é o campeão do 'Boa Noite'?";
+        correctAnswer = fab >= mar ? "Fabricio 💜" : "Meu Amor 💙";
+        options = ["Fabricio 💜", "Meu Amor 💙"];
+      }
+      else if (chosen === 'night_owl') {
+        questionText = "Quem envia mais mensagens de madrugada (00h às 05h)?";
+        correctAnswer = getNightOwl();
+        options = ["Fabricio 💜", "Meu Amor 💙"];
+      }
+      else if (chosen === 'total_approx') {
+        const total = parsedMessages.length;
+        questionText = "Aproximadamente, quantas mensagens no total já trocamos?";
+        correctAnswer = `${total}`;
+        options = [
+          `${total}`,
+          `${Math.round(total * 0.6)}`,
+          `${Math.round(total * 1.4)}`,
+          `${Math.round(total * 1.8)}`
+        ].sort(() => Math.random() - 0.5);
+      }
+      else if (chosen === 'audio_king') {
+        questionText = "Quem é o campeão dos áudios na conversa?";
+        correctAnswer = getAudioKing();
+        options = ["Fabricio 💜", "Meu Amor 💙"];
+      }
+
+      qBox.innerText = questionText;
+      quizCurrentQuestion = correctAnswer;
+
+      options.forEach(optText => {
+        const btn = document.createElement('button');
+        btn.className = 'quiz-btn';
+        btn.innerText = optText;
+        btn.onclick = () => checkQuizAnswer(optText);
+        optBox.appendChild(btn);
+      });
+    }
+
+    function checkQuizAnswer(selected) {
+      if (selected === quizCurrentQuestion) {
+        quizScorePoints += 10;
+        alert("🎉 Resposta Correta! +10 pontos");
+      } else {
+        alert(`❌ Ops! A resposta certa era: ${quizCurrentQuestion}`);
+      }
+      document.getElementById('quizScore').innerText = `Pontuação: ${quizScorePoints}`;
+      generateQuizQuestion();
+    }
+
+
+    function loadWrapImage(event) {
+      const file = event.target.files?.[0];
+      const img = document.getElementById('wrapBgImage');
+      if (!file) { img.style.display='none'; return; }
+      if (wrapImageUrl) URL.revokeObjectURL(wrapImageUrl);
+      wrapImageUrl = URL.createObjectURL(file);
+      img.src = wrapImageUrl; img.style.display='block';
+      updateWrappedPreview();
+    }
+
+    function updateWrappedPreview() {
+      const format=document.getElementById('wrapFormat').value, theme=document.getElementById('wrapTheme').value, type=document.getElementById('wrapContentType').value;
+      const count=parseInt(document.getElementById('wrapItemsCount').value||'4',10), card=document.getElementById('exportCard'), grid=document.getElementById('wrappedGrid');
+      card.className=`wrap-${format} theme-${theme}`;
+      const st=getAdvancedStats(), total=parsedMessages.length, fab=st.byAuthor.fabricio, mar=st.byAuthor.maria;
+      const love=parsedMessages.reduce((n,m)=>{const x=m.content.match(masterLoveRegex);return n+(x?x.length:0)},0);
+      const words={}; parsedMessages.forEach(m=>m.content.toLowerCase().replace(/[.,!?;:()[\]"']/g,' ').split(/\s+/).forEach(w=>{if(w.length>3)words[w]=(words[w]||0)+1})); const topWord=Object.keys(words).sort((a,b)=>words[b]-words[a])[0]||'—';
+      const topHour=String(st.topHour).padStart(2,'0')+'h', bestDay=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'][st.weekdays.reduce((a,v,i)=>v>st.weekdays[a]?i:a,0)];
+      const sets={
+        general:[['💬 Total de mensagens',total],['❤️ “Te amo” trocados',love],['📅 Dias conversando',st.activeDays],['🏆 Dia mais intenso',st.busiest||'—'],['🕒 Horário favorito',topHour],['📈 Média por dia',st.avg.toFixed(1)]],
+        love:[['❤️ Declarações',love],['💬 Mensagens',total],['📅 Dias juntos no chat',st.activeDays],['🌙 Período favorito',['Madrugada','Manhã','Tarde','Noite'][st.periods.reduce((a,v,i)=>v>st.periods[a]?i:a,0)]],['🏆 Dia intenso',st.busiest||'—'],['💞 História analisada',`${st.span} dias`]],
+        fun:[['🦉 Coruja da madrugada',getNightOwl()],['🎙️ Mestre dos áudios',getAudioKing()],['🕒 Horário favorito',topHour],['📅 Dia campeão',bestDay],['🗣️ Palavra frequente',topWord],['🔥 Dia mais intenso',st.busiest||'—']],
+        rhythm:[['📈 Média diária',st.avg.toFixed(1)],['📅 Dias ativos',st.activeDays],['🕒 Pico de atividade',topHour],['🔥 Dia mais intenso',st.busiest||'—'],['📆 Período analisado',`${st.span} dias`],['💬 Total',total]],
+        compare:[['💜 Fabricio',fab],['💙 Meu Amor',mar],['⚖️ Diferença',Math.abs(fab-mar)],['📊 Participação Fabricio',`${(fab/(total||1)*100).toFixed(1)}%`],['📊 Participação Meu Amor',`${(mar/(total||1)*100).toFixed(1)}%`],['🏆 Mais mensagens',fab===mar?'Empate!':fab>mar?'Fabricio 💜':'Meu Amor 💙']],
+        words:[['🗣️ Palavra mais usada',topWord],['❤️ Declarações',love],['📅 Dia campeão',bestDay],['🌙 Período favorito',['Madrugada','Manhã','Tarde','Noite'][st.periods.reduce((a,v,i)=>v>st.periods[a]?i:a,0)]],['💬 Total',total],['📈 Média diária',st.avg.toFixed(1)]]
+      };
+      const titles={general:'Nosso Histórico em Números 💬',love:'Métricas do Nosso Amor ❤️',fun:'Curiosidades do Chat 🤡',rhythm:'Nosso Ritmo de Conversa ⚡',compare:'Nós Dois em Números ⚖️',words:'As Marcas da Nossa Conversa 🗣️'};
+      document.getElementById('wrapTitle').innerText=document.getElementById('wrapCustomTitle').value.trim()||titles[type]; document.getElementById('wrapSubtitle').innerText=document.getElementById('wrapCustomSubtitle').value.trim()||'Estatísticas do nosso relacionamento';
+      grid.innerHTML=sets[type].slice(0,count).map(([a,b])=>`<div class="wrapped-item"><span>${a}</span><span class="wrapped-val">${b}</span></div>`).join('');
+      const op=document.getElementById('wrapImageOpacity').value, img=document.getElementById('wrapBgImage'), ov=document.getElementById('wrapOpacityValue'); if(img)img.style.opacity=op/100;if(ov)ov.textContent=`${op}%`;
+    }
+
+    function getNightOwl() {
+      let fabNight = 0, marNight = 0;
+      parsedMessages.forEach(m => {
+        if (m.hour >= 0 && m.hour <= 5) {
+          if (isFabricio(m.author)) fabNight++; else marNight++;
+        }
+      });
+      return fabNight >= marNight ? 'Fabricio 💜' : 'Meu Amor 💙';
+    }
+
+    function getAudioKing() {
+      let fabAudio = 0, marAudio = 0;
+      parsedMessages.forEach(m => {
+        if (/\.(opus|m4a|mp3)/i.test(m.content) || m.content.includes('Áudio omitido')) {
+          if (isFabricio(m.author)) fabAudio++; else marAudio++;
+        }
+      });
+      return fabAudio >= marAudio ? 'Fabricio 💜' : 'Meu Amor 💙';
+    }
+
+    function downloadWrappedImage() {
+      const card = document.getElementById('exportCard');
+      html2canvas(card, { scale: 2 }).then(canvas => {
+        const link = document.createElement('a');
+        link.download = 'nosso-wrapped.png';
+        link.href = canvas.toDataURL();
+        link.click();
+      });
+    }
+
+    function buildSearchRegex(term) {
+      if (term === 'te amo') return masterLoveRegex;
+      return regexForTermWithIntensifiers(term);
+    }
+
+    function applyFilters() {
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+      const dateStart = document.getElementById('dateStart').value;
+      const dateEnd = document.getElementById('dateEnd').value;
+      const searchCounterEl = document.getElementById('searchCounter');
+
+      let totalOccurrences = 0;
+      const activeRegex = searchTerm ? buildSearchRegex(searchTerm) : null;
+
+      filteredMessages = parsedMessages.filter(msg => {
+        let matchesText = true;
+        let occurrencesInMsg = 0;
+
+        if (searchTerm && activeRegex) {
+          const matches = msg.content.match(activeRegex);
+          matchesText = !!matches;
+          if (matches) occurrencesInMsg = matches.length;
+        }
+
+        let matchesDate = true;
+        if (dateStart && msg.date < dateStart) matchesDate = false;
+        if (dateEnd && msg.date > dateEnd) matchesDate = false;
+
+        if (matchesText && matchesDate) {
+          totalOccurrences += (searchTerm ? occurrencesInMsg : 1);
+          return true;
+        }
+        return false;
+      });
+
+      if (searchTerm || dateStart || dateEnd) {
+        searchCounterEl.style.display = 'inline-flex';
+        searchCounterEl.innerText = `${totalOccurrences} ${searchTerm ? 'ocorrência(s)' : 'mensagem(ns)'}`;
+      } else {
+        searchCounterEl.style.display = 'none';
+      }
+
+      currentPage = 1;
+      document.getElementById('chatFeed').innerHTML = "";
+      renderPage();
+    }
+
+    function renderPage() {
+      const chatFeed = document.getElementById('chatFeed');
+      const searchTerm = document.getElementById('searchInput').value.toLowerCase().trim();
+
+      const start = (currentPage - 1) * PAGE_SIZE;
+      const end = currentPage * PAGE_SIZE;
+      const pageItems = filteredMessages.slice(start, end);
+
+      const oldButton = document.getElementById('loadMoreBtn');
+      if (oldButton) oldButton.remove();
+
+      const activeRegex = searchTerm ? buildSearchRegex(searchTerm) : null;
+
+      pageItems.forEach(msg => {
+        const item = document.createElement('div');
+        item.className = `msg-bubble ${isFabricio(msg.author) ? 'msg-fabricio' : 'msg-maria'}`;
+
+        let displayContent = escapeHTML(msg.content);
+        if (searchTerm && activeRegex) {
+          displayContent = displayContent.replace(activeRegex, match => `<span class="highlight">${match}</span>`);
+        }
+
+        let mediaHTML = "";
+        for (let fileName in mediaFiles) {
+          if (msg.content.includes(fileName)) {
+            if (fileName.endsWith('.opus') || fileName.endsWith('.m4a') || fileName.endsWith('.mp3')) {
+              mediaHTML += `<audio controls src="${escapeHTML(mediaFiles[fileName])}"></audio>`;
+            } else if (fileName.endsWith('.jpg') || fileName.endsWith('.png') || fileName.endsWith('.jpeg')) {
+              mediaHTML += `<img class="media-img" src="${escapeHTML(mediaFiles[fileName])}"/>`;
+            }
+          }
+        }
+
+        item.innerHTML = `<div class="msg-header"><span>${escapeHTML(msg.author)}</span><span>${escapeHTML(msg.dateRaw)} ${escapeHTML(msg.time)}</span></div><div>${displayContent}</div>${mediaHTML}`;
+        chatFeed.appendChild(item);
+      });
+
+      if (end < filteredMessages.length) {
+        const btn = document.createElement('button');
+        btn.id = 'loadMoreBtn'; btn.className = 'load-more-btn';
+        btn.innerText = `Carregar mais mensagens (${filteredMessages.length - end} restantes)`;
+        btn.onclick = () => { currentPage++; renderPage(); };
+        chatFeed.appendChild(btn);
+      }
+    }
+
+    function toggleFullscreen(elementId) { document.getElementById(elementId).classList.toggle('fullscreen-mode'); }
+    function toggleTagsMenu(e) { e.stopPropagation(); document.getElementById('tagsPopover').classList.toggle('active'); }
+    document.addEventListener('click', () => { const p = document.getElementById('tagsPopover'); if (p) p.classList.remove('active'); });
+    function applyTag(tag) { document.getElementById('searchInput').value = tag; document.getElementById('tagsPopover').classList.remove('active'); applyFilters(); }
+    function clearFilters() { document.getElementById('searchInput').value = ""; document.getElementById('dateStart').value = ""; document.getElementById('dateEnd').value = ""; applyFilters(); }
+
+    function escapeHTML(str) { return String(str ?? '').replace(/[&<>\'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&#34;' }[tag] || tag)); }
+    function escapeRegExp(string) { return string.replace(/[.*+?^${}()|[\]\\]/g, '\\$&'); }
+
+    document.getElementById('searchInput').addEventListener('input', applyFilters);
+    document.getElementById('dateStart').addEventListener('change', applyFilters);
+    document.getElementById('dateEnd').addEventListener('change', applyFilters);
+    // Extensão avançada: não altera o Histórico & Busca.
+    let intensityChartInstance=null, heatChartInstance=null, authorPeriodChartInstance=null, authorHourChartInstance=null;
+    function advancedProfile(){
+      const st=getAdvancedStats(), msgs=st.valid, dates=st.days;
+      const perDate=dates.map(d=>({d,n:st.byDate[d]||0}));
+      const avgAll=st.span?msgs.length/st.span:0;
+      const sorted=[...perDate].sort((a,b)=>b.n-a.n);
+      const longestGap=(()=>{let best=0,prev=null;dates.forEach(d=>{const dt=new Date(d+'T12:00:00'); if(prev) best=Math.max(best,Math.round((dt-prev)/86400000)-1); prev=dt});return Math.max(0,best)})();
+      const firstMonth=dates[0]?.slice(0,7), lastMonth=dates.at(-1)?.slice(0,7);
+      const monthCount=m=>msgs.filter(x=>x.date?.startsWith(m)).length;
+      const firstN=firstMonth?monthCount(firstMonth):0,lastN=lastMonth?monthCount(lastMonth):0;
+      return {...st,perDate,avgAll,sorted,longestGap,firstMonth,lastMonth,firstN,lastN};
+    }
+    function generateDeepFeatures(){
+      if(!parsedMessages.length)return;
+      const st=advancedProfile(), deep=document.getElementById('deepInsights'), timeline=document.getElementById('timelineInsights'), cmp=document.getElementById('compareDetailed');
+      const fmt=n=>Number(n||0).toLocaleString('pt-BR');
+      // métricas de padrão: sessões, velocidade de resposta e distribuição de fim de semana
+      const valid=[...st.valid].sort((a,b)=>new Date(a.date+'T'+(a.time||'00:00'))-new Date(b.date+'T'+(b.time||'00:00')));
+      let sessions=0, gaps=[], replies=[], prev=null, prevAuthor=null;
+      valid.forEach(m=>{const t=new Date(m.date+'T'+(m.time||'00:00')).getTime();if(prev!==null){const g=(t-prev)/60000;if(g>90)sessions++;else if(prevAuthor&&prevAuthor!==m.author&&g<=90)replies.push(g);if(g>90)gaps.push(g)}else sessions=1;prev=t;prevAuthor=m.author});
+      const avgReply=replies.length?replies.reduce((a,b)=>a+b,0)/replies.length:null;
+      let weekday=0,weekend=0; st.valid.forEach(m=>{const d=new Date(m.date+'T12:00:00').getDay();(d===0||d===6 ? weekend++ : weekday++)});
+      const weekendShare=(weekday+weekend)?weekend/(weekday+weekend)*100:0;
+      const longestRun=(()=>{let max=0,run=0,prevD=null;st.days.forEach(d=>{const dt=new Date(d+'T12:00:00');run=prevD&&(dt-prevD===86400000)?run+1:1;max=Math.max(max,run);prevD=dt});return max})();
+      if(deep) deep.innerHTML=[
+        ['🧵','Sessões de conversa',fmt(sessions),'nova sessão após mais de 90 min de silêncio'],
+        ['⚡','Resposta alternada',avgReply?avgReply.toFixed(1)+' min':'—',replies.length?'tempo médio entre mensagens de autores diferentes':'dados insuficientes'],
+        ['📆','Fins de semana',weekendShare.toFixed(1)+'%',`${fmt(weekend)} mensagens no sábado e domingo`],
+        ['🔗','Maior constância',longestRun+' dias','sequência contínua de dias com conversa'],
+        ['🌙','Sessões longas',gaps.length?fmt(gaps.length):'0','pausas de 90 min ou mais separando momentos'],
+        ['📊','Densidade ativa',st.activeDays?(st.valid.length/st.activeDays).toFixed(1):'0','mensagens por dia em que conversaram']
+      ].map(x=>`<div class="insight-card deep-highlight"><span>${x[0]} ${x[1]}</span><b>${x[2]}</b><small>${x[3]}</small></div>`).join('');
+      if(timeline) timeline.innerHTML=[
+        ['🌱','Primeira data encontrada',st.first||'—','início do período presente no arquivo'],
+        ['🏆','Maior pico diário',st.busiest||'—',st.busiest?fmt(st.byDate[st.busiest])+' mensagens naquele dia':''],
+        ['🚀','Mês inicial',st.firstMonth||'—',fmt(st.firstN)+' mensagens no mês'],
+        ['🏁','Mês final',st.lastMonth||'—',fmt(st.lastN)+' mensagens no mês']
+      ].map(x=>`<div class="insight-card"><span>${x[0]} ${x[1]}</span><b>${x[2]}</b><small>${x[3]}</small></div>`).join('');
+      const periods=['Madrugada','Manhã','Tarde','Noite'], byP={fabricio:[0,0,0,0],maria:[0,0,0,0]}, byH={fabricio:Array(24).fill(0),maria:Array(24).fill(0)};
+      st.valid.forEach(m=>{let k=isFabricio(m.author)?'fabricio':'maria', p=m.hour<6?0:m.hour<12?1:m.hour<18?2:3;byP[k][p]++;byH[k][m.hour]++});
+      const topPeriod=a=>a.indexOf(Math.max(...a));
+      if(cmp){const pf=topPeriod(byP.fabricio),pm=topPeriod(byP.maria);const labels=periods;let items=[
+        ['🕒','Período preferido de Fabricio',labels[pf],fmt(byP.fabricio[pf])+' mensagens nesse período'],
+        ['🕒','Período preferido do Meu Amor',labels[pm],fmt(byP.maria[pm])+' mensagens nesse período'],
+        ['🎯','Hábitos parecidos?',pf===pm?'Sim: '+labels[pf]:'Não: horários favoritos diferentes',pf===pm?'os dois concentram mais mensagens no mesmo período':'cada um tem um período de maior atividade'],
+        ['📏','Diferença de ritmo',Math.abs(byP.fabricio[3]-byP.maria[3])+' msgs à noite','comparação focada apenas no período noturno']
+      ];cmp.innerHTML=items.map(x=>`<div class="insight-card"><span>${x[0]} ${x[1]}</span><b>${x[2]}</b><small>${x[3]}</small></div>`).join('')}
+      if(!window.Chart)return;
+      // gráfico mensal, em vez de repetir gráfico diário
+      const months={};st.valid.forEach(m=>{const key=(m.date||'').slice(0,7);if(key)months[key]=(months[key]||0)+1});const ml=Object.keys(months).sort();
+      const ictx=document.getElementById('intensityChart'); if(ictx){intensityChartInstance?.destroy();intensityChartInstance=new Chart(ictx,{type:'bar',data:{labels:ml,datasets:[{label:'Mensagens por mês',data:ml.map(k=>months[k]),borderRadius:7}]},options:{responsive:true,plugins:{legend:{display:false}}}})}
+      const hctx=document.getElementById('heatChart'); if(hctx){heatChartInstance?.destroy();heatChartInstance=new Chart(hctx,{type:'doughnut',data:{labels:['Dias úteis','Fim de semana'],datasets:[{data:[weekday,weekend]}]},options:{responsive:true,plugins:{legend:{position:'bottom'}}}})}
+      const ap=document.getElementById('authorPeriodChart'); if(ap){authorPeriodChartInstance?.destroy();authorPeriodChartInstance=new Chart(ap,{type:'bar',data:{labels:periods,datasets:[{label:'Fabricio 💜',data:byP.fabricio},{label:'Meu Amor 💙',data:byP.maria}]},options:{responsive:true}})}
+      const ah=document.getElementById('authorHourChart'); if(ah){authorHourChartInstance?.destroy();authorHourChartInstance=new Chart(ah,{type:'line',data:{labels:Array.from({length:24},(_,i)=>i+'h'),datasets:[{label:'Fabricio 💜',data:byH.fabricio,tension:.3},{label:'Meu Amor 💙',data:byH.maria,tension:.3}]},options:{responsive:true}})}
+    }
+    const _oldGenerateCharts=generateCharts; generateCharts=function(){_oldGenerateCharts();setTimeout(generateDeepFeatures,0)};
+    const _oldUpdateWrapped=updateWrappedPreview; updateWrappedPreview=function(){
+      _oldUpdateWrapped(); const type=document.getElementById('wrapContentType')?.value, grid=document.getElementById('wrappedGrid'), count=+document.getElementById('wrapItemsCount')?.value||4; if(!grid||!type||!parsedMessages.length)return;
+      if(type==='deep'||type==='milestones'){const st=advancedProfile(), items=type==='deep'?[['🔥 Pico diário',st.sorted[0]?.n||0],['⚡ Média geral',st.avgAll.toFixed(1)],['🔗 Maior sequência',(()=>{let m=0,r=0,p=null;st.days.forEach(d=>{let q=new Date(d+'T12:00:00');r=p&&(q-p===86400000)?r+1:1;m=Math.max(m,r);p=q});return m})()+' dias'],['📉 Maior intervalo',st.longestGap+' dias'],['📆 Dias ativos',st.activeDays],['🕒 Hora favorita',String(st.topHour).padStart(2,'0')+'h'],['📅 Período',st.span+' dias'],['💬 Total',parsedMessages.length]]:[['🌱 Primeiro dia',st.first||'—'],['🏁 Último dia',st.last||'—'],['🏆 Dia recorde',st.busiest||'—'],['🔥 Mensagens no recorde',st.byDate[st.busiest]||0],['📅 Dias conversando',st.activeDays],['💬 Total',parsedMessages.length],['📈 Média ativa',st.avg.toFixed(1)],['⏳ História',st.span+' dias']];grid.innerHTML=items.slice(0,count).map(([a,b])=>`<div class="wrapped-item"><span>${a}</span><span class="wrapped-val">${b}</span></div>`).join('');const titles={deep:'História em Profundidade 🔬',milestones:'Nossos Marcos 🏁'};document.getElementById('wrapTitle').innerText=document.getElementById('wrapCustomTitle').value.trim()||titles[type]}
+    };
+
+  </script>
+</body>
+</html>

@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cards Dela - Nosso Canto 🤍</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <style>
+        :root {
+            --primary: #8c625d;
+            --secondary: #a68580;
+            --border-color: #e6b3a8;
+            --bg-card: #ffffff;
+            --text-color: #4a3e3d;
+            --font-main: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
+            --font-title: Georgia, Cambria, 'Times New Roman', Times, serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: #fff3f2; 
+            color: var(--text-color);
+            font-family: var(--font-main);
+            padding-bottom: 90px;
+            line-height: 1.5;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .header-status-bar {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 55px;
+            z-index: 9999;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(8px);
+            padding: 0 20px;
+            box-shadow: 0 2px 15px rgba(140, 98, 93, 0.08);
+            border-bottom: 1px solid rgba(230, 179, 168, 0.25);
+        }
+
+        .status-nome-parceiro {
+            font-size: 0.95rem;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .btn-voltar {
+            background: none; 
+            border: 1px solid var(--border-color);
+            padding: 5px 12px; 
+            border-radius: 10px;
+            font-size: 0.85rem; 
+            color: var(--primary); 
+            cursor: pointer;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        header {
+            text-align: center;
+            padding: 90px 20px 25px 20px;
+        }
+
+        header h1 {
+            font-family: var(--font-title);
+            font-size: 2.1rem;
+            color: var(--primary);
+            margin-bottom: 5px;
+        }
+
+        .container-blocos {
+            max-width: 450px;
+            margin: 0 auto;
+            padding: 0 15px;
+            width: 100%;
+        }
+
+        .bloco-separado {
+            background-color: var(--bg-card);
+            padding: 25px;
+            border-radius: 20px;
+            box-shadow: 0 10px 25px rgba(140, 98, 93, 0.12);
+            margin-bottom: 25px;
+        }
+
+        .card-separador-interno {
+            margin-bottom: 25px;
+            padding-bottom: 25px;
+            border-bottom: 1px dashed var(--border-color);
+        }
+        .card-separador-interno:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .titulo-secao {
+            font-size: 1.1rem;
+            font-weight: bold;
+            text-align: center;
+            color: var(--primary);
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .data-card {
+            font-size: 0.8rem;
+            font-weight: bold;
+            color: var(--secondary);
+            text-align: center;
+            margin-bottom: 10px;
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .autor-tag { font-size: 0.75rem; color: var(--primary); font-weight: normal; }
+
+        .pdf-link { text-decoration: none; display: block; }
+        .pdf-bloco { text-align: center; cursor: pointer; }
+        .pdf-subtitulo { font-size: 0.9rem; color: var(--secondary); margin-top: 4px; }
+
+        .numero-card {
+            display: inline-flex; align-items: center; justify-content: center;
+            width: 26px; height: 26px; border: 1.5px solid var(--secondary);
+            border-radius: 50%; font-size: 0.85rem; font-weight: bold;
+            color: var(--secondary); margin-bottom: 15px; 
+        }
+
+        .moldura-imagem {
+            width: 100%; max-width: 250px; aspect-ratio: 16 / 9; 
+            margin: 0 auto 15px auto; border-radius: 12px; overflow: hidden; 
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1); border: 2px solid rgba(255,255,255,0.5);
+        }
+        .moldura-imagem img { width: 100%; height: 100%; object-fit: cover; }
+
+        .contador-titulo { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: var(--secondary); margin-bottom: 8px; font-weight: bold; }
+        .contador-tempo { font-size: 1.4rem; font-weight: bold; color: var(--primary); }
+
+        .painel-upload {
+            background-color: #ffffff;
+            border: 1px dashed var(--border-color);
+            border-radius: 20px;
+            padding: 22px;
+            margin-bottom: 25px;
+            box-shadow: 0 8px 20px rgba(140, 98, 93, 0.05);
+        }
+
+        .input-custom {
+            width: 100%; padding: 12px 16px; border: 1px solid rgba(230, 179, 168, 0.6);
+            border-radius: 15px; font-family: var(--font-main); font-size: 0.9rem;
+            margin-bottom: 12px; outline: none; background: #fffbfb;
+            color: var(--text-color);
+        }
+        .input-custom:focus {
+            border-color: var(--primary); background: #ffffff; box-shadow: 0 0 8px rgba(140, 98, 93, 0.1);
+        }
+
+        .btn-postar {
+            width: 100%; background-color: var(--primary); color: white; border: none;
+            padding: 14px; border-radius: 15px; font-family: var(--font-main);
+            font-size: 0.95rem; font-weight: bold; cursor: pointer; transition: background 0.2s;
+        }
+        .btn-postar:hover { background-color: #734f4b; }
+
+        .secao-comentarios { 
+            margin-top: 25px; padding-top: 20px; border-top: 1px dashed var(--border-color); 
+        }
+        .form-comentario { 
+            display: flex; 
+            flex-direction: row;
+            align-items: center; 
+            gap: 8px; 
+            margin-bottom: 15px; 
+            width: 100%; 
+        }
+        .input-comentario {
+            flex: 1; 
+            min-width: 0; 
+            padding: 10px 14px; 
+            border: 1px solid var(--border-color);
+            border-radius: 20px; 
+            font-family: var(--font-main); 
+            font-size: 0.9rem; 
+            outline: none; 
+        }
+        .btn-comentar { 
+            background-color: var(--primary); 
+            color: white; 
+            border: none; 
+            padding: 10px 14px; 
+            border-radius: 20px; 
+            cursor: pointer; 
+            font-weight: bold; 
+            font-size: 0.85rem;
+            white-space: nowrap; 
+        }
+
+        .lista-comentarios { max-height: 200px; overflow-y: auto; display: flex; flex-direction: column; gap: 10px; }
+        .item-comentario { background-color: rgba(255, 255, 255, 0.5); padding: 10px 12px; border-radius: 12px; font-size: 0.85rem; }
+        .meta-comentario { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--secondary); margin-bottom: 4px; }
+        .autor-comentario { font-weight: bold; color: var(--primary); }
+        .corpo-comentario { display: flex; justify-content: space-between; align-items: flex-start; gap: 10px; }
+        .texto-comentario { flex: 1; word-break: break-word; }
+        .btn-excluir-comentario { background: none; border: none; color: #d9534f; cursor: pointer; font-size: 0.75rem; }
+
+        .acoes-card-custom { display: flex; justify-content: center; gap: 15px; margin-top: 15px; }
+        .btn-acao-card { background: none; border: none; cursor: pointer; font-size: 0.85rem; padding: 5px 10px; border-radius: 10px; font-weight: bold; }
+        .btn-editar { color: #428bca; }
+        .btn-excluir { color: #d9534f; }
+    
+/* Visual integrado ao index */
+.header-acoes{display:flex;align-items:center;gap:8px}.theme-toggle{background:transparent;border:1px solid rgba(140,98,93,.25);border-radius:18px;padding:6px 10px;cursor:pointer}.busca-local{max-width:680px;margin:15px auto;padding:0 15px;position:relative;z-index:10}.busca-local-box{display:flex;align-items:center;gap:8px;background:#fff;border:1px solid rgba(140,98,93,.18);border-radius:22px;padding:9px 13px;box-shadow:0 8px 20px rgba(140,98,93,.08)}.busca-local input{border:0;outline:0;flex:1;background:transparent;font:inherit}.resultados-local{display:none;background:#fff;margin-top:7px;border-radius:14px;overflow:hidden;box-shadow:0 10px 25px rgba(0,0,0,.12)}.res-local{display:flex;align-items:center;gap:10px;width:100%;padding:10px;border:0;background:#fff;text-align:left;cursor:pointer;font:inherit;border-bottom:1px solid rgba(0,0,0,.06)}.res-local img,.res-ico{width:38px;height:38px;border-radius:10px;object-fit:cover;background:#f4e9e7;display:grid;place-items:center}.menu-criar{position:fixed;right:18px;bottom:22px;z-index:90}.btn-criar{border:0;border-radius:50px;padding:13px 18px;background:var(--primary,#8c625d);color:#fff;font-weight:bold;box-shadow:0 8px 22px rgba(0,0,0,.18);cursor:pointer}.painel-upload{display:none}.painel-upload.aberto{display:block;animation:aparece .25s ease}@keyframes aparece{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}body.dark-mode{background:#161415!important;color:#eee6e4}body.dark-mode .header-status-bar,body.dark-mode .bloco-separado,body.dark-mode .painel-upload,body.dark-mode .busca-local-box,body.dark-mode .resultados-local,body.dark-mode .res-local{background:#242022!important;color:#eee6e4}body.dark-mode .input-custom,body.dark-mode .busca-local input{background:#302a2d!important;color:#eee6e4;border-color:#66575b}
+
+
+.destino-destaque{outline:3px solid rgba(230,179,168,.85)!important;outline-offset:5px}
+body.dark-mode header,body.dark-mode .container-blocos{color:#eee6e4}body.dark-mode .titulo-secao,body.dark-mode header h1,body.dark-mode header p{color:inherit!important}body.dark-mode .card-musica,body.dark-mode .polaroid-frente,body.dark-mode .polaroid-verso{background:#242022!important;color:#eee6e4!important}body.dark-mode .theme-toggle{color:#eee6e4;border-color:#66575b}
+</style>
+
+    <!-- BLOQUEIO DE SEGURANÇA INSTANTÂNEO (Executa antes do HTML renderizar) -->
+    <!-- Login conferido com Firebase Auth antes de ler os dados. -->
+</head>
+<body>
+
+    <div class="header-status-bar">
+        <span id="label-parceiro" class="status-nome-parceiro">Conectado ❤</span>
+        <div class="header-acoes"><button class="theme-toggle" id="btn-theme-toggle" title="Modo noturno">🌙</button><a href="index.html" class="btn-voltar">⬅ Voltar</a></div>
+    </div>
+
+    <header>
+        <h1>Todas as Coisinhas Dela ✨</h1>
+    </header>
+
+    <div class="busca-local"><div class="busca-local-box">🔎 <input id="campo-busca-local" placeholder="Pesquisar ✨ coisinhas dela..."></div><div class="resultados-local" id="resultados-local"></div></div>
+<div class="container-blocos">
+        <!-- O painel inicia visível por padrão, mas o JavaScript cuidará de ocultá-lo se não for a Maria -->
+        <section class="painel-upload" id="painel-de-postagem">
+            <div class="titulo-secao" id="painel-titulo-acao">✨ Adicionar Novo Card (Coisinhas Dela)</div>
+            <input type="hidden" id="editando-id" value="">
+            
+            <input type="text" id="post-titulo" class="input-custom" placeholder="Título">
+            <input type="text" id="post-subtitulo" class="input-custom" placeholder="Subtítulo do link">
+            <input type="text" id="post-imagem" class="input-custom" placeholder="Link da Imagem">
+            <input type="text" id="post-link" class="input-custom" placeholder="Link do arquivo">
+            <input type="date" id="post-data" class="input-custom">
+            
+            <button class="btn-postar" id="btn-salvar-post">Publicar Apresentação ❤️</button>
+        </section>
+
+        <section class="bloco-separado">
+            <div class="titulo-secao">💝 Histórico Completo</div>
+            <div id="lista-completa-dela">Carregando todas as coisinhas...</div>
+        </section>
+    </div>
+
+    <div class="menu-criar"><button class="btn-criar" id="btn-abrir-criacao">➕ Criar</button></div>
+<script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+        import { getFirestore, collection, addDoc, doc, updateDoc, deleteDoc, onSnapshot, query, orderBy, where } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAEyJHxEP96ZpSYfAgNO4wdQZIiArseGm4",
+            authDomain: "nosso-canto-5d714.firebaseapp.com",
+            projectId: "nosso-canto-5d714",
+            storageBucket: "nosso-canto-5d714.firebasestorage.app",
+            messagingSenderId: "1042257316625",
+            appId: "1:1042257316625:web:b96e37ad034b598ea61ab0"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        // Confere o login verdadeiro do Firebase antes de carregar os dados da página.
+        await auth.authStateReady();
+        const USUARIOS_AUTORIZADOS = Object.freeze({
+            "Uj8dsCLH0fSGP2XZfZWCdhdTCHK2": "Maria",
+            "PPYyjohwQ5TLEeHSN4F44jWJF5x1": "Fabricio"
+        });
+        const contaConfirmada = auth.currentUser;
+        if (!contaConfirmada || !USUARIOS_AUTORIZADOS[contaConfirmada.uid]) {
+            sessionStorage.removeItem('user_canto');
+            window.location.replace("index.html");
+            throw new Error("Acesso não autorizado ao Nosso Canto.");
+        }
+        onAuthStateChanged(auth, conta => {
+            if (!conta || !USUARIOS_AUTORIZADOS[conta.uid]) {
+                sessionStorage.removeItem('user_canto');
+                window.location.replace("index.html");
+            }
+        });
+        const db = getFirestore(app);
+
+        const usuarioLogado = USUARIOS_AUTORIZADOS[contaConfirmada.uid];
+        sessionStorage.setItem('user_canto', usuarioLogado);
+        document.getElementById('label-parceiro').innerText = `Conectado como: ${usuarioLogado} ❤`;
+
+        // CORREÇÃO SOLICITADA: Esconde completamente a aba de publicação se quem estiver logado não for a Maria
+        if (usuarioLogado !== "Maria") {
+            const painelPostagem = document.getElementById('painel-de-postagem');
+            if (painelPostagem) {
+                painelPostagem.style.display = 'none';
+            }
+        }
+
+        function sanitizarHTML(str) {
+            return String(str ?? '').replace(/[&<>'"]/g, tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag]));
+        }
+        function urlSegura(valor, tipo = 'link') {
+            try {
+                const url = new URL(String(valor || ''), window.location.href);
+                if (!['http:', 'https:'].includes(url.protocol) || url.username || url.password) throw new Error('URL inválida');
+                return url.href;
+            } catch (_) {
+                return tipo === 'imagem' ? 'https://placehold.co/400x400?text=Imagem+Indisponivel' : '#';
+            }
+        }
+        function idFirebaseSeguro(id) { return /^[A-Za-z0-9_-]{1,150}$/.test(String(id || '')); }
+        function argsEdicao(...args) { return args.map(v => sanitizarHTML(JSON.stringify(v ?? ''))).join(', '); }
+
+        function verificarPinSeguranca() {
+            const pinDigitado = prompt("⚠️ Para realizar esta ação, digite o PIN de segurança:");
+            return pinDigitado === "1566" ? true : (pinDigitado !== null && alert("PIN incorreto!"), false);
+        }
+
+        function resetarFormulario() {
+            document.getElementById('editando-id').value = '';
+            document.getElementById('post-titulo').value = '';
+            document.getElementById('post-subtitulo').value = '';
+            document.getElementById('post-imagem').value = '';
+            document.getElementById('post-link').value = '';
+            document.getElementById('post-data').value = '';
+            document.getElementById('painel-titulo-acao').innerText = '✨ Adicionar Novo Card (Coisinhas Dela)';
+            document.getElementById('btn-salvar-post').innerText = 'Publicar Apresentação ❤️';
+        }
+
+        window.salvarPostagemFirebase = async function() {
+            const idEditando = document.getElementById('editando-id').value;
+            const destino = "dela"; 
+            const titulo = document.getElementById('post-titulo').value.trim();
+            const subtitulo = document.getElementById('post-subtitulo').value.trim() || 'Ver apresentação';
+            const imagem = document.getElementById('post-imagem').value.trim();
+            const link = document.getElementById('post-link').value.trim();
+            const dataInput = document.getElementById('post-data').value;
+
+            if (!titulo || !imagem || !link || !dataInput) { alert('Por favor, preencha todos os campos obrigatórios e a data! ❤️'); return; }
+            
+            const [ano, mes, dia] = dataInput.split('-');
+            const dataFormatada = `${dia}/${mes}/${ano}`;
+
+            try {
+                if (idEditando) {
+                    await updateDoc(doc(db, "posts", idEditando), { destino, titulo, subtitulo, imagem, link, data: dataFormatada });
+                    alert('Card atualizado com sucesso! ✨');
+                } else {
+                    await addDoc(collection(db, "posts"), { destino, titulo, subtitulo, imagem, link, data: dataFormatada, autor: usuarioLogado, criadoEm: Date.now() });
+                    alert('Card publicado com sucesso! ❤️');
+                }
+                resetarFormulario();
+            } catch (error) { console.error(error); }
+        };
+        document.getElementById('btn-salvar-post').addEventListener('click', window.salvarPostagemFirebase);
+
+        window.prepararEdicaoFirebase = function(id, destino, titulo, subtitulo, imagem, link, data) {
+            document.getElementById('editando-id').value = id;
+            document.getElementById('post-titulo').value = titulo;
+            document.getElementById('post-subtitulo').value = subtitulo;
+            document.getElementById('post-imagem').value = imagem;
+            document.getElementById('post-link').value = link;
+            
+            if(data && data.includes('/')) {
+                const [dia, mes, ano] = data.split('/');
+                document.getElementById('post-data').value = `${ano}-${mes}-${dia}`;
+            }
+            
+            document.getElementById('painel-titulo-acao').innerText = '✏️ Editar Card Selecionado';
+            document.getElementById('btn-salvar-post').innerText = 'Atualizar Card ❤️';
+            document.getElementById('painel-de-postagem').scrollIntoView({ behavior: 'smooth' });
+        };
+
+        window.removerPostagemFirebase = async function(id) {
+            if (verificarPinSeguranca()) {
+                await deleteDoc(doc(db, "posts", id));
+                resetarFormulario();
+                alert("Lembrança apagada com sucesso! 👍");
+            }
+        };
+
+        window.adicionarComentarioFirebase = async function(secaoId) {
+            const input = document.getElementById(`input-${secaoId}`);
+            const texto = input?.value.trim();
+            if (!texto) return;
+            try {
+                const agora = new Date();
+                const dataHora = `${agora.toLocaleDateString('pt-BR')} às ${agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' })}`;
+                await addDoc(collection(db, "comentarios"), { secaoId, texto, autor: usuarioLogado, dataHora, criadoEm: Date.now() });
+                if (input) input.value = '';
+            } catch (error) { console.error(error); }
+        };
+
+        window.excluirComentarioFirebase = async function(id) { 
+            if (verificarPinSeguranca()) { await deleteDoc(doc(db, "comentarios", id)); alert("Comentário removido! 👍"); }
+        };
+
+        window.verificarEnter = function(event, id) {
+            if (event.key === 'Enter') { event.preventDefault(); window.adicionarComentarioFirebase(id); }
+        };
+
+        const qCards = query(collection(db, "posts"), where("destino", "==", "dela"));
+        onSnapshot(qCards, (snapshot) => {
+            const container = document.getElementById('lista-completa-dela');
+            if (!container) return;
+            container.innerHTML = '';
+
+            let docsOrdenados = [];
+            snapshot.forEach((docSnap) => {
+                if (idFirebaseSeguro(docSnap.id)) docsOrdenados.push({ ...docSnap.data(), id: docSnap.id });
+            });
+
+            docsOrdenados.sort((a, b) => (a.criadoEm || 0) - (b.criadoEm || 0));
+
+            let contadorGlobalDela = 0;
+
+            docsOrdenados.forEach((post) => {
+                if (usuarioLogado !== "Maria" && post.autor !== "Maria") {
+                    return; 
+                }
+
+                contadorGlobalDela++; 
+                
+                const controleModificacao = (post.autor === usuarioLogado) ? `
+                    <div class="acoes-card-custom">
+                        <button class="btn-acao-card btn-editar" onclick='prepararEdicaoFirebase(${argsEdicao(post.id, post.destino, post.titulo, post.subtitulo, post.imagem, post.link, post.data)})'>Editar ✏️</button>
+                        <button class="btn-acao-card btn-excluir" onclick="removerPostagemFirebase('${post.id}')">Excluir 🗑️</button>
+                    </div>
+                ` : '';
+
+                const bloco = document.createElement('div');
+                bloco.className = 'card-separador-interno';
+                bloco.id = post.id;
+                bloco.innerHTML = `
+                    <div class="data-card"><span>🗓️ ${sanitizarHTML(post.data)}</span> <span class="autor-tag">Postado por: ${sanitizarHTML(post.autor || 'Anônimo')}</span></div>
+                    <a href="${sanitizarHTML(urlSegura(post.link))}" target="_blank" rel="noopener noreferrer" class="pdf-link">
+                        <div class="pdf-bloco">
+                            <div class="numero-card">${contadorGlobalDela}</div>
+                            <div class="moldura-imagem"><img src="${sanitizarHTML(urlSegura(post.imagem, "imagem"))}" alt="${sanitizarHTML(post.titulo)}" loading="lazy"></div>
+                            <div class="contador-titulo">${sanitizarHTML(post.titulo)}</div>
+                            <div class="contador-tempo">Clique para abrir 📂</div>
+                            <div class="pdf-subtitulo">${sanitizarHTML(post.subtitulo)}</div>
+                        </div>
+                    </a>
+                    <div class="secao-comentarios">
+                        <div class="form-comentario">
+                            <input type="text" id="input-${post.id}" class="input-comentario" placeholder="Comente algo..." onkeypress="verificarEnter(event, '${post.id}')">
+                            <button class="btn-comentar" onclick="adicionarComentarioFirebase('${post.id}')">❤️ Enviar</button>
+                        </div>
+                        <div id="lista-${post.id}" class="lista-comentarios"></div>
+                    </div>
+                    ${controleModificacao}
+                `;
+                container.appendChild(bloco);
+            });
+
+            if(contadorGlobalDela === 0) {
+                container.innerHTML = '<p style="text-align:center; color: var(--secondary);">Nenhum card postado aqui ainda. ❤️</p>';
+            }
+        }, (error) => {
+            console.error("Erro na busca:", error);
+            document.getElementById('lista-completa-dela').innerText = "Erro ao carregar os cards.";
+        });
+
+        const qComentarios = query(collection(db, "comentarios"), orderBy("criadoEm", "asc"));
+        onSnapshot(qComentarios, (snapshot) => {
+            document.querySelectorAll('.lista-comentarios').forEach(l => l.innerHTML = '');
+            snapshot.forEach((docSnap) => {
+                if (!idFirebaseSeguro(docSnap.id)) return;
+                const com = { ...docSnap.data(), id: docSnap.id };
+                if (!idFirebaseSeguro(com.secaoId)) return;
+                const containerLista = document.getElementById(`lista-${com.secaoId}`);
+                if (!containerLista) return;
+
+                const botaoExcluir = (com.autor === usuarioLogado) ? `<button class="btn-excluir-comentario" onclick="excluirComentarioFirebase('${com.id}')">Excluir</button>` : '';
+                const item = document.createElement('div');
+                item.className = 'item-comentario';
+                item.innerHTML = `
+                    <div class="meta-comentario"><span class="autor-comentario">👤 ${sanitizarHTML(com.autor || 'Alguém')}</span><span>⏱️ ${sanitizarHTML(com.dataHora || 'Recentemente')}</span></div>
+                    <div class="corpo-comentario"><div class="texto-comentario">${sanitizarHTML(com.texto)}</div>${botaoExcluir}</div>
+                `;
+                containerLista.appendChild(item);
+            });
+        });
+    
+const painelCriacao=document.querySelector('.painel-upload'),btnCriacao=document.getElementById('btn-abrir-criacao');btnCriacao.onclick=()=>{painelCriacao.classList.toggle('aberto');if(painelCriacao.classList.contains('aberto'))painelCriacao.scrollIntoView({behavior:'smooth',block:'start'})};const campoBuscaLocal=document.getElementById('campo-busca-local'),resLocal=document.getElementById('resultados-local');let indiceLocal=[];const norm=s=>String(s||'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase();function filtrarLocal(){let q=norm(campoBuscaLocal.value).trim();if(!q){resLocal.style.display='none';return}let a=indiceLocal.filter(p=>norm([p.titulo,p.subtitulo,p.corpo,p.conteudo].join(' ')).includes(q)).slice(0,12);resLocal.style.display='block';resLocal.innerHTML=a.length?'':'<div style="padding:12px;text-align:center">Nada encontrado ainda 🤍</div>';a.forEach(p=>{let b=document.createElement('button');b.className='res-local';b.innerHTML=(p.imagem?`<img src="${sanitizarHTML(urlSegura(p.imagem, "imagem"))}">`:`<span class="res-ico">✨</span>`)+`<span><b>${sanitizarHTML(p.titulo||p.subtitulo||'Abrir')}</b></span>`;b.onclick=()=>{let el=document.getElementById(p.id);resLocal.style.display='none'; if(el){el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('destino-destaque');setTimeout(()=>el.classList.remove('destino-destaque'),1800)}};resLocal.appendChild(b)})}campoBuscaLocal.oninput=filtrarLocal;
+onSnapshot(query(collection(db,"posts"), where("destino","==","dela")),snap=>{indiceLocal=[];snap.forEach(d=>indiceLocal.push({id:d.id,...d.data()}));});const temaSalvo=localStorage.getItem('tema_canto');if(temaSalvo==='dark')document.body.classList.add('dark-mode');document.getElementById('btn-theme-toggle').onclick=()=>{document.body.classList.toggle('dark-mode');localStorage.setItem('tema_canto',document.body.classList.contains('dark-mode')?'dark':'light')};
+</script>
+</body>
+</html>

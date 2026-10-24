@@ -23,6 +23,9 @@ async function hash(pin,salt,iterations=240000){
  const material=await crypto.subtle.importKey('raw',encoder.encode(pin),'PBKDF2',false,['deriveBits']);
  return b64(await crypto.subtle.deriveBits({name:'PBKDF2',salt:bytes(salt),iterations,hash:'SHA-256'},material,256));
 }
+async function aesKey(env){if(!env.ENCRYPTION_KEY)throw new Error('Chave de criptografia ausente');return crypto.subtle.importKey('raw',bytes(env.ENCRYPTION_KEY),{name:'AES-GCM'},false,['encrypt','decrypt']);}
+async function encryptSecret(secret,env){const iv=crypto.getRandomValues(new Uint8Array(12));const cipher=await crypto.subtle.encrypt({name:'AES-GCM',iv},await aesKey(env),encoder.encode(secret));return JSON.stringify({iv:b64(iv),cipher:b64(cipher)});}
+async function decryptSecret(data,env){const v=JSON.parse(data);return new TextDecoder().decode(await crypto.subtle.decrypt({name:'AES-GCM',iv:bytes(v.iv)},await aesKey(env),bytes(v.cipher)));}
 function equal(a,b){if(a.length!==b.length)return false;let diff=0;for(let i=0;i<a.length;i++)diff|=a.charCodeAt(i)^b.charCodeAt(i);return diff===0;}
 export default {
  async fetch(req,env){
@@ -35,10 +38,10 @@ export default {
    if(!env.SECURITY_KV) return json({erro:'KV não configurado'},503,headers);
    const uid=await authorized(req);
    const url=new URL(req.url);
-   if(!['/pin/configurar','/pin/verificar','/youtube/buscar','/estado'].includes(url.pathname))return json({erro:'Rota inexistente'},404,headers);
+   if(!['/pin/configurar','/pin/verificar','/youtube/buscar','/youtube/configurar','/estado'].includes(url.pathname))return json({erro:'Rota inexistente'},404,headers);
    const body=await req.json().catch(()=>({}));
    if(url.pathname==='/estado'){
-    return json({pinConfigurado:!!(await env.SECURITY_KV.get('pin:v1')),youtubeConfigurado:!!env.YOUTUBE_API_KEY},200,headers);
+    return json({pinConfigurado:!!(await env.SECURITY_KV.get('pin:v1')),youtubeConfigurado:!!(env.YOUTUBE_API_KEY || await env.SECURITY_KV.get('youtube:encrypted'))},200,headers);
    }
    if(url.pathname==='/pin/configurar'){
     if(uid!==FABRICIO)return json({erro:'Somente Fabricio pode alterar o PIN'},403,headers);
@@ -69,8 +72,17 @@ export default {
     await env.SECURITY_KV.delete(key);
     return json({ok:true},200,headers);
    }
+   if(url.pathname==='/youtube/configurar'){
+    if(uid!==FABRICIO)return json({erro:'Somente Fabricio pode configurar a API'},403,headers);
+    const key=String(body.apiKey||'').trim();
+    if(!/^AIza[A-Za-z0-9_-]{30,120}$/.test(key))return json({erro:'Formato de chave inválido'},400,headers);
+    await env.SECURITY_KV.put('youtube:encrypted',await encryptSecret(key,env));
+    return json({ok:true},200,headers);
+   }
    if(url.pathname==='/youtube/buscar'){
-    if(!env.YOUTUBE_API_KEY)return json({erro:'Chave do YouTube não configurada'},503,headers);
+    const stored=await env.SECURITY_KV.get('youtube:encrypted');
+    const youtubeKey=stored?await decryptSecret(stored,env):env.YOUTUBE_API_KEY;
+    if(!youtubeKey)return json({erro:'Chave do YouTube não configurada'},503,headers);
     const q=String(body.q||'').trim();
     if(q.length<2||q.length>100)return json({erro:'Pesquisa inválida'},400,headers);
     const rateKey='yt:'+uid+':'+Math.floor(Date.now()/60000);
@@ -78,7 +90,7 @@ export default {
     if(count>=20)return json({erro:'Limite de buscas por minuto'},429,headers);
     await env.SECURITY_KV.put(rateKey,String(count+1),{expirationTtl:120});
     const api=new URL('https://www.googleapis.com/youtube/v3/search');
-    for(const [k,v] of Object.entries({part:'snippet',type:'video',videoEmbeddable:'true',maxResults:'15',q,key:env.YOUTUBE_API_KEY}))api.searchParams.set(k,v);
+    for(const [k,v] of Object.entries({part:'snippet',type:'video',videoEmbeddable:'true',maxResults:'15',q,key:youtubeKey}))api.searchParams.set(k,v);
     const upstream=await fetch(api.toString());
     const data=await upstream.json();
     if(!upstream.ok)return json({erro:'Busca indisponível',status:upstream.status},502,headers);

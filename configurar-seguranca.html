@@ -1,35 +1,29 @@
 <!doctype html>
-<html lang="pt-BR">
-<head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="robots" content="noindex,nofollow">
-<title>Configurar proteção — Nosso Canto</title>
-<style>
-:root{color-scheme:dark}*{box-sizing:border-box}body{background:#100f1b;color:#f8f5ff;font:16px system-ui,sans-serif;margin:0;min-height:100vh;display:grid;place-items:center;padding:20px}
-main{width:min(100%,480px);padding:26px;border:1px solid #49405d;border-radius:20px;background:#211c32}
-h1{font-size:1.35rem;margin:0 0 16px}p{line-height:1.5;color:#ded5ed}label{display:block;margin:18px 0 7px;font-weight:600}input{width:100%;padding:13px;border:1px solid #776a90;border-radius:10px;background:#130f20;color:white;font-size:1rem}button{margin-top:18px;width:100%;padding:14px;border:0;border-radius:12px;background:#ddbdff;color:#23152c;font-weight:800;font-size:1rem}button:disabled{opacity:.45}small{display:block;line-height:1.5;color:#c4bad4;margin-top:9px}#status{white-space:pre-wrap;overflow-wrap:anywhere}
-</style>
-</head>
-<body><main>
-<h1>🔐 Configurações privadas do Nosso Canto</h1>
-<p>Somente a conta do Fabricio pode salvar. Configure um <strong>novo PIN de 6 a 8 dígitos</strong>. Não reutilize o PIN antigo que já ficou no código público.</p>
-<div id="status" role="status">Conferindo login no Firebase...</div>
-<form id="form" hidden>
-<label for="pin">Novo PIN (6 a 8 números)</label>
-<input id="pin" type="password" inputmode="numeric" autocomplete="new-password" minlength="6" maxlength="8" pattern="[0-9]{6,8}" required>
-<label for="confirmar">Confirmar novo PIN</label>
-<input id="confirmar" type="password" inputmode="numeric" autocomplete="new-password" minlength="6" maxlength="8" pattern="[0-9]{6,8}" required>
-<label for="youtube">Chave do YouTube Data API (opcional)</label>
-<input id="youtube" type="password" autocomplete="off" maxlength="128" placeholder="Deixe vazio se ainda não criou a nova chave">
-<small>Esta chave fica fora do GitHub, mas ainda pode ser vista por quem estiver autenticado no site. Restrinja a chave no Google Cloud e, de preferência, gere outra: a antiga já foi pública.</small>
-<button id="salvar" type="submit">Salvar no Firebase</button>
-</form>
-<small>O PIN é uma trava de interface, não substitui o login nem as regras do Firestore. Depois de salvar, avise no ChatGPT para ativarmos a leitura no site.</small>
+<html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>Segurança — Nosso Canto</title>
+<style>:root{color-scheme:dark}*{box-sizing:border-box}body{margin:0;background:#100f1b;color:#f8f5ff;font:16px system-ui;min-height:100vh;display:grid;place-items:center;padding:20px}main{width:min(100%,540px);padding:26px;border:1px solid #534769;border-radius:20px;background:#211c32}h1{font-size:1.5rem}h2{font-size:1.1rem;margin-top:26px}p,small{color:#d5cce1;line-height:1.5}label{display:block;margin:13px 0 6px}input{width:100%;padding:12px;border:1px solid #796c90;border-radius:9px;background:#130f20;color:#fff;font:inherit}button{margin:15px 0 0;padding:13px;width:100%;border:0;border-radius:10px;background:#e4c4ff;color:#23152c;font-weight:750;font-size:1rem}button:disabled{opacity:.5}section{border-top:1px solid #534769;margin-top:20px}#status{white-space:pre-wrap;overflow-wrap:anywhere;padding:12px;background:#171324;border-radius:10px}</style></head>
+<body><main><h1>🔐 Segurança do Nosso Canto</h1>
+<p>Somente a conta do Fabricio pode cadastrar o PIN e a chave do YouTube. Os valores são enviados ao Worker autenticado, não ao Firestore.</p>
+<div id="status" role="status">Conferindo autenticação...</div>
+<div id="admin" hidden>
+<label for="worker">Endereço do Worker de segurança (sem barra final)</label>
+<input id="worker" type="url" placeholder="https://nosso-canto-seguranca.SEU-SUBDOMINIO.workers.dev" autocomplete="url">
+<small>Esse endereço não é secreto. Configure e publique o Worker antes de salvar.</small>
+<button id="testar" type="button">Testar conexão segura</button>
+<section><h2>PIN de acesso</h2>
+<form id="pin-form">
+<label for="pin-anterior">PIN anterior (somente para trocar um PIN existente)</label><input id="pin-anterior" type="password" inputmode="numeric" autocomplete="off" maxlength="8">
+<label for="pin">Novo PIN de 6 a 8 números</label><input id="pin" type="password" inputmode="numeric" autocomplete="new-password" pattern="[0-9]{6,8}" minlength="6" maxlength="8" required>
+<label for="confirmar">Confirmar PIN</label><input id="confirmar" type="password" inputmode="numeric" autocomplete="new-password" pattern="[0-9]{6,8}" minlength="6" maxlength="8" required>
+<button type="submit">Salvar PIN protegido</button></form></section>
+<section><h2>API atual do YouTube</h2>
+<p>Você pode reutilizar a chave atual. Ela será criptografada pelo Worker antes de ser armazenada. Não será exibida novamente nesta página.</p>
+<form id="youtube-form"><label for="youtube">Chave atual do YouTube Data API</label><input id="youtube" type="password" autocomplete="off" required placeholder="Cole aqui sua chave atual"><button type="submit">Salvar API protegida</button></form></section>
+</div><p><small>O PIN não substitui o Firebase Authentication. Para proteger exclusões e edições, também será necessário validar essas operações no servidor.</small></p>
 </main>
 <script type="module">
-import { initializeApp } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
-import { getAuth,onAuthStateChanged } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
-import { getFirestore,doc,setDoc } from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore.js';
+import {initializeApp} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js';
+import {getAuth,onAuthStateChanged} from 'https://www.gstatic.com/firebasejs/10.8.0/firebase-auth.js';
 const firebaseConfig={
             apiKey: "AIzaSyAEyJHxEP96ZpSYfAgNO4wdQZIiArseGm4",
             authDomain: "nosso-canto-5d714.firebaseapp.com",
@@ -38,20 +32,22 @@ const firebaseConfig={
             messagingSenderId: "1042257316625",
             appId: "1:1042257316625:web:b96e37ad034b598ea61ab0"
         };
-const app=initializeApp(firebaseConfig),auth=getAuth(app),db=getFirestore(app);
-const uidFabricio='PPYyjohwQ5TLEeHSN4F44jWJF5x1';
-const status=document.getElementById('status'),form=document.getElementById('form'),btn=document.getElementById('salvar');
-onAuthStateChanged(auth,u=>{const ok=u?.uid===uidFabricio;form.hidden=!ok;status.textContent=ok?'Conta autorizada. Preencha os campos abaixo.':u?'Somente a conta do Fabricio pode configurar.':'Faça login na página principal e volte aqui.';},e=>status.textContent='Erro ao conferir login: '+e.message);
-form.addEventListener('submit',async e=>{
- e.preventDefault();const u=auth.currentUser;if(u?.uid!==uidFabricio)return;
- const pin=document.getElementById('pin').value,confirmar=document.getElementById('confirmar').value,youtubeApiKey=document.getElementById('youtube').value.trim();
- if(!/^[0-9]{6,8}$/.test(pin)||pin!==confirmar){status.textContent='PIN inválido ou confirmação diferente.';return;}
- if(youtubeApiKey.length>128){status.textContent='Chave do YouTube muito longa.';return;}
- btn.disabled=true;status.textContent='Salvando no Firestore...';
- try{
- await setDoc(doc(db,'configuracoes_privadas','acesso'),{pin,youtubeApiKey,atualizadoEm:Date.now()});
- form.reset();status.textContent='SUCESSO! Configurações gravadas no Firebase. Volte ao ChatGPT para ativar a leitura no site.';
- }catch(err){status.textContent='Falha ao salvar: '+err.message+'\nConfira se publicou as regras novas do Firestore.';}
- finally{btn.disabled=false;}
-});
+const auth=getAuth(initializeApp(firebaseConfig)),status=document.getElementById('status'),admin=document.getElementById('admin'),worker=document.getElementById('worker');
+const owner='PPYyjohwQ5TLEeHSN4F44jWJF5x1';
+worker.value=localStorage.getItem('nossoCantoSecurityWorker')||'';
+onAuthStateChanged(auth,u=>{admin.hidden=u?.uid!==owner;status.textContent=u?.uid===owner?'Conta autorizada. Configure o Worker para continuar.':u?'Somente Fabricio pode alterar as configurações.':'Faça login na página principal e volte aqui.';});
+async function call(path,data={}){
+ const u=auth.currentUser;if(u?.uid!==owner)throw Error('Acesso negado');
+ const url=worker.value.trim().replace(/\/$/,'');
+ if(!/^https:\/\/[a-z0-9.-]+$/i.test(url))throw Error('Informe o endereço HTTPS do Worker');
+ localStorage.setItem('nossoCantoSecurityWorker',url);
+ const r=await fetch(url+path,{method:'POST',headers:{Authorization:'Bearer '+await u.getIdToken(),'Content-Type':'application/json'},body:JSON.stringify(data)});
+ const result=await r.json().catch(()=>({}));
+ if(!r.ok)throw Error(result.erro||'Erro HTTP '+r.status);
+ return result;
+}
+async function submit(btn,fn){btn.disabled=true;status.textContent='Aguarde...';try{await fn();status.textContent='Operação concluída com sucesso.'}catch(e){status.textContent='Falha: '+e.message}finally{btn.disabled=false}}
+document.getElementById('testar').onclick=e=>submit(e.target,async()=>{const d=await call('/estado');status.textContent=JSON.stringify(d)});
+document.getElementById('pin-form').onsubmit=e=>{e.preventDefault();const f=e.currentTarget,p=f.pin.value,c=f.confirmar.value;if(!/^[0-9]{6,8}$/.test(p)||p!==c){status.textContent='PIN inválido ou confirmação diferente';return}submit(f.querySelector('button'),async()=>{await call('/pin/configurar',{pin:p,pinAnterior:document.getElementById('pin-anterior').value});f.reset()})};
+document.getElementById('youtube-form').onsubmit=e=>{e.preventDefault();const f=e.currentTarget;submit(f.querySelector('button'),async()=>{await call('/youtube/configurar',{apiKey:document.getElementById('youtube').value});f.reset()})};
 </script></body></html>

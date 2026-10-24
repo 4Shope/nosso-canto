@@ -1,0 +1,11 @@
+name = "nosso-canto-seguranca"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+# Crie um namespace KV e substitua o id antes do deploy.
+[[kv_namespaces]]
+binding = "SECURITY_KV"
+id = "SUBSTITUIR_PELO_ID_DO_KV"
+
+[vars]
+ALLOWED_ORIGINS = "https://4shope.github.io"

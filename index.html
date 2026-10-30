@@ -3413,7 +3413,7 @@ function atual(now=Date.now()){
 }
 function say(t){status(t)}
 function status(t){$('ben-quarto-status').textContent=t;clearTimeout(statusTimer);statusTimer=setTimeout(()=>$('ben-quarto-status').textContent='',5000)}
-function sleepVisual(){const sleep=estado.acordado===false&&!estado.autoCuidado;root.classList.toggle('ben-dormindo',sleep);$('ben-quarto-cenario').classList.toggle('dormindo',sleep);if(sleep){pet.style.animation='none';if(!roomOpen){let w=pet.offsetWidth||76,h=pet.offsetHeight||88;root.style.transition='left .7s ease,top .7s ease';root.style.left='8px';root.style.top=Math.max(65,innerHeight-h-18)+'px';root.style.bottom='auto'}}else if(!root.classList.contains('ben-conversando')){pet.style.animation='ben-bob 3.2s ease-in-out infinite'}
+function sleepVisual(){const sleep=estado.acordado===false&&!estado.autoCuidado;root.classList.toggle('ben-dormindo',sleep);$('ben-quarto-cenario').classList.toggle('dormindo',sleep);if(sleep){pet.style.animation='none';if(!roomOpen){let w=pet.offsetWidth||76,h=pet.offsetHeight||88;root.style.transition='left .7s ease,top .7s ease';root.style.left='8px';root.style.top=Math.max(65,innerHeight-h-18)+'px';root.style.bottom='auto'}}else{pet.style.animation=''}
  bola.classList.toggle('ativa',!!estado.bolaAtiva);if(estado.bolaAtiva)iniciarBola();else{bola.classList.remove('ativa');bola.style.display='none';window.benBolaPerseguindo=false;}
 }
 function renderHumor(){const v=atual();const min=Math.min(...Object.values(v));root.dataset.humor=estado.acordado===false&&!estado.autoCuidado?'dormindo':min<25?'triste':min<55?'cansado':'feliz'}

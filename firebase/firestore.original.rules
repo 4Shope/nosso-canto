@@ -1,0 +1,120 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function usuarioPermitido() {
+      return request.auth != null &&
+        request.auth.uid in [
+          'Uj8dsCLH0fSGP2XZfZWCdhdTCHK2',
+          'PPYyjohwQ5TLEeHSN4F44jWJF5x1'
+        ];
+    }
+
+    function ehFabricio() {
+      return usuarioPermitido()
+        && request.auth.uid ==
+          'PPYyjohwQ5TLEeHSN4F44jWJF5x1';
+    }
+
+    function nomeUsuario() {
+      return request.auth.uid ==
+        'PPYyjohwQ5TLEeHSN4F44jWJF5x1'
+        ? 'Fabricio' : 'Maria';
+    }
+
+    match /posts/{documento} {
+      allow read, write: if usuarioPermitido();
+    }
+
+    match /comentarios/{documento} {
+      allow read, write: if usuarioPermitido();
+    }
+
+    match /chat_privado/{documento} {
+      allow read, write: if usuarioPermitido();
+    }
+
+    match /ben_memorias/{memoriaId} {
+      allow read, create, update, delete:
+        if usuarioPermitido();
+    }
+
+    match /ben_estado/{documento} {
+      allow read, create, update, delete:
+        if usuarioPermitido();
+    }
+
+    match /historico_reproducoes/{documento} {
+      allow read: if usuarioPermitido();
+
+      allow create: if usuarioPermitido()
+        && request.resource.data.usuario == nomeUsuario()
+        && request.resource.data.origem == 'playlist'
+        && request.resource.data.segundos is int
+        && request.resource.data.segundos >= 0
+        && request.resource.data.criadoEm is int;
+
+      allow update, delete: if false;
+    }
+
+    match /pedido_privado/{documento} {
+      allow read: if usuarioPermitido();
+
+      allow create: if ehFabricio()
+        && (
+          (
+            documento.matches('declaracoes_[0-9]{3}')
+            && request.resource.data.keys().hasOnly(['itens'])
+            && request.resource.data.itens is list
+            && request.resource.data.itens.size() <= 180
+          )
+          ||
+          (
+            documento.matches('audio_[0-9]{3}')
+            && request.resource.data.keys().hasOnly(['trecho'])
+            && request.resource.data.trecho is string
+            && request.resource.data.trecho.size() <= 150000
+          )
+          ||
+          (
+            documento == 'manifest'
+            && request.resource.data.completo == true
+            && request.resource.data.versao == 1
+            && request.resource.data.totalMensagens == 3311
+            && request.resource.data.totalFrases == 18
+            && request.resource.data.blocosMensagens == 19
+            && request.resource.data.blocosAudio == 7
+            && request.resource.data.tamanhoAudio == 1020368
+          )
+        );
+
+      allow update, delete: if false;
+    }
+
+    // Configurações privadas: somente Fabricio pode alterar.
+    // Fabricio e Maria podem consultar após login.
+    match /configuracoes_privadas/{documento} {
+      allow get: if usuarioPermitido()
+        && documento == 'acesso';
+
+      allow list: if false;
+
+      allow create, update: if ehFabricio()
+        && documento == 'acesso'
+        && request.resource.data.keys().hasOnly([
+          'pin', 'youtubeApiKey', 'atualizadoEm'
+        ])
+        && request.resource.data.keys().hasAll([
+          'pin', 'youtubeApiKey', 'atualizadoEm'
+        ])
+        && request.resource.data.pin is string
+        && request.resource.data.pin.matches('[0-9]{6,8}')
+        && request.resource.data.youtubeApiKey is string
+        && request.resource.data.youtubeApiKey.size() <= 128
+        && request.resource.data.atualizadoEm is int;
+
+      allow delete: if false;
+    }
+  }
+}

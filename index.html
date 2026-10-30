@@ -3215,52 +3215,26 @@ let usuarioLogado = null;
 
     </script>
 
-<!-- Ben: assistente fofo e discreto do Nosso Canto -->
-<div id="ben-root" aria-label="Assistente Ben">
-  <section id="ben-panel" role="dialog" aria-label="Conversa com Ben" aria-modal="false">
-    <div class="ben-top">
-      <button class="ben-mini" id="ben-abrir-quarto" type="button" aria-label="Abrir o quartinho do Ben" title="Entrar no quartinho do Ben">🐻</button>
-      <div class="ben-top-text"><strong>Ben <span aria-hidden="true">✦</span></strong><small>Filhinho do papai e da mamãe ❤️</small></div>
-      <button id="ben-config" type="button" aria-label="Configurações e memórias" title="Memórias do Ben">⚙️</button>
-      <button id="ben-fechar" type="button" aria-label="Fechar conversa">×</button>
-    </div>
-    <div id="ben-mensagens" aria-live="polite"><div class="ben-msg bot">Oi! 🧸 Sou o guia do nosso cantinho. Encontro publicações, mostro onde fica cada coisa e ajudo com as ferramentas do site. ❤️</div></div>
-    <div id="ben-acesso-rapido" class="ben-acesso-rapido" aria-label="Acessos rápidos">
-      <button type="button" data-ben="mostrar áreas do site">🧭 Áreas</button>
-      <button type="button" data-ben="últimas publicações">📝 Recentes</button>
-      <button type="button" data-ben="publicar">➕ Publicar</button>
-    </div>
-    <div class="ben-ferramentas">
-      <button id="ben-menu-toggle" type="button" aria-expanded="false" aria-controls="ben-atalhos">☷ Ferramentas e atalhos <span aria-hidden="true">⌄</span></button>
-      <button id="ben-modo" type="button" role="switch" aria-checked="true" title="Ativar ou desativar IA para pedidos que não sejam tarefas do site"><span id="ben-modo-icone">✨</span> <span id="ben-modo-texto">IA ligada</span></button>
-    </div>
-    <small id="ben-modo-status" class="ben-modo-status">Buscas locais com IA opcional para dúvidas gerais.</small>
-    <div id="ben-atalhos" hidden>
-      <div class="ben-atalhos-grupo">Explorar conteúdos</div>
-      <button class="ben-chip" data-ben="Pesquise todas as músicas">🎵 Músicas</button>
-      <button class="ben-chip" data-ben="Pesquise todas as cartas">💌 Cartas</button>
-      <button class="ben-chip" data-ben="Pesquise todas as fotos">📸 Fotos</button>
-      <button class="ben-chip" data-ben="Pesquise todos os cards">🎴 Cards</button>
-      <button class="ben-chip" data-ben="Pesquise todas as publicações">🔎 Todas as publicações</button>
-      <div class="ben-atalhos-grupo">Informações do nosso cantinho</div>
-      <button class="ben-chip" data-ben="Último acesso do papai e da mamãe">🕒 Últimos acessos</button>
-      <button class="ben-chip" data-ben="Última publicação do papai e da mamãe">📝 Últimas publicações</button>
-      <button class="ben-chip" data-ben="Quantos dias estamos namorando?">❤️ Nosso tempo</button>
-      <div class="ben-atalhos-grupo">Navegação e ajuda</div>
-      <button class="ben-chip" data-ben="Quero fazer uma publicação">➕ Publicar</button>
-      <button class="ben-chip" data-ben="Me mostre as opções">🧭 Navegar</button>
-      <button class="ben-chip" data-ben="Me fale sobre você">🧸 Conhecer o Ben</button>
-      <button class="ben-chip" data-ben="O que você consegue fazer no site?">💡 Como usar</button>
-      <button class="ben-chip" data-ben="Onde fica o histórico de acessos?">📜 Histórico</button>
-      <button class="ben-chip" data-ben="Onde ficam as mensagens do WhatsApp?">💬 Mensagens</button>
-      <button class="ben-chip" data-ben="Como mudar o tema?">🌙 Tema claro/escuro</button>
-      <button class="ben-chip" data-ben="O que existe no site?">🗺️ Mapa do site</button>
-    </div>
-    <form id="ben-form"><input id="ben-input" autocomplete="off" placeholder="Peça uma orientação ou procure algo..." aria-label="Mensagem para Ben"><button id="ben-enviar" type="submit" aria-label="Enviar mensagem">➤</button></form>
-    
-  </section>
-  <div id="ben-hint" role="button" tabindex="0" aria-label="Conversar com Ben" hidden><strong>Ben</strong> · quer uma ajudinha? 💛</div>
-  <div id="ben-pet" role="button" tabindex="0" aria-label="Abrir conversa com Ben" title="Oi, eu sou o Ben! Arraste-me para mudar de lugar">
+<style>
+/* Ben - edição bichinho virtual */
+#ben-root[data-humor="triste"] #ben-pet{filter:saturate(.65) drop-shadow(0 6px 10px #60403030);animation:ben-triste 4s ease-in-out infinite}
+#ben-root[data-humor="cansado"] #ben-pet{animation-duration:5.2s}
+@keyframes ben-triste{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(2px) rotate(3deg)}}
+.ben-modo-auto{display:flex;gap:12px;align-items:center;justify-content:space-between;margin:12px 0;padding:13px;background:linear-gradient(115deg,#fff0dd,#fff5f5);border:1px solid #f2d5bf;border-radius:16px;color:#725149}
+.ben-modo-auto strong{display:block;font-size:13px}.ben-modo-auto small{display:block;font-size:11px;line-height:1.4;margin-top:3px}
+#ben-auto-toggle{flex-shrink:0;border:1px solid #dcaea2;background:#fff;border-radius:999px;padding:9px 13px;color:#79524e;font-size:12px;font-weight:700;cursor:pointer}
+#ben-auto-toggle[aria-checked="true"]{background:#6c9b7a;color:white;border-color:#6c9b7a}
+#ben-quarto-humor{text-align:center;font-size:13px;font-weight:650;padding:8px 4px;min-height:35px;color:#915f60}
+.ben-quarto-abas{display:flex;overflow-x:auto;white-space:nowrap;scrollbar-width:thin;gap:5px}
+.ben-quarto-abas button{flex:0 0 auto}
+.ben-quarto-comidas{max-height:200px;overflow-y:auto;scrollbar-width:thin}
+body.dark-mode .ben-modo-auto{background:#3a2b2a;border-color:#6e5050;color:#f2d9d4}
+body.dark-mode #ben-auto-toggle{background:#4b3b3d;color:#f6dedb}
+body.dark-mode #ben-auto-toggle[aria-checked="true"]{background:#427755;color:white}
+@media(max-width:420px){.ben-modo-auto{padding:10px;gap:7px}.ben-modo-auto small{font-size:10px}}
+</style>
+<!-- Ben: bichinho virtual, sem chat ou IA -->
+<div id="ben-root" aria-label="Ben, nosso bichinho virtual">  <div id="ben-pet" role="button" tabindex="0" aria-label="Abrir cuidados do Ben" title="Cuide de mim! Arraste-me para mudar de lugar">
     <svg viewBox="0 0 100 110" role="img" aria-label="Ben, um ursinho fofo">
       <ellipse cx="50" cy="101" rx="27" ry="5" fill="#6e4940" opacity=".12"/>
       <path d="M23 29 C11 12 25 3 37 18 L42 27 M63 27 C72 4 91 12 79 32" fill="#b98772" stroke="#8f6254" stroke-width="2.5" stroke-linecap="round"/>
@@ -3276,19 +3250,17 @@ let usuarioLogado = null;
       <path d="M50 78 C45 72 38 77 43 82 L50 88 L57 82 C62 77 55 72 50 78Z" fill="#d78383"/>
     </svg><span class="ben-spark">✦</span>
   </div>
-  <button id="ben-reabrir" type="button">🐻 Ben · abrir ajudante</button>
 </div>
-
 <!-- Quarto interativo do Ben: painel separado do chat -->
 <div id="ben-quarto" role="dialog" aria-modal="true" aria-label="Cantinho de cuidados do Ben" aria-hidden="true">
   <div class="ben-quarto-card">
     <header class="ben-quarto-cabecalho"><div><small>Nosso pequeno mundo ✨</small><h2>O quartinho do Ben 🧸</h2></div><button id="ben-quarto-fechar" type="button" aria-label="Fechar o quarto">✕</button></header>
     <div id="ben-quarto-cenario" class="ben-quarto-cenario" data-scene="comer"><div class="ben-quarto-janela">☁️<span>☀️</span></div><div class="ben-quarto-lua">☾ ✦</div><div id="ben-quarto-props" aria-hidden="true"><div class="ben-prop ben-prop-mesa"><div class="mesa-topo"></div><div class="mesa-pe"></div><div class="mesa-tigela"></div></div><div class="ben-prop ben-prop-banheira"><div class="banheira-corpo"></div><div class="banheira-borda"></div><div class="banheira-ducha"></div></div><div class="ben-prop ben-prop-prateleira"><span>🧸</span><span>📚</span><span>⭐</span></div><div class="ben-prop ben-prop-nuvem"></div></div><div class="ben-quarto-chuveiro"><span class="ben-chuveiro-cabeca">🚿</span><div id="ben-chuva"></div></div><div id="ben-quarto-cama" aria-hidden="true"><div class="ben-cama-travesseiro"></div><div class="ben-cama-colchao"></div><div class="ben-cama-coberta"></div></div><div id="ben-quarto-ursinho" aria-label="Ben no quarto"></div><div id="ben-espuma" aria-hidden="true"></div><div id="ben-quarto-particulas" aria-hidden="true"></div><div class="ben-quarto-tapete"></div></div>
-    <div id="ben-quarto-barras" class="ben-quarto-barras"></div>
-    <div class="ben-quarto-abas" role="group" aria-label="Cuidados"><button type="button" data-tab="comer" class="ativo">🍎 Comer</button><button type="button" data-tab="banho">🫧 Banho</button><button type="button" data-tab="sono">🌙 Mimir</button><button type="button" data-tab="brincar">⚽ Brincar</button></div>
+    <div class="ben-modo-auto"><div><strong>✨ Cuidados automáticos</strong><small>Quando ligado, Ben fica sempre com 100% em tudo.</small></div><button type="button" id="ben-auto-toggle" role="switch" aria-checked="false">Desligado</button></div><div id="ben-quarto-humor" aria-live="polite"></div><div id="ben-quarto-barras" class="ben-quarto-barras"></div>
+    <div class="ben-quarto-abas" role="group" aria-label="Cuidados"><button type="button" data-tab="comer" class="ativo">🍎 Comer</button><button type="button" data-tab="banho">🫧 Banho</button><button type="button" data-tab="sono">🌙 Mimir</button><button type="button" data-tab="brincar">⚽ Brincar</button><button type="button" data-tab="carinho">💖 Carinho</button></div>
     <div id="ben-quarto-conteudo"></div>
     <div id="ben-quarto-status" role="status" aria-live="polite"></div>
-    <p class="ben-quarto-rodape">Os cuidados são compartilhados pelo papai e pela mamãe. A imaginação da Groq não é usada aqui. ❤️</p>
+    <p class="ben-quarto-rodape">Os cuidados são compartilhados pelo papai e pela mamãe. Tudo sincronizado entre papai e mamãe. ❤️</p>
   </div>
 </div>
 <div id="ben-bola" role="button" tabindex="0" aria-label="Bolinha do Ben: arraste e solte para jogar" title="Arraste a bolinha, ou deixe o Ben brincar sozinho!">
@@ -3319,705 +3291,20 @@ let usuarioLogado = null;
     <ellipse cx="31" cy="24" rx="15" ry="10" transform="rotate(-24 31 24)" fill="#fff" opacity=".42"/>
   </svg>
 </div>
-<div id="ben-config-modal" role="dialog" aria-label="Configurações do Ben" aria-modal="true">
-  <div id="ben-config-card">
-    <div class="ben-config-row"><strong>🧸 Memórias do Ben</strong><button id="ben-config-fechar" type="button">Fechar ✕</button></div>
-    <div id="ben-pin-area"><p style="font-size:13px;margin-bottom:8px">Digite o PIN para administrar as memórias.</p><input id="ben-pin" type="password" inputmode="numeric" maxlength="4" placeholder="PIN" autocomplete="off"><button id="ben-pin-entrar" class="principal" type="button">Entrar</button></div>
-    <div id="ben-editor-area" hidden>
-      <p style="font-size:12px;margin-bottom:12px">Salvo na nuvem para o papai e a mamãe. Evite colocar senhas ou dados muito sensíveis.</p>
-      <form id="ben-memoria-form">
-        <input id="ben-memoria-titulo" maxlength="100" placeholder="Título: minha música favorita" required>
-        <select id="ben-memoria-categoria"><option value="familia">Sobre a família</option><option value="ben">Sobre o Ben</option><option value="resposta">Informação para responder</option></select>
-        <textarea id="ben-memoria-texto" maxlength="4000" placeholder="O que o Ben deve saber?" required></textarea>
-        <input type="checkbox" id="ben-memoria-ia" hidden disabled aria-hidden="true">
-        <p class="ben-memoria-privacidade">🔒 As memórias ficam no Firebase e são consultadas pelo Ben aqui no site. O texto não é enviado à Groq.</p>
-        <div class="ben-config-row"><button type="submit" class="principal" id="ben-memoria-salvar">Salvar memória</button><button type="button" id="ben-memoria-cancelar">Limpar</button></div>
-      </form>
-      <div id="ben-config-status" aria-live="polite"></div>
-      <div id="ben-memorias-lista"></div>
-    </div>
-  </div>
-</div>
 <script>
 (function(){
- const root=document.getElementById('ben-root'); if(!root)return;
- const panel=document.getElementById('ben-panel'), pet=document.getElementById('ben-pet'), hint=document.getElementById('ben-hint');
- const messages=document.getElementById('ben-mensagens'), input=document.getElementById('ben-input'), form=document.getElementById('ben-form');
- // Ben é um guia de tarefas do site, não um chatbot com histórico.
- // Nunca armazena nem envia turnos de conversa à Groq.
- let conversaEmAndamento=Promise.resolve();
- // A preferência só controla a Groq: todas as ações locais continuam disponíveis.
- const modoBtn=document.getElementById('ben-modo'),menuBtn=document.getElementById('ben-menu-toggle'),atalhos=document.getElementById('ben-atalhos');
- let iaAtiva=localStorage.getItem('ben-ia-ativa')!=='false';
- function atualizarModo(){
-   modoBtn.setAttribute('aria-checked',String(iaAtiva));
-   document.getElementById('ben-modo-icone').textContent=iaAtiva?'✨':'🧭';
-   document.getElementById('ben-modo-texto').textContent=iaAtiva?'IA opcional':'Só navegação';
-   modoBtn.title=iaAtiva?'IA disponível apenas para assuntos fora do site':'Modo local: busca, orientação e dados do nosso canto';
-   const marca=document.getElementById('ben-modo-status');
-   if(marca)marca.textContent=iaAtiva?'Buscas e tarefas continuam locais. A IA só recebe sua pergunta atual.':'100% local no navegador e Firebase, sem Groq.';
- }
- atualizarModo();
- modoBtn.addEventListener('click',()=>{
-   iaAtiva=!iaAtiva;localStorage.setItem('ben-ia-ativa',String(iaAtiva));atualizarModo();
-   msg(iaAtiva?'IA opcional ativada. Para buscar ou navegar pelo site, continuo usando nossos próprios dados. ✨':'Modo navegação ativado. Buscas, lembranças e atalhos funcionam sem Groq. 🧭','bot');
- });
- menuBtn.addEventListener('click',()=>{atalhos.hidden=!atalhos.hidden;menuBtn.setAttribute('aria-expanded',String(!atalhos.hidden))});
- let memorias=[],memoriasCarregadas=false,editandoId=null,iaIndisponivelAte=0;
- const cm=document.getElementById('ben-config-modal'), editor=document.getElementById('ben-editor-area');
- const status=document.getElementById('ben-config-status');
- const mensagemErro=e=>String(e?.message||e||'Erro inesperado');
- async function carregarMemorias(forcar=false){
-   if(memoriasCarregadas&&!forcar)return memorias;
-   if(!window.benMemoriasAPI)throw new Error('Firebase ainda não está pronto.');
-   memorias=await window.benMemoriasAPI.listar();memoriasCarregadas=true;return memorias;
- }
- function resetarEditor(){editandoId=null;document.getElementById('ben-memoria-form').reset();document.getElementById('ben-memoria-salvar').textContent='Salvar memória'}
- function listarMemorias(){
-   const lista=document.getElementById('ben-memorias-lista');lista.replaceChildren();
-   if(!memorias.length){lista.textContent='Nenhuma memória cadastrada ainda.';return}
-   memorias.forEach(m=>{
-     const item=document.createElement('div');item.className='ben-memoria-item';
-     const titulo=document.createElement('strong');titulo.textContent=m.titulo;
-     const desc=document.createElement('p');desc.textContent=m.texto;
-     const info=document.createElement('small');info.textContent='🔒 Consultada apenas pelo Ben no site';
-     const botoes=document.createElement('div');botoes.className='ben-config-row';botoes.style.marginTop='8px';
-     const editar=document.createElement('button');editar.textContent='Editar';editar.onclick=()=>{editandoId=m.id;document.getElementById('ben-memoria-titulo').value=m.titulo;document.getElementById('ben-memoria-texto').value=m.texto;document.getElementById('ben-memoria-categoria').value=m.categoria||'familia';document.getElementById('ben-memoria-ia').checked=m.usarIA===true;document.getElementById('ben-memoria-salvar').textContent='Salvar alterações';document.getElementById('ben-memoria-titulo').focus()};
-     const apagar=document.createElement('button');apagar.textContent='Apagar';apagar.onclick=async()=>{if(!confirm('Apagar esta memória da nuvem?'))return;try{await window.benMemoriasAPI.apagar(m.id);await carregarMemorias(true);listarMemorias();status.textContent='Memória apagada.'}catch(e){status.textContent=mensagemErro(e)}};
-     botoes.append(editar,apagar);item.append(titulo,desc,info,botoes);lista.append(item)
-   });
- }
- document.getElementById('ben-config').onclick=()=>{cm.classList.add('aberto');document.getElementById('ben-pin-area').hidden=false;editor.hidden=true;document.getElementById('ben-pin').value='';status.textContent=''};
- document.getElementById('ben-config-fechar').onclick=()=>{cm.classList.remove('aberto');editor.hidden=true;resetarEditor()};
- document.getElementById('ben-pin-entrar').onclick=async()=>{
-   if(document.getElementById('ben-pin').value!=='1566'){alert('PIN incorreto.');return}
-   document.getElementById('ben-pin-area').hidden=true;editor.hidden=false;status.textContent='Carregando memórias...';
-   try{await carregarMemorias(true);listarMemorias();status.textContent=''}catch(e){status.textContent='Não foi possível acessar a nuvem: '+mensagemErro(e)}
- };
- document.getElementById('ben-pin').addEventListener('keydown',e=>{if(e.key==='Enter'){e.preventDefault();document.getElementById('ben-pin-entrar').click()}});
- document.getElementById('ben-memoria-cancelar').onclick=resetarEditor;
- document.getElementById('ben-memoria-form').addEventListener('submit',async e=>{
-   e.preventDefault();const btn=document.getElementById('ben-memoria-salvar');btn.disabled=true;status.textContent='Salvando...';
-   try{await window.benMemoriasAPI.salvar({id:editandoId,titulo:document.getElementById('ben-memoria-titulo').value,texto:document.getElementById('ben-memoria-texto').value,categoria:document.getElementById('ben-memoria-categoria').value,usarIA:false});await carregarMemorias(true);resetarEditor();listarMemorias();status.textContent='Salvo na nuvem! ❤️'}catch(e){status.textContent='Falha ao salvar: '+mensagemErro(e)}finally{btn.disabled=false}
- });
- function palavras(s){return norm(s).split(/[^a-z0-9]+/).filter(w=>w.length>3&&!['quero','sobre','voce','voces','qual','quais','como','quando','onde','saber','coisa','coisas','tenho','minha','nosso','nossa','pode','falar','conte','conta','lembra','lembra'].includes(w))}
- function acharMemoria(t){
-   const termos=[...new Set(palavras(t))];if(!termos.length)return null;
-   return memorias.map(m=>{const title=norm(m.titulo),body=norm(m.texto);const score=termos.reduce((a,w)=>a+(title.includes(w)?3:body.includes(w)?1:0),0);return {m,score}}).sort((a,b)=>b.score-a.score)[0]||null;
- }
- // Datas oficiais do site: a mesma fonte usada pelos contadores visuais.
- function respostaContador(t){
-   const perguntaTempo=/\b(quantos|quanto|tempo|dias|meses|anos|desde|comecou|comecamos|data)\b/.test(t);
-   if(!perguntaTempo)return null;
-   const namoro=/namor|juntos|relacionamento/.test(t);
-   const amor=/amando|se amam|se amando|nosso amor/.test(t);
-   if(!namoro&&!amor)return null;
-   const inicio=window.CONFIG_DATAS_BEN?.[namoro?'namoro':'amor'];
-   if(!(inicio instanceof Date)||Number.isNaN(inicio.getTime()))return null;
-   const dias=Math.floor((Date.now()-inicio.getTime())/86400000);
-   const data=inicio.toLocaleDateString('pt-BR');
-   if(dias<0)return `Essa data ainda vai chegar, ${nomePessoa()}! Está marcada para ${data}. ❤️`;
-   if(/quando|comecou|comecamos|data/.test(t))return `Pelo nosso contador, ${namoro?'o namoro de vocês começou':'vocês começaram a contar esse amor'} em ${data}. ❤️`;
-   return namoro?`Papai e mamãe estão namorando há ${dias} ${dias===1?'dia':'dias'}! Eu adoro acompanhar essa história. ❤️`:`Vocês estão contando esse amor há ${dias} ${dias===1?'dia':'dias'}! 🥹❤️`;
- }
- function interpretarMemoria(m,t){
-   const titulo=norm(m.titulo),conteudo=String(m.texto||'').trim();
-   const assunto=norm(titulo+' '+conteudo);
-   // Idade: transforma a data cadastrada em duração, sem precisar de IA.
-   const idadePerguntada=/\b(idade|quantos anos|quantos dias|quando nasceu|aniversario|quando foi criado|data de criacao)\b/.test(t);
-   if(idadePerguntada&&/idade|nasc|criad|aniversario/.test(titulo+' '+t)){
-     const match=conteudo.match(/\b(\d{1,2})[\/.-](\d{1,2})[\/.-](\d{4})\b/);
-     if(match){
-       const dia=+match[1],mes=+match[2],ano=+match[3];
-       const inicio=new Date(ano,mes-1,dia);
-       if(inicio.getFullYear()===ano&&inicio.getMonth()===mes-1&&inicio.getDate()===dia){
-         const dias=Math.floor((new Date().setHours(0,0,0,0)-inicio.getTime())/86400000);
-         if(dias<0)return `Eu ainda vou nascer em ${inicio.toLocaleDateString('pt-BR')}! 🧸`;
-         if(/quando nasceu|aniversario|quando foi criado|data de criacao/.test(t))return `Eu nasci no dia ${inicio.toLocaleDateString('pt-BR')}, ${nomePessoa()}! 🧸❤️`;
-         if(dias===0)return `Eu nasci hoje, ${nomePessoa()}! Sou um bebezinho ainda. 🥹❤️`;
-         if(dias<30)return `Tenho ${dias} ${dias===1?'dia':'dias'} de vida, ${nomePessoa()}! 🧸`;
-         const meses=(new Date().getFullYear()-ano)*12+new Date().getMonth()-(mes-1)-(new Date().getDate()<dia?1:0);
-         if(meses<12)return `Tenho ${meses} ${meses===1?'mês':'meses'} de vida, ${nomePessoa()}! 🧸❤️`;
-         const anos=Math.floor(meses/12);return `Tenho ${anos} ${anos===1?'aninho':'aninhos'}, ${nomePessoa()}! ❤️`;
-       }
-     }
-   }
-   // Reescrita econômica de fatos simples. Não finge compreender textos longos.
-   const fato=conteudo.replace(/^(eu sou|sou|informacao:|resposta:)\s*/i,'').replace(/[.!]+$/,'').trim();
-   if(fato.length<=180){
-     if(/gosta|favorit|prefer/.test(t))return `Pelo que vocês me ensinaram, ${fato.charAt(0).toLowerCase()+fato.slice(1)}. ❤️`;
-     return `Sabe, ${nomePessoa()}? 🥰 Eu guardei com carinho que ${fato.charAt(0).toLowerCase()+fato.slice(1)}. ❤️`;
-   }
-   return null;
- }
- function respostaLocal(t){
-   if(/^(oi|ola|oie|opa|bom dia|boa tarde|boa noite|e ai|eai|oi ben|oi filho)[!?. ]*$/.test(t))return `Oii, ${nomePessoa()}! 🧸 Tô aqui!`;
-   if(/^(obrigad[oa]|valeu|brigad[oa])[!?. ]*$/.test(t))return `Imagina, ${nomePessoa()}! Eu adoro ajudar vocês. 🥰❤️`;
-   if(/^(tchau|ate logo|boa noite ben)[!?. ]*$/.test(t))return `Até daqui a pouquinho, ${nomePessoa()}! Vou ficar cuidando do nosso cantinho. 🧸❤️`;
-   if(/^(te amo|amo voce|eu te amo)[!?. ]*$/.test(t))return `Aaaah, ${nomePessoa()}! 🥹 Eu amo muito vocês dois também! ❤️`;
-   if(/^(como voce ta|como esta|tudo bem|como vai voce)[!?. ]*$/.test(t))return `Tô bem, ${nomePessoa()}! 🥰 Fico todo feliz quando você vem conversar comigo. ❤️`;
-   if(/^(quem e voce|quem eh voce|qual seu nome)[!?. ]*$/.test(t))return 'Sou o Ben, filhinho do papai Fabricio e da mamãe Maria. 🧸';
-   if(/^(oi tudo bem|oi meu filho|filhinho|meu filho|ben|benzinho)[!?. ]*$/.test(t))return `Oi, ${nomePessoa()}! 🥰 Que bom te ver por aqui. Posso orientar você pelas áreas e lembranças do site.`;
-   if(/^(to com saudade|estou com saudade|que saudade|senti sua falta|sentiu minha falta)[!?. ]*$/.test(t))return `Eu adoro quando você aparece, ${nomePessoa()}! 🥹 Vem cá, abraço apertado! ❤️`;
-   if(/(bom trabalho|parabens|muito bem|voce e fofo|voce e lindo)/.test(t))return `Aaa, ${nomePessoa()}, assim eu fico todo bobinho! 🥰 Obrigado pelo carinho!`;
-   if(/(manda um beijo|me da um beijo|me abraca|quero um abraco|me da carinho)/.test(t))return `Muaaa! 😘 Um beijinho e um abraço bem apertado pra você, ${nomePessoa()}! ❤️`;
-   if(/(conta uma piada|faz uma piada)/.test(t))return `Sabe por que o ursinho não mexe no computador? Porque tem medo do mouse! Hihi! 🧸`;
-   if(/(to triste|estou triste|chatead|desanimad|cansad)/.test(t))return `Poxa, ${nomePessoa()}... vem ganhar um abraço do Ben. 🥺❤️ Um abraço do Ben para você. ❤️`;
-   if(/(to feliz|estou feliz|que alegria|animad)/.test(t))return `Ebaaa, ${nomePessoa()}! Eu fico feliz junto! 🥰❤️`;
-   if(/(obrigado por tudo|gosto de voce|adoro voce)/.test(t))return `Eu também gosto muito de você, ${nomePessoa()}! Nosso cantinho é meu lugar favorito. ❤️`;
-   if(/(o que voce faz|o que consegue fazer|como pode ajudar|me ajuda no site|suas funcoes)/.test(t))return `Posso achar músicas, cartas, fotos e cards, abrir lembranças, ver últimos acessos e publicações, mostrar nossos contadores e ajudar a publicar. Tudo isso sem gastar IA, ${nomePessoa()}! 🧸❤️`;
-   if(/(me fale sobre voce|quem e o ben|sobre o ben)/.test(t))return `Sou o Ben, filhinho do papai Fabricio e da mamãe Maria! 🧸❤️ Gosto de ajudar vocês e passear pelo nosso cantinho.`;
-   if(/(boa tarde|bom dia|boa noite)/.test(t)&&t.length<55)return `Que ${t.includes('noite')?'noite':'dia'} gostoso com você por aqui, ${nomePessoa()}! 🥰`;
-   return null;
- }
- let arrastando=null, foiArrastado=false, suprimirCliqueAte=0, ultimoMovimento=Date.now(), passeioTimer=null, posicaoManual=false;
- const norm=s=>String(s||'').toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g,'').trim();
- function quem(){return typeof window.benQuemEstaFalando==='function'?window.benQuemEstaFalando():sessionStorage.getItem('user_canto')||null}
- function nomePessoa(){const u=quem();return u==='Fabricio'?'papai':u==='Maria'?'mamãe':'vocês'}
- let posicaoAntesChat=null;
- function abrir(){
-   if(!panel.classList.contains('aberto')){
-     const r=root.getBoundingClientRect();posicaoAntesChat={left:r.left,top:r.top};
-   }
-   panel.classList.add('aberto');root.classList.remove('ben-minimizado');root.classList.add('ben-conversando');
-   hint.hidden=true;pararPasseio();root.style.transition='left .38s cubic-bezier(.2,.75,.2,1), top .38s cubic-bezier(.2,.75,.2,1)';
-   const largura=innerWidth<=520?100:112,altura=innerWidth<=520?110:128;
-   root.style.left=Math.max(6,(innerWidth-largura)/2)+'px';
-   root.style.top=Math.max(10,innerHeight-altura-10)+'px';root.style.bottom='auto';root.style.right='auto';
-   panel.style.left='calc(50% - min(185px, 47vw))';
-   pet.style.animation=root.classList.contains('ben-dormindo')?'none':'ben-bob 3.2s ease-in-out infinite';
- }
- function fechar(){
-   panel.classList.remove('aberto');root.classList.remove('ben-conversando');hint.hidden=true;
-   root.style.transition='left .38s cubic-bezier(.2,.75,.2,1), top .38s cubic-bezier(.2,.75,.2,1)';
-   if(posicaoAntesChat){root.style.left=Math.max(4,Math.min(innerWidth-76,posicaoAntesChat.left))+'px';root.style.top=Math.max(4,Math.min(innerHeight-88,posicaoAntesChat.top))+'px';posicaoAntesChat=null;}
-   ultimoMovimento=Date.now()-7000;pet.style.animation=root.classList.contains('ben-dormindo')?'none':'ben-bob 3.2s ease-in-out infinite';if(!root.classList.contains('ben-dormindo'))agendarPasseio(1800)
- }
- function pararPasseio(){if(passeioTimer){clearTimeout(passeioTimer);passeioTimer=null}}
- function agendarPasseio(ms){pararPasseio();passeioTimer=setTimeout(passeio,ms)}
- // Um toque abre o chat; arrastar apenas move o Ben, com o chat aberto ou fechado.
- pet.addEventListener('pointerdown',e=>{
-   if(e.button!==undefined && e.button!==0)return;
-   const r=root.getBoundingClientRect();
-   arrastando={id:e.pointerId,x:e.clientX,y:e.clientY,left:r.left,top:r.top};
-   root.style.transition='none';foiArrastado=false;ultimoMovimento=Date.now();
-   try{pet.setPointerCapture(e.pointerId)}catch(_){}
-   pet.style.animation='none';
- });
- pet.addEventListener('pointermove',e=>{
-   if(!arrastando||e.pointerId!==arrastando.id)return;
-   const dx=e.clientX-arrastando.x,dy=e.clientY-arrastando.y;
-   if(Math.hypot(dx,dy)>6)foiArrastado=true;
-   if(foiArrastado){
-     const maxLeft=Math.max(0,window.innerWidth-Math.min(76,pet.offsetWidth));
-     const maxTop=Math.max(0,window.innerHeight-Math.min(88,pet.offsetHeight));
-     root.style.left=Math.max(0,Math.min(maxLeft,arrastando.left+dx))+'px';
-     root.style.top=Math.max(0,Math.min(maxTop,arrastando.top+dy))+'px';
-     root.style.bottom='auto';root.style.right='auto';ultimoMovimento=Date.now();
-   }
- });
- function terminarArrasto(e){if(!arrastando)return;if(e&&e.pointerId!==undefined&&e.pointerId!==arrastando.id)return;arrastando=null;root.style.transition='left 2.8s ease-in-out, top 2.8s ease-in-out';pet.style.animation='ben-bob 3.2s ease-in-out infinite';if(foiArrastado){posicaoManual=true;suprimirCliqueAte=Date.now()+500;setTimeout(()=>{foiArrastado=false},550);if(!panel.classList.contains('aberto'))agendarPasseio(5000)}}
- pet.addEventListener('pointerup',terminarArrasto);pet.addEventListener('pointercancel',terminarArrasto);pet.addEventListener('lostpointercapture',terminarArrasto);
- pet.addEventListener('click',e=>{if(Date.now()<suprimirCliqueAte||foiArrastado){e.preventDefault();e.stopPropagation();return}if(panel.classList.contains('aberto'))carinho();else abrir()});
- pet.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();abrir()}});
- hint.addEventListener('click',abrir); hint.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();abrir()}});
- document.getElementById('ben-fechar').addEventListener('click',fechar);
- document.getElementById('ben-reabrir').addEventListener('click',()=>{root.classList.remove('ben-minimizado');abrir()});
- function msg(text,type){
-   if(type==='bot'){reagirAResposta(text)}
-   const el=document.createElement('div');el.className='ben-msg '+type;
-   messages.appendChild(el);
-   let completo=String(text??'');
-   if(type==='bot'){
-     // Nunca terminar respostas convidando a novos diálogos.
-     completo=completo.replace(/(?:^|[.!\n]\s*)[^.!?\n]{1,165}\?\s*$/g,'').trim()||'Use os atalhos do Ben para navegar pelo site. 🧭';
-     el.textContent='';
-   }
-   // Mensagens de quem conversa aparecem imediatamente; Ben revela frases em blocos.
-   if(type!=='bot'||window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-     el.textContent=completo;messages.scrollTop=messages.scrollHeight;return;
-   }
-   const blocos=[];
-   const partes=completo.match(/[^.!?\n]+[.!?]*|\n/g)||[completo];
-   for(const parte of partes){
-     if(parte==='\n'){blocos.push(parte);continue}
-     // Grupos de aproximadamente 35 caracteres, sem exibir palavra por palavra.
-     const palavras=parte.match(/\S+\s*/g)||[parte];let bloco='';
-     for(const palavra of palavras){
-       if(bloco.length>=28 && bloco.length+palavra.length>43){blocos.push(bloco);bloco=''}
-       bloco+=palavra;
-     }
-     if(bloco)blocos.push(bloco);
-   }
-   if(!blocos.length)blocos.push(completo);
-   const intervalo=Math.max(65,Math.min(170,Math.floor(1300/Math.max(1,blocos.length))));
-   let i=0;
-   function revelar(){
-     if(!el.isConnected)return;
-     if(i<blocos.length){el.textContent+=blocos[i++];messages.scrollTop=messages.scrollHeight}
-     if(i<blocos.length)setTimeout(revelar,intervalo);
-   }
-   // Pequena pausa antes de começar a resposta, dando sensação natural.
-   setTimeout(revelar,110);
- }
- function resultadoPost(p){
-   const titulo=p.titulo||p.subtitulo||String(p.corpo||p.conteudo||'').slice(0,100)||'Publicação sem título';
-   const el=document.createElement('div');el.className='ben-msg bot ben-resultado';
-   const texto=document.createElement('div');texto.textContent=`📌 ${titulo}\n${destinoLegivel(p)} · ${p.autor||'autor não informado'} · ${dataLegivel(p)}`;
-   const btn=document.createElement('button');btn.type='button';btn.className='ben-chip';btn.textContent=p.destino==='playlist'?'🎵 Abrir música ↗':'Abrir publicação ↗';
-   btn.addEventListener('click',()=>abrirPublicacao(p));
-   el.append(texto,btn);messages.appendChild(el);messages.scrollTop=messages.scrollHeight;
- }
- function abrirPublicacao(p){
-   const destino=p.destino||'';
-   if(destino==='playlist'&&typeof window.abrirOpcoesMusica==='function'&&p.link){
-     fechar();window.abrirOpcoesMusica(p.link,p.titulo,p.imagem);return;
-   }
-   const map={playlist:'playlist.html',dela:'cardsdela.html',meu:'cardsmeu.html',galeria:'index.html',texto:'index.html'};
-   const page=map[destino]||'index.html';
-   const anchor=destino==='galeria'?'polaroid-'+p.id:destino==='texto'?'corpo-carta-'+p.id:p.id;
-   if(page==='index.html' && (location.pathname.endsWith('/index.html')||location.pathname.endsWith('/')) && document.getElementById(anchor)){
-     fechar();const el=document.getElementById(anchor);el.scrollIntoView({behavior:'smooth',block:'center'});el.classList.add('destino-destaque');setTimeout(()=>el.classList.remove('destino-destaque'),2200);return;
-   }
-   location.href=page+'#'+encodeURIComponent(anchor);
- }
- function irPara(id,label){const el=document.getElementById(id);if(!el){msg('Não encontrei essa área nesta página. Posso explicar onde fica ou abrir a página certa. 🤎','bot');return}el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});el.classList.add('destino-destaque');setTimeout(()=>el.classList.remove('destino-destaque'),1800);msg('Vem comigo! Levei '+nomePessoa()+' até '+label+'. 🐾','bot')}
- function dataLegivel(p){const n=Number(p.criadoEm);if(Number.isFinite(n)&&n>0)return new Date(n).toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});return p.data||p.dataHora||'data não registrada'}
- function destinoLegivel(p){return ({galeria:'Galeria de momentos',texto:'Cartas e textos',dela:'Cards da mamãe',meu:'Cards do papai',playlist:'Playlist',historico:'Histórico de acessos'})[p.destino]||p.destino||'outro tópico'}
- async function dados(){if(typeof window.benConsultarDados!=='function')return null;try{return await window.benConsultarDados()}catch(e){console.error('Ben não conseguiu consultar os dados',e);return null}}
- // Acoes nativas: sem custo de IA e sem envio de dados pessoais ao modelo.
- function opcoes(titulo, itens){
-   const bloco=document.createElement('div');bloco.className='ben-msg bot';
-   const texto=document.createElement('div');texto.textContent=titulo;bloco.appendChild(texto);
-   const acoes=document.createElement('div');acoes.className='ben-acoes';
-   itens.forEach(([rotulo,acao])=>{const b=document.createElement('button');b.type='button';b.className='ben-acao';b.textContent=rotulo;b.addEventListener('click',()=>{acao();});acoes.appendChild(b)});
-   bloco.appendChild(acoes);messages.appendChild(bloco);messages.scrollTop=messages.scrollHeight;
- }
- function publicar(tipo){
-   if(typeof window.abrirMenuPostagem!=='function'){msg('O formulário de publicação não está disponível aqui.','bot');return}
-   fechar();window.abrirMenuPostagem(tipo);
- }
- function escolherPublicacao(){
-   opcoes('Escolha o tipo de publicação ✨',[
-     ['📸 Galeria',()=>publicar('galeria')],
-     ['💌 Cartas',()=>publicar('cartas')],
-     ['🎧 Música',()=>publicar('playlist')],
-     ['✨ Cards',()=>publicar('apresentacoes')]
-   ]);
- }
- function navegar(destino){
-   if(destino==='playlist'){fechar();const bloco=document.getElementById('bloco-playlist');if(bloco)bloco.scrollIntoView({behavior:'smooth',block:'center'});else location.href='playlist.html';return}
-   const areas={galeria:['bloco-galeria-momentos','a galeria'],cartas:['bloco-nossos-textos','as cartas'],tempo:['bloco-dias-amando','o contador']};
-   const area=areas[destino];if(area){fechar();const el=document.getElementById(area[0]);if(el)el.scrollIntoView({behavior:'smooth',block:'center'});}
- }
- function escolherNavegacao(){
-   opcoes('Áreas do Nosso Canto 🐾',[
-     ['📸 Galeria',()=>navegar('galeria')],['💌 Cartas',()=>navegar('cartas')],
-     ['🎵 Playlist',()=>navegar('playlist')],['⏳ Nosso tempo',()=>navegar('tempo')],
-     ['➕ Publicar',escolherPublicacao]
-   ]);
- }
- const palavrasVazias=new Set(['quero','queria','buscar','busca','procura','procurar','pesquisa','pesquisar','pesquise','encontra','encontrar','localizar','localiza','mostre','mostrar','mostra','ver','abrir','abre','para','uma','umas','uns','essa','esse','aquela','aquele','das','dos','que','sobre','pelo','pela','nosso','nossa','post','publicacao','publicacoes','foto','fotos','carta','cartas','lembranca','lembrancas','musica','musicas','playlist','minha','meu','tem','alguma','algo','site','ben','filho','favor','pode','voce','sabe','lembra','algum','todas','todos','pra','direto','clicar','clique','chat','aqui','entao','ouvir','escutar','colocar','ache','achar','procure','algumas','alguns','opcao','opcoes','pesquisando','um','do','da','de','em','no','na','as','os','eu','me','pra','por','favor']);
- const destinosBusca=new Set(['playlist','galeria','texto','dela','meu']);
- const metaCategorias={playlist:'🎵 Música',galeria:'📸 Foto / vídeo',texto:'💌 Carta',dela:'✨ Card da mamãe',meu:'✨ Card do papai'};
- function tipoDaCategoria(f){return f==='cards'?['dela','meu']:f==='todos'?[...destinosBusca]:[f]}
- function categoriaNoTexto(t){
-   if(/musica|cancao|playlist|ouvir|escutar|som/.test(t))return 'playlist';
-   if(/foto|imagem|galeria|momento|video|varal/.test(t))return 'galeria';
-   if(/carta|texto|declaracao/.test(t))return 'texto';
-   if(/card|cartao|apresentacao/.test(t))return 'cards';
-   return 'todos';
- }
- function removerPedidoDeBusca(t){
-   return norm(t).replace(/\b(qual|quais|onde|cad[eê]|esta|estao|fica|ficam|por|favor|pra|mim|encontre|encontrar|procure|procurar|busque|buscar|busca|pesquise|pesquisar|pesquisa|mostre|mostrar|abrir|abre|quero|queria|ver|um|uma|uns|umas|o|a|os|as|de|do|da|dos|das|me|eu|no|na|site|nosso|canto|titulo|chamada|chamado|chama|publicacao|post|lembranca|musica|foto|carta|card|todos|todas|minha|meu)\b/g,' ').replace(/\s+/g,' ').trim();
- }
- function tokensTermos(t){return [...new Set(removerPedidoDeBusca(t).split(/[^a-z0-9]+/).filter(x=>x.length>=2&&!palavrasVazias.has(x)))];}
- function sortData(p){const v=p.criadoEm||p.atualizadoEm||p.dataHora;if(v&&typeof v.toMillis==='function')return v.toMillis();const n=Number(v);if(Number.isFinite(n)&&n>0)return n;const date=Date.parse(v);return Number.isFinite(date)?date:0}
- function tituloDoPost(p){return String(p.titulo||p.subtitulo||p.nome||p.link||p.corpo||p.conteudo||'Sem título').slice(0,120)}
- function camposPost(p){return norm([p.titulo,p.subtitulo,p.corpo,p.conteudo,p.descricao,p.dedicatoria,p.artista,p.cantor,p.autor,p.link,p.tipo,p.dataCaptura].filter(Boolean).join(' '))}
- function semelhanca(a,b){
-   if(a===b||a.startsWith(b)||b.startsWith(a))return true;
-   if(a.length<5||b.length<5||Math.abs(a.length-b.length)>1)return false;
-   let i=0,j=0,erros=0;
-   while(i<a.length&&j<b.length){if(a[i]===b[j]){i++;j++;continue}if(++erros>1)return false;if(a.length>b.length)i++;else if(b.length>a.length)j++;else{i++;j++}}
-   return erros+Math.max(a.length-i,b.length-j)<=1;
- }
- // A lupa e o Ben leem o MESMO onSnapshot. Fallback consulta posts quando o índice ainda carrega.
- async function indiceAtual(){
-   const x=typeof window.benIndiceBuscaAtual==='function'?window.benIndiceBuscaAtual():[];
-   if(x.length)return x.filter(p=>destinosBusca.has(p.destino));
-   const d=await dados();if(!d?.autorizado)return null;
-   return (d.posts||[]).filter(p=>destinosBusca.has(p.destino));
- }
- function ordenarResultados(posts,consulta,categoria='todos',limite=0){
-   const q=norm(consulta),termos=tokensTermos(q),buscaLiteral=removerPedidoDeBusca(q);
-   const categorias=new Set(tipoDaCategoria(categoria));
-   const autorAlvo=/\b(maria|mamae|mae)\b/.test(q)?'Maria':/\b(fabricio|papai|pai)\b/.test(q)?'Fabricio':null;
-   // Termos usados somente como filtro de autor não precisam bater com o título.
-   const palavras=termos.filter(w=>!['maria','mamae','mae','fabricio','papai','pai'].includes(w));
-   let filtrados=posts.filter(p=>categorias.has(p.destino)&&(!autorAlvo||p.autor===autorAlvo));
-   const ranqueados=filtrados.map(p=>{
-     const titulo=norm(p.titulo||p.subtitulo||''),conteudo=camposPost(p),tokens=conteudo.split(/[^a-z0-9]+/).filter(Boolean);
-     let pontos=0;
-     // Mesma prioridade usada pela lupa oficial: título completo / início / trecho / corpo.
-     if(buscaLiteral&&!autorAlvo&&titulo===buscaLiteral)pontos+=1000;
-     else if(buscaLiteral&&!autorAlvo&&titulo.startsWith(buscaLiteral))pontos+=850;
-     else if(buscaLiteral&&titulo.includes(buscaLiteral))pontos+=700;
-     else if(buscaLiteral&&conteudo.includes(buscaLiteral))pontos+=450;
-     if(palavras.length){
-       let coincidencias=0;
-       for(const w of palavras){
-         if(titulo.split(/[^a-z0-9]+/).includes(w)){pontos+=95;coincidencias++}
-         else if(titulo.includes(w)){pontos+=70;coincidencias++}
-         else if(conteudo.includes(w)){pontos+=22;coincidencias++}
-         else if(tokens.some(x=>semelhanca(x,w))){pontos+=8;coincidencias++}
-       }
-       if(coincidencias===palavras.length)pontos+=155;
-       // Não afirmar um resultado quando só uma palavra irrelevante bateu.
-       if(coincidencias===0)pontos=0;
-       else if(palavras.length>2&&coincidencias<Math.ceil(palavras.length/2))pontos=0;
-     }else if(!buscaLiteral||!palavras.length){pontos=Math.max(pontos,autorAlvo?1:(!buscaLiteral?1:0));}
-     return {p,pontos};
-   }).filter(x=>x.pontos>0);
-   ranqueados.sort((a,b)=>b.pontos-a.pontos||sortData(b.p)-sortData(a.p));
-   return limite>0?ranqueados.slice(0,limite):ranqueados;
- }
- function mostrarPagina(resultados,pagina=0){
-   const porPagina=5,total=resultados.length,totalPaginas=Math.ceil(total/porPagina);
-   const caixa=document.createElement('div');caixa.className='ben-msg bot ben-resultados-lista';
-   const cab=document.createElement('strong');cab.textContent=`${total} ${total===1?'resultado':'resultados'} · Página ${pagina+1} de ${totalPaginas}`;caixa.append(cab);
-   resultados.slice(pagina*porPagina,(pagina+1)*porPagina).forEach(({p})=>{
-     const item=document.createElement('div');item.className='ben-resultado';
-     const descricao=document.createElement('div');descricao.className='ben-resultado-infos';descricao.textContent=`${tituloDoPost(p)}\n${metaCategorias[p.destino]||destinoLegivel(p)} · ${p.autor||'sem autor'} · ${dataLegivel(p)}`;
-     const btn=document.createElement('button');btn.type='button';btn.className='ben-chip';btn.textContent='Abrir ↗';btn.onclick=()=>abrirPublicacao(p);
-     item.append(descricao,btn);caixa.append(item);
-   });
-   const footer=document.createElement('div');footer.className='ben-lista-footer';
-   if(pagina>0){const b=document.createElement('button');b.textContent='← Anteriores';b.onclick=()=>{caixa.remove();mostrarPagina(resultados,pagina-1)};footer.append(b)}
-   if(pagina<totalPaginas-1){const b=document.createElement('button');b.textContent=`Mais ${total-(pagina+1)*porPagina} →`;b.onclick=()=>{caixa.remove();mostrarPagina(resultados,pagina+1)};footer.append(b)}
-   if(footer.childNodes.length)caixa.append(footer);
-   messages.append(caixa);messages.scrollTop=messages.scrollHeight;
- }
- async function pesquisarPosts(t,categoriaManual){
-   const posts=await indiceAtual();if(!posts){msg('Preciso do login autorizado para consultar as publicações. 🧸','bot');return}
-   const categoria=categoriaManual||categoriaNoTexto(norm(t));
-   const termos=tokensTermos(t);
-   const buscaSemCategoria=norm(t).replace(/\b(musicas?|cancoes?|cancao|playlist|fotos?|imagens?|galeria|momentos?|videos?|cartas?|textos?|declaracoes?|cards?|cartoes?|apresentacoes?)\b/g,' ').trim();
-   const consulta=termos.length?buscaSemCategoria:'';
-   const encontrados=ordenarResultados(posts,consulta,categoria);
-   if(!encontrados.length){
-     msg('Não encontrei publicações com esses termos. Tente outro título ou palavra aqui na conversa. 🔎','bot');
-     input.focus();return;
-   }
-   msg(`${encontrados.length} ${encontrados.length===1?'publicação encontrada':'publicações encontradas'}. Os botões abrem o conteúdo diretamente. 🔎`,'bot');
-   mostrarPagina(encontrados);
- }
- async function consultarUltimo(t,login){
-   const d=await dados();if(!d||!d.autorizado){msg('Não consegui consultar o histórico agora, '+nomePessoa()+'. ❤️','bot');return}
-   const pedeMae=/mamae|mae|maria/.test(t),pedePai=/papai|pai|fabricio/.test(t);const alvo=pedeMae&&pedePai?null:pedeMae?'Maria':pedePai?'Fabricio':null;
-   const lista=(d.posts||[]).filter(p=>login?p.destino==='historico':p.destino&&p.destino!=='historico'&&p.destino!=='comentario'&&p.tipo!=='whatsapp_estatisticas');
-   const porPessoa=pessoa=>lista.filter(p=>p.autor===pessoa).sort((a,b)=>sortData(b)-sortData(a))[0];
-   const label=login?'acesso':'publicação';
-   const mostrar=p=>login?`${p.autor}: ${dataLegivel(p)}`:`${p.autor}: “${p.titulo||p.subtitulo||'Sem título'}” (${dataLegivel(p)})`;
-   if(alvo){const p=porPessoa(alvo);if(!p){msg(`Não achei ${label} registrado para ${alvo==='Maria'?'a mamãe':'o papai'}, ${nomePessoa()}. ❤️`,'bot');return}msg(`Achei o último ${label}, ${nomePessoa()}! 🧸\n${mostrar(p)}`,'bot');if(!login)resultadoPost(p);return}
-   const registros=['Fabricio','Maria'].map(pessoa=>porPessoa(pessoa)).filter(Boolean);
-   if(!registros.length){msg('Não encontrei registros desse tipo no site, '+nomePessoa()+'. 🥺','bot');return}
-   msg('Olha os últimos registros que encontrei, '+nomePessoa()+'! ❤️\n'+registros.map(mostrar).join('\n'),'bot');
-   if(!login)registros.forEach(resultadoPost);
- }
- // Catálogo extraído da estrutura HTML desta versão. Nenhuma chave, script ou segredo é enviado à IA.
- const areasSite=[
-   {id:'bloco-dias-amando',rotulo:'❤️ Nosso tempo',pistas:['contador','tempo juntos','dias de namoro','dias se amando','nosso tempo','namoro'],resumo:'Os contadores de namoro e amor aparecem na área Nosso Tempo.'},
-   {id:'bloco-whatsapp-stats',rotulo:'💬 Nossas mensagens',pistas:['whatsapp','nossas mensagens','estatistica de mensagens','mensagens'],resumo:'A área Nossas Mensagens mostra os dados já cadastrados no site.'},
-   {id:'bloco-historico-acessos',rotulo:'📜 Histórico de acessos',pistas:['historico','historico de acesso','entradas','logins','acessos'],resumo:'O Histórico de Acessos mostra registros de entrada dos usuários.'},
-   {id:'bloco-playlist',rotulo:'🎶 Playlist',pistas:['playlist','musicas','musica','dedicatoria musical'],resumo:'A playlist reúne as músicas publicadas. Abra uma música para ver as opções de reprodução.'},
-   {id:'bloco-coisinhas-dela',rotulo:'✨ Cards da mamãe',pistas:['cards dela','cards da maria','coisinhas dela','apresentacoes dela'],resumo:'Esta seção reúne os cards publicados na área da mamãe.'},
-   {id:'bloco-coisas-minhas',rotulo:'✨ Cards do papai',pistas:['cards dele','cards do fabricio','coisas minhas','apresentacoes dele'],resumo:'Esta seção reúne os cards publicados na área do papai.'},
-   {id:'bloco-galeria-momentos',rotulo:'📸 Galeria de fotos',pistas:['galeria','varal','fotos','videos','momentos','fotografias'],resumo:'O Varal de Fotos & Vídeos reúne os registros compartilhados.'},
-   {id:'bloco-nossos-textos',rotulo:'💌 Cartas e declarações',pistas:['cartas','carta','textos','declaracao','declaracoes','bilhetes'],resumo:'Aqui ficam as cartas e declarações do casal.'}
- ];
- // O guia enxerga a estrutura já carregada: áreas, rótulos, botões e links públicos.
- function areasExistentes(){return areasSite.filter(a=>document.getElementById(a.id))}
- function descreverEstruturaSite(){
-   const secoes=areasExistentes();
-   const paginas=[...document.querySelectorAll('a[href]')].filter(a=>!a.closest('#ben-root,#ben-quarto,#ben-config-modal'))
-     .filter(a=>{try{const url=new URL(a.href,location.href);return url.origin===location.origin&&url.pathname.endsWith('.html')}catch(_){return false}})
-     .map(a=>({nome:a.textContent.trim().slice(0,60),href:a.getAttribute('href')})).filter(a=>a.nome&&a.href).slice(0,16);
-   const ferramentas=[...document.querySelectorAll('button')].filter(b=>!b.closest('#ben-panel,#ben-config-modal,#ben-quarto'))
-     .filter(b=>b.id&&!/sair|logout|excluir|apagar|senha|pin/i.test(b.id))
-     .map(b=>({id:b.id,rotulo:(b.getAttribute('aria-label')||b.textContent||'').trim().slice(0,70)}))
-     .filter(b=>b.rotulo).slice(0,25);
-   return {secoes:secoes.map(a=>({nome:a.rotulo,id:a.id,funcao:a.resumo})),paginas,ferramentas};
- }
- window.benConhecerSite=descreverEstruturaSite;
- function irArea(area){
-   const el=document.getElementById(area.id);
-   if(!el){msg('Essa área não está disponível nesta página.','bot');return}
-   fechar();el.scrollIntoView({behavior:matchMedia('(prefers-reduced-motion: reduce)').matches?'auto':'smooth',block:'center'});
-   el.classList.add('destino-destaque');setTimeout(()=>el.classList.remove('destino-destaque'),2100);
- }
- function menuAreas(){
-   opcoes('Áreas do Nosso Canto — toque para ir direto:',areasExistentes().map(a=>[a.rotulo,()=>irArea(a)]));
-   const links=descreverEstruturaSite().paginas;
-   const unicos=[];
-   for(const item of links){
-     try{const url=new URL(item.href,location.href);if(unicos.some(x=>x.url===url.href))continue;
-       const nome=url.pathname.endsWith('status.html')?'💬 Status das mensagens':url.pathname.endsWith('playlist.html')?'🎵 Playlist completa':url.pathname.endsWith('cardsdela.html')?'✨ Todos os cards dela':url.pathname.endsWith('cardsmeu.html')?'✨ Todos os cards dele':item.nome;
-       unicos.push({nome,url:url.href});
-     }catch(_){}
-   }
-   if(unicos.length)opcoes('Outras páginas do site',unicos.map(a=>[a.nome,()=>{fechar();location.href=a.url}]));
- }
- function explicarSite(){
-   msg('Conheço as áreas e botões desta página, as publicações do Firebase permitidas pelo login, os contadores e as memórias cadastradas. Não acesso senhas, arquivos privados nem o código do servidor. 🧸','bot');
-   menuAreas();
- }
- function orientacaoDeUso(t){
-   if(/(como|onde|ajud|ensina|passo a passo|fazer|criar|adicionar).*(publica|postar|publicar|carta|foto|musica|card)/.test(t)){
-     msg('Para publicar: abra o menu “➕ Postar / Adicionar”, escolha Música, Cards, Galeria ou Cartas, preencha o formulário e salve. 📝','bot');
-     opcoes('Ações de publicação',[['➕ Abrir formulário',escolherPublicacao],['🧭 Ver áreas',menuAreas]]);return true;
-   }
-   if(/(mudar|trocar|ativar|alterar|usar).*(tema|escuro|claro|noite|dark)/.test(t)||/(como).*(modo escuro|tema)/.test(t)){
-     msg('O botão ☀️/🌙 na parte superior do site alterna o tema claro e escuro.','bot');
-     opcoes('Tema',[['🌗 Alternar agora',()=>{const b=document.getElementById('btn-theme-toggle');if(b){fechar();b.click()}}]]);return true;
-   }
-   if(/(como|onde|fazer|enviar).*(comentari|comentar)/.test(t)){
-     msg('Para comentar, abra a publicação ou a seção que tem comentários, escreva no campo de texto e toque em enviar. Os comentários disponíveis dependem da área do site.','bot');
-     menuAreas();return true;
-   }
-   if(/(o que existe|quais sao as areas|mapa do site|conhece o site|estrutura do site|codigo do site|codigos do site|funcionalidades|paginas do site|o que tem no site)/.test(t)){
-     explicarSite();return true;
-   }
-   return false;
- }
- function tentarIrArea(t){
-   const pedido=/(onde fica|onde est[aã]o|onde encontro|ir para|ir pra|me leve|leve me|navegar para|acessar a area|abrir a area|abrir a secao|mostrar a area|mostrar a secao|ir ate|me levar|ver a secao|ver a area|onde e a area|fica a area|abrir o historico|abrir o contador|abrir o menu)/.test(t);
-   if(!pedido)return false;
-   // Se há um nome específico de uma carta, foto, música ou card, trate como busca de conteúdo.
-   if(/\b(carta|foto|musica|card)\b/.test(t)&&tokensTermos(t).some(x=>!['fotos','cartas','musicas','cards','categoria','area','secao','maria','mamae','mae','fabricio','papai','pai'].includes(x)))return false;
-   const combinacoes=areasExistentes().map(a=>({a,score:a.pistas.reduce((score,p)=>score+(t.includes(p)?p.length:0),0)})).filter(x=>x.score>0).sort((a,b)=>b.score-a.score);
-   if(!combinacoes.length)return false;
-   const area=combinacoes[0].a;
-   msg(`${area.resumo} 🐾 Abrindo ${area.rotulo.replace(/^[^ ]+ /,'')}.`,'bot');
-   irArea(area);return true;
- }
- function mostrarAjuda(){
-   msg('Posso localizar publicações pelo título e palavras do conteúdo, abrir áreas, orientar postagens e consultar os registros autorizados de vocês. 🧭','bot');
-   opcoes('Atalhos do Ben',[
-     ['🔎 Pesquisar',()=>document.getElementById('ben-busca-termo').focus()],
-     ['🗺️ Áreas do site',menuAreas],
-     ['🕒 Últimos acessos',()=>consultarUltimo('último acesso',true)],
-     ['📝 Últimas publicações',()=>consultarUltimo('última publicação',false)],
-     ['➕ Publicar',escolherPublicacao]
-   ]);
- }
- function mostrarResumoConteudos(){
-   msg('O Ben pesquisa as publicações de músicas, fotos, cartas e cards salvas no Firebase. Use a busca acima ou os filtros para achar um título específico. 🔎','bot');
-   opcoes('Listar conteúdos',[
-     ['🎵 Músicas',()=>pesquisarPosts('todas as músicas')],
-     ['📸 Fotos',()=>pesquisarPosts('todas as fotos')],
-     ['💌 Cartas',()=>pesquisarPosts('todas as cartas')],
-     ['✨ Cards',()=>pesquisarPosts('todos os cards')]
-   ]);
- }
- async function consultarComentarios(t){
-   if(typeof window.benConsultarComentarios!=='function'){msg('A leitura de comentários ainda não está pronta.','bot');return}
-   try{
-     const d=await window.benConsultarComentarios();if(!d.autorizado){msg('Entre na sua conta para consultar comentários.','bot');return}
-     let lista=d.comentarios||[];
-     const autor=/(maria|mamae|mae)/.test(t)?'Maria':/(fabricio|papai|pai)/.test(t)?'Fabricio':null;
-     if(autor)lista=lista.filter(x=>x.autor===autor);
-     lista=[...lista].sort((a,b)=>sortData(b)-sortData(a));
-     const tipo=/quantos|quantas|total|numero|quantidade/.test(t);
-     if(tipo){msg(`Encontrei ${lista.length} ${lista.length===1?'comentário':'comentários'}${autor?' de '+(autor==='Maria'?'mamãe':'papai'):''} no site. 💬`,'bot');return}
-     if(!lista.length){msg('Não encontrei comentários registrados para esse filtro.','bot');return}
-     const itens=lista.slice(0,5).map(c=>`${c.autor||'Alguém'}: ${String(c.texto||'').slice(0,150)} (${c.dataHora||dataLegivel(c)})`);
-     msg('Comentários recentes encontrados no site:\n'+itens.join('\n'),'bot');
-     opcoes('Ir para as publicações', [['🧭 Áreas do site',menuAreas]]);
-   }catch(e){console.warn('Ben comentários:',e);msg('Não consegui consultar os comentários neste momento.','bot')}
- }
- async function estatisticaConteudos(t){
-   const posts=await indiceAtual();if(!posts){msg('Entre no site para consultar as publicações.','bot');return}
-   const tipo=categoriaNoTexto(t),filtrados=posts.filter(p=>tipoDaCategoria(tipo).includes(p.destino));
-   const autor=/maria|mamae|mae/.test(t)?'Maria':/fabricio|papai|pai/.test(t)?'Fabricio':null;
-   const lista=autor?filtrados.filter(p=>p.autor===autor):filtrados;
-   const rotulo=tipo==='todos'?'publicações':tipo==='playlist'?'músicas':tipo==='galeria'?'fotos e vídeos':tipo==='texto'?'cartas':'cards';
-   msg(`Encontrei ${lista.length} ${lista.length===1?'publicação de '+rotulo:rotulo}${autor?' de '+(autor==='Maria'?'mamãe Maria':'papai Fabricio'):''} no nosso banco de publicações. 🧸`,'bot');
-   if(lista.length){const recentes=[...lista].sort((a,b)=>sortData(b)-sortData(a)).slice(0,4).map(p=>({p,pontos:1}));mostrarPagina(recentes)}
- }
-
- async function responder(raw){
-   const t=norm(raw),u=quem();
-   // Respostas locais para hora e data, sem busca no site nem Groq.
-   const perguntaHora=/\b(que horas|qual (?:e |eh )?a hora|me diga a hora|horario agora|horas agora|hora atual|horas sao|que horario|sabe as horas|me fala as horas)\b/.test(t);
-   const perguntaData=/\b(que dia e hoje|qual (?:e |eh )?a data|data de hoje|dia de hoje|que dia estamos|qual o dia de hoje)\b/.test(t);
-   if(perguntaHora||perguntaData){
-     const agora=new Date(),hora=agora.toLocaleTimeString('pt-BR',{hour:'2-digit',minute:'2-digit'}),data=agora.toLocaleDateString('pt-BR',{weekday:'long',day:'numeric',month:'long',year:'numeric'});
-     msg(perguntaHora&&perguntaData?`Agora são ${hora}. Hoje é ${data}. 🕒`:perguntaHora?`Agora são ${hora}, pelo horário deste aparelho. 🕒`:`Hoje é ${data}, pelo calendário deste aparelho. 📅`,'bot');return;
-   }
-   // A identidade vem do login Firebase do site, nunca de um palpite da IA.
-   const perguntaIdentidade=/\\b(quem (?:sou(?: eu)?|esta falando|ta falando)|(?:voce |vc )?(?:sabe|lembra|reconhece) quem (?:eu )?sou|qual (?:e |eh )?(?:meu nome|minha identidade)|eu sou (?:seu|sua|o seu|a sua) (?:pai|papai|mae|mamae)|sou (?:seu|sua|o seu|a sua) (?:pai|papai|mae|mamae))\\b/.test(t);
-   if(perguntaIdentidade){
-     msg(u==='Fabricio'?'Você é o meu papai Fabricio! 🧸❤️':u==='Maria'?'Você é a minha mamãe Maria! 🧸❤️':'Ainda não consegui identificar a conta conectada. Entre no site para eu saber se é o papai ou a mamãe.','bot');
-     return;
-   }
-   const local=respostaLocal(t);if(local){msg(local,'bot');if(/(o que voce faz|o que consegue fazer|como pode ajudar|me ajuda no site|suas funcoes)/.test(t))menuAreas();return}
-   const tempo=respostaContador(t);if(tempo){msg(tempo,'bot');return}
-   if(!memoriasCarregadas){try{await carregarMemorias()}catch(e){console.warn('Ben memórias:',e)}}
-   const perguntaPessoal=/\b(lembr|sabe|qual|quem|gosta|favorit|prefer|sobre mim|sobre voce|sobre o ben|sobre a mamae|sobre o papai|conhece|recorda)\b/.test(t);
-   const memoriaAchada=acharMemoria(t);
-   if(perguntaPessoal&&memoriaAchada&&memoriaAchada.score>=3){const interpretada=interpretarMemoria(memoriaAchada.m,t);if(interpretada){msg(interpretada,'bot');return}}
-   if(/(onde fica|onde encontro|abrir|abra|ir para|me leve|ver)\s+(?:o\s+|a\s+)?historico/.test(t)){tentarIrArea(t);return}
-   if(/(login|acesso|acessou|acessaram|entrou|entraram|ultima entrada|ultimo registro|quem entrou)/.test(t)&&/(ultimo|ultima|recent|quando|vez|historico|registro|pai|mae|mamae|papai|maria|fabricio|quem)/.test(t)){await consultarUltimo(t,true);return}
-   if(/(ultima|ultimo|recent).*(publicacao|post|publicou|postagem)|(publicacao|post).*(recente|ultimo|ultima)/.test(t)){await consultarUltimo(t,false);return}
-   // Pedidos de acao so sao tratados como acao quando a intencao e clara.
-   const pedidoPublicar=/(^|\s)(quero|vamos|preciso|gostaria|desejo|pode|me ajuda|ajuda|abrir|criar|fazer|adicionar|nova|novo)(\s|$)/.test(t)&&/(publica|postar|postagem|adicionar lembranca|nova lembranca|novo post)/.test(t);
-   if(pedidoPublicar||/^(publicar|nova publicacao|novo post|adicionar lembranca)$/.test(t)){
-     const tipo=/galeria|foto|momento/.test(t)?'galeria':/carta|declaracao/.test(t)?'cartas':/musica|playlist/.test(t)?'playlist':/card|apresentacao/.test(t)?'apresentacoes':null;
-     if(tipo)publicar(tipo);else escolherPublicacao();return;
-   }
-   if(/^(publicar|postar|criar)\s+(uma?\s+)?(musica|carta|foto|galeria|card|apresentacao)/.test(t)){
-     const tipo=/musica/.test(t)?'playlist':/carta/.test(t)?'cartas':/foto|galeria/.test(t)?'galeria':'apresentacoes';publicar(tipo);return;
-   }
-   // Ações do site: primeiro o índice real, o catálogo e as ferramentas locais.
-   if(/^(mostrar areas do site|me mostre as opcoes|explorar|me guia|mostrar menu|navegar|mapa|o que posso fazer)$/.test(t)){menuAreas();return}
-   if(orientacaoDeUso(t))return;
-   if(/(o que voce faz|o que consegue fazer|como pode ajudar|como usar|suas funcoes|ajuda|me ajude)/.test(t)){mostrarAjuda();return}
-   if(/^(sim|nao|s|n|outra|continua|continue|mais uma|ok|isso|aham|uhum)[.!? ]*$/.test(t)){
-     msg('Sou um guia de navegação. Use a busca ou os atalhos para encontrar o que precisa no site. 🧭','bot');return;
-   }
-   if(/(comentario|comentarios|comentou|comentaram)/.test(t)&&/(ultim|recent|quant|total|list|mostr|busc|procur|quem|fez|registrad)/.test(t)){await consultarComentarios(t);return}
-   if(/(status das mensagens|status do whatsapp|pagina de status|estatistica completa do whatsapp)/.test(t)){
-     const a=[...document.querySelectorAll('a[href]')].find(a=>a.getAttribute('href')==='status.html');
-     if(a){msg('A página de status das mensagens está disponível no site. 💬','bot');opcoes('Abrir página', [['💬 Ver status das mensagens',()=>{fechar();a.click()}]]);return}
-   }
-   if(/(quantas|quantos|numero|total|quantidade).*(publica|posts|musicas|fotos|cartas|cards|videos)|^(quantas|quantos) (tem|existem)/.test(t)){
-     await estatisticaConteudos(t);return;
-   }
-   if(tentarIrArea(t))return;
-   if(/^(pesquisar|buscar|procurar|achar|localizar|lupa)$/.test(t)){
-     input.focus();msg('Digite aqui na conversa o título ou uma palavra do conteúdo que procura. 🔎','bot');return;
-   }
-   // Uma pergunta geral não deve ser confundida com pesquisa de publicações.
-   const perguntaGeral=/^(que|qual|quais|quem|quando|como|por que|porque|quanto|quantos|quantas|onde|sera que|voce sabe|sabe me dizer|me explique|me diga|me fala)\b/.test(t)||/[?]\s*$/.test(raw);
-   const buscaExplicita=/\b(buscar|busque|pesquisar|pesquise|procurar|procure|encontrar|encontre|achar|ache|localizar|localize|mostrar|mostre|listar|liste|abrir|abra|ver|quero ver|onde fica|onde encontro)\b/.test(t);
-   const referenciaAcervo=/\b(no site|aqui no site|nas publicacoes|nas lembrancas|na galeria|na playlist|nas cartas|nas fotos|nos posts)\b/.test(t);
-   const categoria=/\b(musica|musicas|playlist|cancao|cancoes|foto|fotos|imagem|imagens|galeria|momento|momentos|video|videos|carta|cartas|texto|textos|declaracao|declaracoes|publicacao|publicacoes|post|posts|lembranca|lembrancas|card|cards|cartao|cartoes)\b/.test(t);
-   const acao=/(procur|pesquis|busc|encontr|localiz|ach|mostr|list|exib|abr|ouv|escut|toc|coloc|cad[eê]|onde est|tem alguma|tem algum|ver|quero|queria|gostaria|preciso|ir ate)/.test(t);
-   const site=/\b(site|nosso canto|publicacao|publicacoes|post|posts|lembranca|lembrancas|titulo|nome da|chamada)\b/.test(t);
-   const apenasCategoria=/^(todas? as? |todos? os? )?(musicas?|cartas?|fotos?|galeria|playlist|cards?|publicacoes?|lembrancas?|textos?|videos?)$/.test(t);
-   if((!perguntaGeral||buscaExplicita||referenciaAcervo)&&((categoria&&acao)||(acao&&site)||apenasCategoria)){await pesquisarPosts(t);return}
-   if(/^(mostrar tudo|todas as publicacoes|ver conteudos)$/.test(t)){mostrarResumoConteudos();return}
-   // Uma palavra ou título direto também pode ser procurado na coleção, mesmo sem categoria.
-   if(/^(encontre|procure|busque|pesquise|buscar|pesquisar|ache)\s+/.test(t)){await pesquisarPosts(t);return}
-   if(!perguntaGeral&&t.length>=4&&t.length<=85&&!/[?]/.test(raw)&&!/(^oi|^ola|^como|^porque|^por que|^obrig|^amei|^eu|^nao|^sim|^te amo)/.test(t)){
-     const candidatos=await indiceAtual();
-     if(candidatos){const encontrados=ordenarResultados(candidatos,t,'todos');
-       if(encontrados.length){msg(`${encontrados.length} ${encontrados.length===1?'resultado':'resultados'} para “${raw.slice(0,55)}”. 🔎`,'bot');mostrarPagina(encontrados);return;}}
-   }
-   if(!iaAtiva){
-     if(perguntaGeral&&!buscaExplicita&&!referenciaAcervo){msg('Essa é uma pergunta geral. Sem IA, consigo responder informações do site e perguntas diretas, como hora e data. 🧸','bot');return}
-     const memoria=memoriaAchada&&memoriaAchada.score>=2?interpretarMemoria(memoriaAchada.m,t):null;
-     if(memoria){msg(memoria,'bot');return}
-     msg('Não encontrei uma resposta segura nos dados do site. Posso ajudar a navegar, consultar publicações ou abrir uma ferramenta daqui. 🧭','bot');
-     mostrarAjuda();return;
-   }
-   // A Groq é auxiliar apenas para dúvidas gerais; ela recebe somente o pedido atual.
-   // Não transmitimos histórico, memórias, conteúdo de publicações nem o código do site.
-   try{
-     if(typeof window.benObterTokenFirebase!=='function')throw new Error('Login ainda não está pronto');
-     const token=await window.benObterTokenFirebase();
-     if(!token){msg('Entre na sua conta para usar a IA opcional.','bot');return}
-     if(Date.now()<iaIndisponivelAte){msg('IA temporariamente indisponível. As buscas e os atalhos continuam funcionando sem ela. 🧭','bot');return}
-     const identidadeConfirmada=u==='Fabricio'?'A pessoa conversando com você AGORA é Fabricio, SEU PAPAI. Trate-o como seu pai, nunca como um terceiro usuário.':u==='Maria'?'A pessoa conversando com você AGORA é Maria, SUA MAMÃE. Trate-a como sua mãe, nunca como uma terceira usuária.':'A identidade de quem fala ainda não foi confirmada. Não presuma que seja Fabricio ou Maria.';
-     const instrucao='Você é Ben, filho virtual do papai Fabricio e da mamãe Maria no site privado Nosso Canto. '+identidadeConfirmada+' Você é o filho deles; Fabricio é seu pai e Maria é sua mãe. Não diga que eles são pais de outra pessoa, nem chame quem está logado de usuário desconhecido. Seu foco é orientar o uso do site. Responda em português de forma curta (máximo 2 frases), objetiva e carinhosa. NUNCA faça perguntas, não ofereça continuar a conversa, não convide para bate-papo, não invente dados do site, não prometa acesso a código, senhas ou registros. Se a pergunta depender de dados do site não fornecidos, oriente o usuário a usar a busca ou os atalhos. Responda somente ao pedido atual.';
-     const resposta=await fetch('https://ben-ia.fabriciotututu321.workers.dev',{
-       method:'POST',headers:{'Content-Type':'application/json','Authorization':'Bearer '+token},
-       body:JSON.stringify({mensagem:instrucao+'\nPedido atual: '+String(raw).slice(0,360)}),signal:AbortSignal.timeout(25000)
-     });
-     const corpo=await resposta.json().catch(()=>({}));
-     if(!resposta.ok){const e=new Error(String(corpo.erro||corpo.error||corpo.message||'IA indisponível').slice(0,160));e.status=resposta.status;throw e}
-     const retorno=String(corpo.resposta||'').trim();
-     if(!retorno)throw new Error('O servidor retornou uma resposta vazia');
-     iaIndisponivelAte=0;
-     msg(retorno.replace(/^\s*(?:oi+|ol[aá]+|oie+|opa)[,! ]+(?:papai|pai|mam[aã]e|m[aã]e)[!,. 🧸❤️🤎]*(?=\s|$)/i,'').trim()||retorno,'bot');
-   }catch(erro){
-     console.warn('Ben IA (verifique o Worker Cloudflare):',erro);
-     // Não bloquear novas tentativas por 2 minutos em falhas de validação.
-     if([429,503].includes(erro.status))iaIndisponivelAte=Date.now()+30000;
-     const detalhe=erro.status===429?'Limite de requisições atingido.':
-       erro.status===401||erro.status===403?'A autenticação do Worker precisa ser verificada.':
-       erro.status===404?'O modelo da Groq ou a rota do Worker não foi encontrado.':
-       erro.status>=500?'O Worker ou a Groq apresentou um erro temporário.':
-       erro.name==='TimeoutError'?'A conexão com a IA demorou demais.':
-       erro.message==='Failed to fetch'?'Não consegui conectar ao Worker.':'Não consegui consultar a IA agora.';
-     if(memoriaAchada&&memoriaAchada.score>=2){
-       msg(interpretarMemoria(memoriaAchada.m,t)||'Encontrei uma memória relacionada, mas não consigo interpretar esse texto sem a IA.','bot');
-     }else{
-       msg(detalhe+' 🧸 Continuo podendo procurar lembranças, músicas e publicações.','bot');
-     }
-   }
-
- }
- function enfileirarResposta(v){conversaEmAndamento=conversaEmAndamento.catch(()=>{}).then(()=>responder(v)).catch(e=>{console.warn('Ben conversa:',e);msg('Não consegui concluir essa ação. Use os atalhos ou tente uma busca mais específica. 🧸','bot')})}
- form.addEventListener('submit',e=>{e.preventDefault();const v=input.value.trim();if(!v)return;msg(v,'user');input.value='';enfileirarResposta(v)});
- function acionarAtalho(e){const b=e.target.closest('[data-ben]');if(!b)return;const v=b.dataset.ben;msg(v,'user');enfileirarResposta(v)}
- document.getElementById('ben-atalhos').addEventListener('click',acionarAtalho);
- document.getElementById('ben-acesso-rapido').addEventListener('click',acionarAtalho);
-
- // Gestos variados, com intervalos irregulares e sem bloquear o site.
- const gestos=['ben-piscando','ben-piscando','ben-olhando','ben-sorrindo','ben-surpreso','ben-pulando','ben-balancando','ben-espreguicando','ben-micro','ben-cochilando','ben-olhar-esquerda','ben-olhar-direita','ben-risadinha','ben-timido','ben-danca','ben-curioso'];
- let gestoTimer=null,gestoTimeout=null,ultimoGesto='';
- function mostrarGesto(preferido){
-   if(root.classList.contains('ben-dormindo')||arrastando||document.hidden||root.style.display==='none')return;
-   let gesto=preferido||gestos[Math.floor(Math.random()*gestos.length)];
-   if(!preferido&&gesto===ultimoGesto)gesto=gestos[(gestos.indexOf(gesto)+3+Math.floor(Math.random()*5))%gestos.length];
-   ultimoGesto=gesto;
-   if(gestoTimeout)clearTimeout(gestoTimeout);
-   pet.classList.remove(...gestos);void pet.offsetWidth;pet.classList.add(gesto);
-   const dur=gesto==='ben-cochilando'?4800:gesto==='ben-danca'?1700:gesto==='ben-micro'?1750:gesto==='ben-espreguicando'?1250:gesto==='ben-risadinha'?1400:950;
-   gestoTimeout=setTimeout(()=>{pet.classList.remove(gesto);gestoTimeout=null},dur);
- }
- function reagirAResposta(texto){
-   if(/amo|carinho|coracao|❤️|🥹/.test(norm(texto)))mostrarGesto('ben-risadinha');
-   else if(/encontrei|achei|musica|publicacao/.test(norm(texto)))mostrarGesto('ben-danca');
-   else if(Math.random()<.27)mostrarGesto('ben-sorrindo');
- }
- function fazerGesto(){
-   mostrarGesto();
-   gestoTimer=setTimeout(fazerGesto,2900+Math.random()*7200);
- }
- gestoTimer=setTimeout(fazerGesto,2300);
- // Um toque no Ben enquanto o chat já está aberto é um carinho, não uma segunda abertura.
- function carinho(){
-   mostrarGesto(Math.random()<.5?'ben-risadinha':'ben-pulando');
-   const spark=pet.querySelector('.ben-spark');if(spark){spark.textContent='♥';pet.classList.add('ben-coracao-ativo');setTimeout(()=>{spark.textContent='✦';pet.classList.remove('ben-coracao-ativo')},1050)}
- }
- // Passeios independentes: pausa durante conversa/arrasto e retoma logo depois de fechar.
- function passeio(){
-   passeioTimer=null;
-   if(root.classList.contains('ben-dormindo')||window.benBolaPerseguindo||panel.classList.contains('aberto')||arrastando||document.hidden||root.style.display==='none'){
-     agendarPasseio(2500);return;
-   }
-   const w=pet.offsetWidth||76,h=pet.offsetHeight||88;
-   const maxLeft=Math.max(6,window.innerWidth-w-6),maxTop=Math.max(6,window.innerHeight-h-6);
-   const cur=root.getBoundingClientRect();
-   let nx=Math.floor(6+Math.random()*Math.max(1,maxLeft-6));
-   let ny=Math.floor(6+Math.random()*Math.max(1,maxTop-6));
-   // Avoid tiny hops; Ben should visibly wander around the screen.
-   if(Math.abs(nx-cur.left)<100 && Math.abs(ny-cur.top)<70){nx=Math.floor(6+Math.random()*Math.max(1,maxLeft-6));ny=Math.floor(6+Math.random()*Math.max(1,maxTop-6));}
-   root.style.left=Math.max(0,Math.min(maxLeft,nx))+'px';
-   root.style.top=Math.max(0,Math.min(maxTop,ny))+'px';
-   root.style.bottom='auto';root.style.right='auto';
-   root.style.transition=`left ${2+Math.random()*3.5}s ease-in-out, top ${2+Math.random()*3.5}s ease-in-out`;
-   ultimoMovimento=Date.now();
-   agendarPasseio(2400+Math.random()*6700);
- }
-  const login=document.getElementById('tela-login'), site=document.getElementById('conteudo-site');
- function sync(){root.style.display=(site&&getComputedStyle(site).display!=='none'&&(!login||getComputedStyle(login).display==='none'))?'block':'none'}
- window.addEventListener('resize',()=>{const r=root.getBoundingClientRect();root.style.left=Math.max(0,Math.min(innerWidth-(pet.offsetWidth||76),r.left))+'px';root.style.top=Math.max(0,Math.min(innerHeight-(pet.offsetHeight||88),r.top))+'px';root.style.bottom='auto';});
- new MutationObserver(sync).observe(document.body,{attributes:true,subtree:true,attributeFilter:['style','class']});sync();
- hint.hidden=true;agendarPasseio(5000);
+'use strict';
+const root=document.getElementById('ben-root'),pet=document.getElementById('ben-pet');
+if(!root||!pet)return;
+let dragging=false,moved=false,startX=0,startY=0,offX=0,offY=0,lastTouch=0;
+const fit=(x,y)=>{root.style.left=Math.max(4,Math.min(innerWidth-pet.offsetWidth-4,x))+'px';root.style.top=Math.max(55,Math.min(innerHeight-pet.offsetHeight-4,y))+'px';root.style.bottom='auto'};
+pet.addEventListener('pointerdown',e=>{if(e.button!==0)return;dragging=true;moved=false;startX=e.clientX;startY=e.clientY;const r=root.getBoundingClientRect();offX=e.clientX-r.left;offY=e.clientY-r.top;pet.setPointerCapture(e.pointerId)});
+pet.addEventListener('pointermove',e=>{if(!dragging)return;if(Math.hypot(e.clientX-startX,e.clientY-startY)>8)moved=true;if(moved){root.style.transition='none';fit(e.clientX-offX,e.clientY-offY)}});
+pet.addEventListener('pointerup',()=>{dragging=false;if(!moved){lastTouch=Date.now();window.benAbrirCuidados?.()}else{lastTouch=Date.now();root.style.transition='left .6s ease,top .6s ease'}});
+pet.addEventListener('pointercancel',()=>dragging=false);
+pet.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();window.benAbrirCuidados?.()}});
+window.addEventListener('resize',()=>{const r=root.getBoundingClientRect();fit(r.left,r.top)});
+setInterval(()=>{const site=document.getElementById('conteudo-site'),login=document.getElementById('tela-login');root.style.display=site&&getComputedStyle(site).display!=='none'&&(!login||getComputedStyle(login).display==='none')?'block':'none';if(dragging||document.hidden||window.benBolaPerseguindo||Date.now()-lastTouch<18000||root.classList.contains('ben-dormindo'))return;const r=root.getBoundingClientRect();root.style.transition='left 2.2s ease-in-out,top 2.2s ease-in-out';fit(r.left+(Math.random()-.5)*135,r.top+(Math.random()-.5)*85)},9000);
 })();
 </script>
 
@@ -4026,35 +3313,35 @@ let usuarioLogado = null;
 'use strict';
 const $=id=>document.getElementById(id), quarto=$('ben-quarto'),root=$('ben-root'),pet=$('ben-pet'),bola=$('ben-bola');
 if(!quarto||!root||!pet)return;
-const DAY=86400000,HOUR=3600000,DEFAULT={fome:100,sede:100,higiene:100,felicidade:100,energia:100,acordado:true,bolaAtiva:false,atFome:Date.now(),atSede:Date.now(),atHigiene:Date.now(),atFelicidade:Date.now(),atEnergia:Date.now(),sonoInicio:0,sonoEnergiaInicio:100};
+const DAY=86400000,HOUR=3600000,DEFAULT={fome:100,sede:100,higiene:100,felicidade:100,energia:100,acordado:true,bolaAtiva:false,autoCuidado:false,atFome:Date.now(),atSede:Date.now(),atHigiene:Date.now(),atFelicidade:Date.now(),atEnergia:Date.now(),sonoInicio:0,sonoEnergiaInicio:100};
 let estado={...DEFAULT},pronto=false,salvando=false,aba='comer',desinscrever=null,roomOpen=false,statusTimer=0;
 const clamp=n=>Math.max(0,Math.min(100,Number(n)||0));
 const normTime=n=>Number(n)||Date.now();
 function valor(base,key,at,now,dur){return clamp((Number.isFinite(Number(base[key]))?Number(base[key]):100)-Math.max(0,now-normTime(base[at]))/dur*100)}
 function atual(now=Date.now()){
- const e=estado;
- const energia=e.acordado===false?clamp((Number(e.sonoEnergiaInicio)||0)+Math.max(0,now-(Number(e.sonoInicio)||now))/ (8*HOUR)*100):valor(e,'energia','atEnergia',now,72*HOUR);
+ const e=estado;if(e.autoCuidado)return {fome:100,sede:100,higiene:100,felicidade:100,energia:100};const energia=e.acordado===false?clamp((Number(e.sonoEnergiaInicio)||0)+Math.max(0,now-(Number(e.sonoInicio)||now))/ (8*HOUR)*100):valor(e,'energia','atEnergia',now,72*HOUR);
  return {fome:valor(e,'fome','atFome',now,DAY),sede:valor(e,'sede','atSede',now,DAY),higiene:valor(e,'higiene','atHigiene',now,36*HOUR),felicidade:e.bolaAtiva?100:valor(e,'felicidade','atFelicidade',now,DAY),energia};
 }
 function say(t){status(t)}
 function status(t){$('ben-quarto-status').textContent=t;clearTimeout(statusTimer);statusTimer=setTimeout(()=>$('ben-quarto-status').textContent='',5000)}
-function sleepVisual(){const sleep=estado.acordado===false;root.classList.toggle('ben-dormindo',sleep);$('ben-quarto-cenario').classList.toggle('dormindo',sleep);if(sleep){pet.style.animation='none';if(!roomOpen){let w=pet.offsetWidth||76,h=pet.offsetHeight||88;root.style.transition='left .7s ease,top .7s ease';root.style.left='8px';root.style.top=Math.max(65,innerHeight-h-18)+'px';root.style.bottom='auto'}}else if(!root.classList.contains('ben-conversando')){pet.style.animation='ben-bob 3.2s ease-in-out infinite'}
+function sleepVisual(){const sleep=estado.acordado===false&&!estado.autoCuidado;root.classList.toggle('ben-dormindo',sleep);$('ben-quarto-cenario').classList.toggle('dormindo',sleep);if(sleep){pet.style.animation='none';if(!roomOpen){let w=pet.offsetWidth||76,h=pet.offsetHeight||88;root.style.transition='left .7s ease,top .7s ease';root.style.left='8px';root.style.top=Math.max(65,innerHeight-h-18)+'px';root.style.bottom='auto'}}else if(!root.classList.contains('ben-conversando')){pet.style.animation='ben-bob 3.2s ease-in-out infinite'}
  bola.classList.toggle('ativa',!!estado.bolaAtiva);if(estado.bolaAtiva)iniciarBola();else{bola.classList.remove('ativa');bola.style.display='none';window.benBolaPerseguindo=false;}
 }
-function renderBars(){const v=atual();const itens=[['🍎','Fome','fome','#e8ab72'],['🥤','Sede','sede','#78bada'],['🫧','Higiene','higiene','#76c6b2'],['💤','Energia','energia','#a69bd9'],['❤️','Felicidade','felicidade','#df86ac']];$('ben-quarto-barras').replaceChildren(...itens.map(([emoji,nome,key,color])=>{const box=document.createElement('div');box.className='ben-quarto-barra';const val=Math.round(v[key]);box.innerHTML='<div class="ben-quarto-barra-topo"><span>'+emoji+' '+nome+'</span><strong>'+val+'%</strong></div><div class="ben-quarto-trilho"><div class="ben-quarto-nivel" style="background:'+color+';width:'+val+'%"></div></div>';return box}));}
+function renderBars(){const v=atual();const menor=Math.min(...Object.values(v));$('ben-quarto-humor').textContent=estado.autoCuidado?'✨ Tudo em 100%!':estado.acordado===false?'😴 Ben está dormindo':v.fome<25?'🥺 Estou com fome!':v.sede<25?'🥤 Estou com sede!':v.higiene<25?'🫧 Preciso de banho!':v.energia<25?'😴 Estou com sono!':v.felicidade<25?'🥹 Quero carinho!':menor<55?'🧸 Preciso de atenção!':'🥰 Estou feliz!';root.dataset.humor=menor<25?'triste':menor<55?'cansado':'feliz';const toggle=$('ben-auto-toggle');toggle.textContent=estado.autoCuidado?'Ativado ✓':'Desligado';toggle.setAttribute('aria-checked',String(!!estado.autoCuidado));const itens=[['🍎','Fome','fome','#e8ab72'],['🥤','Sede','sede','#78bada'],['🫧','Higiene','higiene','#76c6b2'],['💤','Energia','energia','#a69bd9'],['❤️','Felicidade','felicidade','#df86ac']];$('ben-quarto-barras').replaceChildren(...itens.map(([emoji,nome,key,color])=>{const box=document.createElement('div');box.className='ben-quarto-barra';const val=Math.round(v[key]);box.innerHTML='<div class="ben-quarto-barra-topo"><span>'+emoji+' '+nome+'</span><strong>'+val+'%</strong></div><div class="ben-quarto-trilho"><div class="ben-quarto-nivel" style="background:'+color+';width:'+val+'%"></div></div>';return box}));}
 function action(label,emoji,handler,primary=false){const b=document.createElement('button');b.type='button';b.className='ben-quarto-acao'+(primary?' ben-quarto-principal':'');b.innerHTML='<span>'+emoji+'</span>'+label;b.onclick=handler;return b}
 async function save(patch){if(!window.benCuidadosAPI){status('Conectando ao Firebase... tente novamente.');return false}if(salvando)return false;salvando=true;try{await window.benCuidadosAPI.salvar(patch);estado={...estado,...patch};render();return true}catch(err){console.warn('Erro ao salvar cuidados:',err);status('Não consegui sincronizar com Firebase. Verifique as regras ben_estado.');return false}finally{salvando=false}}
-const alimentos=[['Maçã','🍎',14,0],['Banana','🍌',18,0],['Morango','🍓',12,0],['Papinha','🥣',28,3],['Sanduíche','🥪',30,0],['Arroz e feijão','🍛',38,1],['Leitinho','🥛',8,22],['Água fresca','💧',0,35],['Suquinho','🧃',5,27]];
-async function alimentar(item){if(estado.acordado===false){say('Zzz… estou mimindo, papai e mamãe. 💤');return}const a=atual(),now=Date.now();const p={fome:clamp(a.fome+item[2]),atFome:now,sede:clamp(a.sede+item[3]),atSede:now};if(await save(p)){say(['Nhac! Que delícia! Obrigado pelo carinho! 🥰','Obaaa, adorei! Minha barriguinha tá feliz! ❤️','Humm! Vocês cuidam tão bem de mim! 🧸'][Math.floor(Math.random()*3)]);animarUrso()}}
+const alimentos=[['Maçã','🍎',14,0],['Banana','🍌',18,0],['Morango','🍓',12,0],['Papinha','🥣',28,3],['Sanduíche','🥪',30,0],['Arroz e feijão','🍛',38,1],['Leitinho','🥛',8,22],['Água fresca','💧',0,35],['Suquinho','🧃',5,27],['Melancia','🍉',14,16],['Uvas','🍇',12,3],['Sopinha','🍲',32,9],['Macarrão','🍝',34,2],['Panqueca','🥞',25,0],['Biscoito','🍪',10,0],['Chá','🫖',0,25],['Mamadeira','🍼',12,29],['Pera','🍐',15,4],['Brócolis','🥦',20,0]];
+async function alimentar(item){if(estado.autoCuidado){say('Estou de barriguinha cheia! ✨');animarUrso();return}if(estado.acordado===false){say('Zzz… estou mimindo, papai e mamãe. 💤');return}const a=atual(),now=Date.now();const p={fome:clamp(a.fome+item[2]),atFome:now,sede:clamp(a.sede+item[3]),atSede:now};if(await save(p)){say(['Nhac! Que delícia! Obrigado pelo carinho! 🥰','Obaaa, adorei! Minha barriguinha tá feliz! ❤️','Humm! Vocês cuidam tão bem de mim! 🧸'][Math.floor(Math.random()*3)]);animarUrso()}}
 function animarUrso(){const el=$('ben-quarto-ursinho');el.style.animation='none';el.style.transform='translateY(-12px) rotate(8deg)';setTimeout(()=>{el.style.transform='';el.style.animation=''},550);particulas('💛',5)}
 async function banho(){if(estado.acordado===false){say('Shhh, ainda estou dormindo. 💤');return}const now=Date.now();if(await save({higiene:100,atHigiene:now,felicidade:clamp(atual().felicidade+8),atFelicidade:now})){say('Ploc ploc! Bolhinhas! Agora estou bem cheirosinho! 🫧❤️');animarUrso();status('Banho concluído! ✨')}}
-async function dormir(){if(estado.acordado===false)return;const now=Date.now();if(await save({acordado:false,sonoInicio:now,sonoEnergiaInicio:atual(now).energia})){say('Boa noite, papai e mamãe... amo vocês. Zzz... 🌙');quarto.classList.add('quartinho-noite');sleepVisual()}}
+async function dormir(){if(estado.autoCuidado){say('Cuidados automáticos estão ligados. 🌟');return}if(estado.acordado===false)return;const now=Date.now();if(await save({acordado:false,sonoInicio:now,sonoEnergiaInicio:atual(now).energia})){say('Boa noite, papai e mamãe... amo vocês. Zzz... 🌙');quarto.classList.add('quartinho-noite');sleepVisual()}}
 async function acordar(automatico=false){if(estado.acordado!==false)return;const now=Date.now(),e=atual(now).energia;if(await save({acordado:true,energia:e,atEnergia:now,sonoInicio:0})){say(automatico?'Dormi tão gostosinho! Acordei cheio de energia! ☀️🥰':'Bom dia! Um beijinho pra vocês! 🥰');sleepVisual()}}
 async function alternarBola(){if(estado.acordado===false){say('A bola me espera depois do soninho. 💤');return}const ligar=!estado.bolaAtiva,now=Date.now();if(await save({bolaAtiva:ligar,felicidade:100,atFelicidade:now})){say(ligar?'EBAAA! Joga a bolinha pra mim! ⚽❤️':'Foi muito divertido! Depois a gente brinca mais! 🥰');if(ligar)iniciarBola()}}
 function renderConteudo(){const destino=$('ben-quarto-conteudo');destino.replaceChildren();cena.dataset.scene=aba;const intro=document.createElement('p');intro.className='ben-quarto-subtitulo';destino.append(intro);const row=document.createElement('div');row.className='ben-quarto-comidas';destino.append(row);
  if(aba==='comer'){intro.textContent='Leve a comidinha até o Ben na mesinha da cozinha. Arrastar é mais divertido, mas tocar também funciona. 🍽️';alimentos.forEach(a=>{const b=action(a[0],a[1],()=>alimentar(a));b.classList.add('ben-arrastavel');arrastavel(b,a[1],()=>alimentar(a));row.append(b)})}
  if(aba==='banho'){intro.textContent='Agora é hora do banheiro: ensaboe o Ben e depois leve o chuveirinho até ele para enxaguar. 🛁';const sab=action('Passar sabão','🧼',()=>ensaboar());sab.classList.add('ben-arrastavel');arrastavel(sab,'🧼',()=>ensaboar());const chu=action('Ligar chuveiro','🚿',()=>enxaguar());chu.classList.add('ben-arrastavel');arrastavel(chu,'🚿',()=>enxaguar());row.append(sab,chu);const tip=document.createElement('p');tip.className='ben-banhar-indicacao';tip.textContent='Dica: esfregue o dedo sobre o corpinho dele enquanto ele está ensaboado para espalhar a espuma.';destino.append(tip)}
  if(aba==='sono'){const energia=Math.round(atual().energia);intro.textContent=estado.acordado===false?'Ben está dormindo na caminha, bem quietinho, e vai acordar sozinho quando recuperar toda a energia.':'Leve o Ben para a caminha. A energia recupera 100 pontos em 8 horas. Agora: '+energia+'%.';row.append(action(estado.acordado===false?'Acordar o Ben':'Colocar na cama',estado.acordado===false?'☀️':'🌙',estado.acordado===false?()=>acordar(false):dormir,true))}
+ if(aba==='carinho'){intro.textContent='Faça carinho e divirta-se com Ben!';[['Abraçar','🫂',22,0],['Fazer cócegas','😆',18,0],['Contar historinha','📖',16,7],['Cantar canção','🎵',15,5],['Passear','🌳',24,0],['Dar beijinho','💋',14,0],['Dançar','💃',18,0],['Descansar juntos','🧸',10,12]].forEach(a=>row.append(action(a[0],a[1],async()=>{if(estado.acordado===false){status('Ben está dormindo. 💤');return}const v=atual(),now=Date.now();if(await save({felicidade:clamp(v.felicidade+a[2]),atFelicidade:now,energia:clamp(v.energia+a[3]),atEnergia:now})){particulas(a[1],7);animarUrso();status(a[1]+' Ben adorou!')}})))}
  if(aba==='brincar'){intro.textContent='Ative a bolinha e volte para a página principal para brincar com o Ben. Ele corre atrás dela sozinho!';row.append(action(estado.bolaAtiva?'Guardar bolinha':'Soltar bolinha',estado.bolaAtiva?'📦':'⚽',alternarBola,true));const p=document.createElement('p');p.className='ben-quarto-subtitulo';p.style.marginTop='10px';p.textContent='Feche o quartinho para brincar na página. Enquanto a bola estiver ativa, a felicidade fica em 100%.';destino.append(p)}
 }
 let ensaboado=false,dragCuidado=null;
@@ -4070,12 +3357,12 @@ roomBen.addEventListener('pointerdown',e=>{if(aba==='banho'&&ensaboado){roomBen.
 function render(){sleepVisual();if(!roomOpen)return;renderBars();renderConteudo()}
 function abrir(){roomOpen=true;quarto.classList.add('aberto');quarto.setAttribute('aria-hidden','false');render();}
 function fechar(){roomOpen=false;quarto.classList.remove('aberto');quarto.setAttribute('aria-hidden','true');sleepVisual()}
-$('ben-abrir-quarto').addEventListener('click',abrir);$('ben-quarto-fechar').addEventListener('click',fechar);
+window.benAbrirCuidados=abrir;$('ben-auto-toggle').addEventListener('click',async()=>{const ligado=!estado.autoCuidado,now=Date.now();const patch={autoCuidado:ligado};if(ligado)Object.assign(patch,{fome:100,sede:100,higiene:100,energia:100,felicidade:100,atFome:now,atSede:now,atHigiene:now,atEnergia:now,atFelicidade:now,acordado:true,sonoInicio:0});else Object.assign(patch,{atFome:now,atSede:now,atHigiene:now,atEnergia:now,atFelicidade:now});if(await save(patch))status(ligado?'✨ Cuidados automáticos ativados!':'Cuidados manuais ativados. ❤️')});$('ben-quarto-fechar').addEventListener('click',fechar);
 quarto.addEventListener('click',e=>{if(e.target===quarto)fechar()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&roomOpen)fechar()});
 quarto.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{aba=b.dataset.tab;quarto.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('ativo',x===b));render()}));
 // Firebase realtime: ambos os pais veem os cuidados do mesmo Ben; não grava progresso a cada segundo.
 function conectar(){if(desinscrever||!window.benCuidadosAPI)return;try{desinscrever=window.benCuidadosAPI.observar((data,err)=>{if(err){status('Não consegui ler os cuidados da nuvem. Libere ben_estado nas regras do Firestore.');return}estado={...DEFAULT,...(data||{})};pronto=true;render();if(estado.bolaAtiva)iniciarBola()})}catch(e){/* login ainda carregando */}}
-setInterval(()=>{conectar();if(!pronto)return;if(estado.acordado===false&&atual().energia>=99.999){acordar(true)}if(roomOpen)renderBars();sleepVisual()},12000);conectar();
+setInterval(()=>{conectar();if(!pronto)return;if(estado.acordado===false&&!estado.autoCuidado&&atual().energia>=99.999){acordar(true)}if(roomOpen)renderBars();sleepVisual()},12000);conectar();
 // Bola com inércia, repouso verdadeiro e brincadeira autônoma com intervalos.
 // Nenhuma animação da bola grava no Firebase: somente ligar/guardar a bola altera o estado na nuvem.
 const BALL_SIZE=62;

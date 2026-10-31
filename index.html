@@ -3362,7 +3362,7 @@ function gesture(type){
  clearTimeout(gestureTimer);
  gestureTimer=setTimeout(()=>pet.classList.remove('ben-pet-pulando','ben-pet-olhando','ben-pet-acenando'),1200);
 }
-function canAct(){return visible()&&!document.hidden&&!dragging&&!asleep()&&!gameOpen()&&!prank&&!window.benBolaPerseguindo&&Date.now()-lastTouch>2100}
+function canAct(){return !reduced.matches&&visible()&&!document.hidden&&!dragging&&!asleep()&&!gameOpen()&&!prank&&!window.benBolaPerseguindo&&Date.now()-lastTouch>2100}
 function wander(){
  if(!canAct()||walking)return;
  const mood=root.dataset.humor||'feliz';
@@ -3547,7 +3547,7 @@ async function alimentar(item){if(estado.autoCuidado){say('Estou de barriguinha 
 function animarUrso(){const el=$('ben-quarto-ursinho');el.style.animation='none';el.style.transform='translateY(-12px) rotate(8deg)';setTimeout(()=>{el.style.transform='';el.style.animation=''},550);particulas('💛',5)}
 async function banho(){if(estado.acordado===false){say('Shhh, ainda estou dormindo. 💤');return}const now=Date.now();if(await save({higiene:100,atHigiene:now,felicidade:clamp(atual().felicidade+8),atFelicidade:now})){say('Ploc ploc! Bolhinhas! Agora estou bem cheirosinho! 🫧❤️');animarUrso();status('Banho concluído! ✨')}}
 async function dormir(){if(estado.autoCuidado){say('Cuidados automáticos estão ligados. 🌟');return}if(estado.acordado===false)return;const now=Date.now();if(await save({acordado:false,sonoInicio:now,sonoEnergiaInicio:atual(now).energia})){say('Boa noite, papai e mamãe... amo vocês. Zzz... 🌙');quarto.classList.add('quartinho-noite');sleepVisual()}}
-async function acordar(automatico=false){if(estado.acordado!==false)return;const now=Date.now(),e=atual(now).energia;if(await save({acordado:true,energia:e,atEnergia:now,sonoInicio:0})){say(automatico?'Dormi tão gostosinho! Acordei cheio de energia! ☀️🥰':'Bom dia! Um beijinho pra vocês! 🥰');sleepVisual()}}
+async function acordar(automatico=false){if(estado.acordado!==false)return;const now=Date.now(),e=atual(now).energia;if(await save({acordado:true,energia:e,atEnergia:now,sonoInicio:0})){say(automatico?'Dormi tão gostosinho! Acordei cheio de energia! ☀️🥰' :'Bom dia! Já estou pronto para brincar! ☀️');sleepVisual()}}
 async function alternarBola(){if(estado.acordado===false){say('A bola me espera depois do soninho. 💤');return}const ligar=!estado.bolaAtiva,now=Date.now();if(await save({bolaAtiva:ligar,felicidade:100,atFelicidade:now})){say(ligar?'EBAAA! Joga a bolinha pra mim! ⚽❤️':'Foi muito divertido! Depois a gente brinca mais! 🥰');if(ligar)iniciarBola()}}
 function renderConteudo(){const destino=$('ben-quarto-conteudo');const oldScroll=destino.querySelector('.ben-lista-rolavel')?.scrollTop||0;destino.replaceChildren();cena.dataset.scene=aba;const intro=document.createElement('p');intro.className='ben-quarto-subtitulo';destino.append(intro);const row=document.createElement('div');row.className='ben-quarto-comidas';destino.append(row);
  if(aba==='comer'){intro.textContent='Deslize a lista para ver todos os alimentos. Toque em uma comida para alimentar Ben. 🍽️';row.classList.add('ben-lista-rolavel');alimentos.forEach(a=>{const b=action(a[0],a[1],()=>alimentar(a));row.append(b)})}

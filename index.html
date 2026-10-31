@@ -3258,6 +3258,21 @@ body.dark-mode #ben-auto-toggle[aria-checked="true"]{background:#427755;color:wh
 @media(max-width:420px){#ben-quarto .ben-lista-rolavel{grid-template-columns:repeat(3,minmax(0,1fr));max-height:30dvh;gap:6px}#ben-quarto .ben-lista-rolavel .ben-quarto-acao{font-size:11px;padding:8px 3px;min-height:68px}#ben-quarto .ben-quarto-card{max-height:calc(100dvh - 12px)}}
 @media(prefers-reduced-motion:reduce){#ben-root.ben-andando #ben-pet,#ben-pet.ben-pet-pulando,#ben-pet.ben-pet-acenando,#ben-pet.ben-pet-olhando{animation:none!important}}
 </style>
+<style>
+/* Ben: travessuras reversíveis com interface acessível no celular */
+#ben-travessuras-toggle{flex-shrink:0;border:1px solid #dcaea2;background:#fff;border-radius:999px;padding:9px 11px;color:#79524e;font-size:11px;font-weight:700;cursor:pointer}
+#ben-travessuras-toggle[aria-checked="true"]{background:#6c9b7a;color:#fff;border-color:#6c9b7a}
+.ben-travessura-brinquedo{position:fixed;z-index:99999;display:grid;place-items:center;min-width:60px;min-height:60px;max-width:165px;touch-action:manipulation;pointer-events:auto;cursor:pointer;transition:left .7s cubic-bezier(.3,.6,.25,1.15),top .7s cubic-bezier(.2,.6,.3,1);animation:ben-travessura-chute .7s ease-in-out infinite alternate;filter:drop-shadow(0 6px 10px #4d2a2844)}
+.ben-travessura-brinquedo .ben-palavra-roubada{display:block;font-size:20px;font-weight:800;background:#fff8ed;border:2px solid #e9b7aa;color:#76504a;border-radius:14px;padding:9px 13px;white-space:nowrap;box-shadow:0 4px 12px #0002}
+.ben-travessura-brinquedo .ben-objeto-roubado{pointer-events:auto!important;width:60px;height:60px}
+.ben-menu-devolucao{width:60px;height:60px;display:flex;align-items:center;justify-content:center;border:2px dashed #d2aaa2;border-radius:50%;background:#fff4ef;color:#9f7168;font-size:19px;pointer-events:auto;cursor:pointer;opacity:.8}
+#ben-root.ben-travesso #ben-pet{animation:ben-passeio .28s ease-in-out infinite alternate}
+@keyframes ben-travessura-chute{from{transform:translateY(0) rotate(-12deg)}to{transform:translateY(-15px) rotate(16deg)}}
+@media(max-width:420px){.ben-travessuras-config{gap:8px;padding:9px}.ben-travessuras-config small{font-size:10px}#ben-travessuras-toggle{font-size:10px;padding:8px}}
+@media(prefers-reduced-motion:reduce){.ben-travessura-brinquedo{animation:none!important}}
+body.dark-mode .ben-travessura-brinquedo .ben-palavra-roubada{background:#403237;color:#ffe7df}
+body.dark-mode .ben-menu-devolucao{background:#463339;color:#ffe7df}
+</style>
 <!-- Ben: bichinho virtual, sem chat ou IA -->
 <div id="ben-root" aria-label="Ben, nosso bichinho virtual">  <div id="ben-pet" role="button" tabindex="0" aria-label="Abrir cuidados do Ben" title="Cuide de mim! Arraste-me para mudar de lugar">
     <svg viewBox="0 0 100 110" role="img" aria-label="Ben, um ursinho fofo">
@@ -3281,7 +3296,7 @@ body.dark-mode #ben-auto-toggle[aria-checked="true"]{background:#427755;color:wh
   <div class="ben-quarto-card">
     <header class="ben-quarto-cabecalho"><div><small>Nosso pequeno mundo ✨</small><h2>O quartinho do Ben 🧸</h2></div><button id="ben-quarto-fechar" type="button" aria-label="Fechar o quarto">✕</button></header>
     <div id="ben-quarto-cenario" class="ben-quarto-cenario" data-scene="comer"><div class="ben-quarto-janela">☁️<span>☀️</span></div><div class="ben-quarto-lua">☾ ✦</div><div id="ben-quarto-props" aria-hidden="true"><div class="ben-prop ben-prop-mesa"><div class="mesa-topo"></div><div class="mesa-pe"></div><div class="mesa-tigela"></div></div><div class="ben-prop ben-prop-banheira"><div class="banheira-corpo"></div><div class="banheira-borda"></div><div class="banheira-ducha"></div></div><div class="ben-prop ben-prop-prateleira"><span>🧸</span><span>📚</span><span>⭐</span></div><div class="ben-prop ben-prop-nuvem"></div></div><div class="ben-quarto-chuveiro"><span class="ben-chuveiro-cabeca">🚿</span><div id="ben-chuva"></div></div><div id="ben-quarto-cama" aria-hidden="true"><div class="ben-cama-travesseiro"></div><div class="ben-cama-colchao"></div><div class="ben-cama-coberta"></div></div><div id="ben-quarto-ursinho" aria-label="Ben no quarto"></div><div id="ben-espuma" aria-hidden="true"></div><div id="ben-quarto-particulas" aria-hidden="true"></div><div class="ben-quarto-tapete"></div></div>
-    <div class="ben-modo-auto"><div><strong>✨ Cuidados automáticos</strong><small>Quando ligado, Ben fica sempre com 100% em tudo.</small></div><button type="button" id="ben-auto-toggle" role="switch" aria-checked="false">Desligado</button></div><div id="ben-quarto-humor" aria-live="polite"></div><div id="ben-quarto-barras" class="ben-quarto-barras"></div>
+    <div class="ben-modo-auto"><div><strong>✨ Cuidados automáticos</strong><small>Quando ligado, Ben fica sempre com 100% em tudo.</small></div><button type="button" id="ben-auto-toggle" role="switch" aria-checked="false">Desligado</button></div><div class="ben-modo-auto ben-travessuras-config"><div><strong>⚽ Travessuras do Ben</strong><small>Ele pega temporariamente o botão flutuante ou palavras da tela, brinca e devolve. Toque nele para devolver antes.</small></div><button type="button" id="ben-travessuras-toggle" role="switch" aria-checked="true">Ativadas</button></div><div id="ben-quarto-humor" aria-live="polite"></div><div id="ben-quarto-barras" class="ben-quarto-barras"></div>
     <div class="ben-quarto-abas" role="group" aria-label="Cuidados"><button type="button" data-tab="comer" class="ativo">🍎 Comer</button><button type="button" data-tab="banho">🫧 Banho</button><button type="button" data-tab="sono">🌙 Mimir</button><button type="button" data-tab="brincar">⚽ Brincar</button><button type="button" data-tab="carinho">🐾 Cuidar</button></div>
     <div id="ben-quarto-conteudo"></div>
     <div id="ben-quarto-status" role="status" aria-live="polite"></div>
@@ -3319,81 +3334,188 @@ body.dark-mode #ben-auto-toggle[aria-checked="true"]{background:#427755;color:wh
 <script>
 (function(){
 'use strict';
+// Passeios e travessuras são exclusivamente visuais: nunca alteram os dados do site.
 const root=document.getElementById('ben-root');
 const pet=document.getElementById('ben-pet');
 if(!root||!pet)return;
-let dragging=false,moved=false,downX=0,downY=0,offsetX=0,offsetY=0,lastInteraction=Date.now();
-let walking=false,moveTimer=0,gestureTimer=0;
-const reduceMotion=matchMedia('(prefers-reduced-motion: reduce)');
+let dragging=false,moved=false,downX=0,downY=0,offX=0,offY=0;
+let lastTouch=Date.now()-30000,walking=false,walkingTimer=0,gestureTimer=0;
+let prank=null,prankTimer=0,prankDeadline=0,lastPrank=Date.now();
+const reduced=window.matchMedia('(prefers-reduced-motion: reduce)');
 const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
-const position=(x,y)=>{
-  root.style.left=clamp(x,4,Math.max(4,innerWidth-pet.offsetWidth-4))+'px';
-  root.style.top=clamp(y,55,Math.max(55,innerHeight-pet.offsetHeight-8))+'px';
-  root.style.bottom='auto';
-};
-const visible=()=>{
- const site=document.getElementById('conteudo-site');
- const login=document.getElementById('tela-login');
- return !!site&&getComputedStyle(site).display!=='none'&&(!login||getComputedStyle(login).display==='none');
-};
-const sleeping=()=>root.classList.contains('ben-dormindo');
-const canMove=()=>visible()&&!document.hidden&&!dragging&&!walking&&!reduceMotion.matches&&!sleeping()&&!window.benBolaPerseguindo&&!document.querySelector('#ben-quarto.aberto')&&Date.now()-lastInteraction>6000;
+const site=document.getElementById('conteudo-site'),login=document.getElementById('tela-login');
+function visible(){return !!site&&getComputedStyle(site).display!=='none'&&(!login||getComputedStyle(login).display==='none')}
+const asleep=()=>root.classList.contains('ben-dormindo');
+const gameOpen=()=>!!document.querySelector('#ben-quarto.aberto');
+const enabled=()=>window.benTravessurasHabilitadas!==false;
+function move(x,y,seconds=1.45){
+ root.style.transition='left '+seconds+'s ease-in-out,top '+seconds+'s ease-in-out';
+ root.style.left=clamp(x,4,Math.max(4,innerWidth-pet.offsetWidth-4))+'px';
+ root.style.top=clamp(y,60,Math.max(60,innerHeight-pet.offsetHeight-8))+'px';
+ root.style.bottom='auto';
+}
 function gesture(type){
- pet.classList.remove('ben-pet-acenando','ben-pet-pulando','ben-pet-olhando');
+ if(reduced.matches)return;
+ pet.classList.remove('ben-pet-pulando','ben-pet-olhando','ben-pet-acenando');
  void pet.offsetWidth;
  if(type)pet.classList.add('ben-pet-'+type);
  clearTimeout(gestureTimer);
- gestureTimer=setTimeout(()=>pet.classList.remove('ben-pet-acenando','ben-pet-pulando','ben-pet-olhando'),1600);
+ gestureTimer=setTimeout(()=>pet.classList.remove('ben-pet-pulando','ben-pet-olhando','ben-pet-acenando'),1200);
 }
-function walk(){
- if(!canMove())return;
+function canAct(){return !reduced.matches&&visible()&&!document.hidden&&!dragging&&!asleep()&&!gameOpen()&&!prank&&!window.benBolaPerseguindo&&Date.now()-lastTouch>2100}
+function wander(){
+ if(!canAct()||walking)return;
+ const mood=root.dataset.humor||'feliz';
+ const low=mood==='triste'||mood==='cansado';
  const r=root.getBoundingClientRect();
- const humor=root.dataset.humor||'feliz';
- const lento=humor==='triste'||humor==='cansado';
- const radius=lento?55:Math.random()<.25?190:120;
- const dx=(Math.random()*2-1)*radius;
- const dy=(Math.random()*2-1)*(lento?28:65);
- root.style.transition='left '+(lento?3.4:1.85)+'s ease-in-out,top '+(lento?3.4:1.85)+'s ease-in-out';
- root.classList.add('ben-andando');
+ // Passeios longos e diagonais: Ben pode visitar qualquer região da tela.
+ const bigTrip=Math.random()<.65;
+ const destX=bigTrip?8+Math.random()*(Math.max(8,innerWidth-pet.offsetWidth-16)):r.left+(Math.random()-.5)*(low?95:innerWidth*.65);
+ const destY=bigTrip?65+Math.random()*Math.max(0,innerHeight-pet.offsetHeight-80):r.top+(Math.random()-.5)*(low?75:innerHeight*.45);
+ const duration=low?2.8:1.25+Math.random()*.7;
  walking=true;
- position(r.left+dx,r.top+dy);
- clearTimeout(moveTimer);
- moveTimer=setTimeout(()=>{walking=false;root.classList.remove('ben-andando');if(Math.random()<.35)gesture('olhando')},lento?3500:1950);
+ root.classList.add('ben-andando');
+ move(destX,destY,duration);
+ clearTimeout(walkingTimer);
+ walkingTimer=setTimeout(()=>{walking=false;root.classList.remove('ben-andando');if(Math.random()<.5)gesture(low?'olhando':'pulando')},duration*1000+80);
+}
+function returnPrank(){
+ clearTimeout(prankTimer);
+ const p=prank;
+ if(!p)return;
+ prank=null;window.benTravessuraEmCurso=false;
+ if(p.button){
+   p.button.removeEventListener('click',p.stopButton,true);
+   if(p.marker.isConnected)p.marker.replaceWith(p.button);
+   else if(p.parent?.isConnected)p.parent.append(p.button);
+ }else if(p.textNode){
+   if(p.marker.isConnected)p.marker.replaceWith(p.textNode);
+   else if(p.parent?.isConnected)p.parent.append(p.textNode);
+ }
+ p.toy.remove();
+ p.marker.remove();
+ lastPrank=Date.now();
+ root.classList.remove('ben-travesso');
+}
+window.benDevolverTravessura=returnPrank;
+window.addEventListener('ben-travessuras-alteradas',()=>{if(!enabled())returnPrank()});
+function findWord(){
+ const els=[...document.querySelectorAll('#conteudo-site h2,#conteudo-site h3,#conteudo-site .titulo-secao,#conteudo-site .secao-titulo,#conteudo-site p')];
+ const eligible=els.filter(el=>{
+   if(el.closest('a,button,form,[contenteditable],#ben-quarto,#ben-root,.modal,.modal-postagem,.menu-flutuante-container'))return false;
+   if(el.querySelector('button,a,input,textarea,select'))return false;
+   const r=el.getBoundingClientRect(),style=getComputedStyle(el);
+   return r.width>80&&r.top>65&&r.bottom<innerHeight-55&&r.right>0&&r.left<innerWidth&&style.visibility==='visible'&&style.display!=='none'&&style.opacity!=='0';
+ });
+ // Extrai uma palavra de um nó de texto real, não uma cópia do conteúdo.
+ for(const el of eligible.sort(()=>Math.random()-.5)){
+   const nodes=[...el.childNodes].filter(n=>n.nodeType===Node.TEXT_NODE);
+   for(const node of nodes){
+     const text=node.textContent||'';
+     const choices=[...text.matchAll(/[\p{L}\p{N}]{3,14}|[\p{Extended_Pictographic}]/gu)];
+     if(!choices.length)continue;
+     const match=choices[Math.floor(Math.random()*choices.length)];
+     const middle=node.splitText(match.index);
+     middle.splitText(match[0].length);
+     const marker=document.createComment('Ben vai devolver este texto');
+     middle.replaceWith(marker);
+     return {marker,textNode:middle,parent:el,label:match[0],button:null};
+   }
+ }
+ return null;
+}
+function steal(){
+ if(!enabled()||!canAct()||reduced.matches||Date.now()-lastPrank<18000)return;
+ let p=null;
+ const button=document.getElementById('btn-flutuante-click');
+ const menu=document.getElementById('opcoes-menu-balao');
+ const buttonReady=button&&button.isConnected&&visible()&&!menu?.classList.contains('aberto')&&button.getBoundingClientRect().width>0;
+ if(buttonReady&&Math.random()<.55){
+   const marker=document.createElement('button');
+   marker.type='button';marker.className='ben-menu-devolucao';marker.textContent='↩';
+   marker.title='Devolver o botão do menu';
+   marker.setAttribute('aria-label','Devolver o botão do menu');
+   const parent=button.parentNode;
+   parent.replaceChild(marker,button);
+   const stopButton=e=>{e.preventDefault();e.stopImmediatePropagation();returnPrank()};
+   button.addEventListener('click',stopButton,true);
+   marker.addEventListener('click',returnPrank);
+   p={marker,button,parent,label:'📌',stopButton};
+ }else{
+   p=findWord();
+   if(!p&&buttonReady){lastPrank=Date.now()-10000;return}
+ }
+ if(!p)return;
+ const toy=document.createElement('div');
+ toy.className='ben-travessura-brinquedo';
+ toy.setAttribute('role','button');toy.tabIndex=0;
+ toy.setAttribute('aria-label','Devolver o que o Ben pegou');
+ toy.title='Toque para devolver';
+ if(p.button){toy.append(p.button);p.button.classList.add('ben-objeto-roubado')}
+ else {const label=document.createElement('span');label.className='ben-palavra-roubada';label.append(p.textNode);toy.append(label)}
+ toy.addEventListener('click',e=>{if(p.button)return;e.preventDefault();returnPrank()});
+ toy.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();returnPrank()}});
+ document.body.append(toy);
+ p.toy=toy;prank=p;window.benTravessuraEmCurso=true;
+ root.classList.add('ben-travesso');
+ // Brincadeira visual: Ben vai atrás do objeto e o chuta periodicamente.
+ const toyW=p.button?60:Math.min(145,Math.max(68,p.label.length*13+24));
+ let tx=clamp(innerWidth*.58,8,innerWidth-toyW-8);
+ let ty=clamp(innerHeight*.44,90,innerHeight-110);
+ const put=(x,y)=>{tx=clamp(x,8,Math.max(8,innerWidth-toyW-8));ty=clamp(y,80,Math.max(80,innerHeight-95));toy.style.left=tx+'px';toy.style.top=ty+'px'};
+ put(tx,ty);
+ move(tx-(pet.offsetWidth||76)*.8,ty+20,.95);
+ let kicks=0;
+ const kick=()=>{
+   if(prank!==p)return;
+   if(!enabled()||!visible()||document.hidden||asleep()||gameOpen()){returnPrank();return}
+   kicks++;
+   const px=clamp(tx+(Math.random()-.5)*innerWidth*.75,8,innerWidth-toyW-8);
+   const py=clamp(ty+(Math.random()-.5)*innerHeight*.6,85,innerHeight-100);
+   put(px,py);
+   move(px-(pet.offsetWidth||76)*.7,py+25,.75);
+   gesture('pulando');
+   if(kicks>=5) returnPrank();
+   else prankTimer=setTimeout(kick,1350);
+ };
+ prankTimer=setTimeout(kick,1200);
+ prankDeadline=Date.now()+8500;
+ lastPrank=Date.now();
+};
+function tap(){
+ lastTouch=Date.now();
+ if(prank){returnPrank();return}
+ window.benAbrirCuidados?.();
 }
 pet.addEventListener('pointerdown',e=>{
  if(e.button!==0)return;
- dragging=true;moved=false;
- downX=e.clientX;downY=e.clientY;
+ if(prank){tap();return}
+ dragging=true;moved=false;downX=e.clientX;downY=e.clientY;
  const r=root.getBoundingClientRect();
- offsetX=e.clientX-r.left;offsetY=e.clientY-r.top;
- lastInteraction=Date.now();
- walking=false;root.classList.remove('ben-andando');
- clearTimeout(moveTimer);
+ offX=e.clientX-r.left;offY=e.clientY-r.top;
+ lastTouch=Date.now();
+ walking=false;clearTimeout(walkingTimer);root.classList.remove('ben-andando');
  pet.setPointerCapture(e.pointerId);
 });
 pet.addEventListener('pointermove',e=>{
  if(!dragging)return;
  if(Math.hypot(e.clientX-downX,e.clientY-downY)>9)moved=true;
- if(moved){root.style.transition='none';position(e.clientX-offsetX,e.clientY-offsetY)}
+ if(moved){root.style.transition='none';move(e.clientX-offX,e.clientY-offY,0)}
 });
-pet.addEventListener('pointerup',()=>{
- if(!dragging)return;
- dragging=false;lastInteraction=Date.now();
- if(!moved)window.benAbrirCuidados?.();
- else root.style.transition='left .5s ease,top .5s ease';
-});
-pet.addEventListener('pointercancel',()=>{dragging=false;lastInteraction=Date.now()});
-pet.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();lastInteraction=Date.now();window.benAbrirCuidados?.()}});
-window.addEventListener('resize',()=>{const r=root.getBoundingClientRect();position(r.left,r.top)});
-function sync(){root.style.display=visible()?'block':'none'}
-sync();
-setInterval(sync,900);
+pet.addEventListener('pointerup',()=>{if(!dragging)return;dragging=false;if(!moved)tap();else lastTouch=Date.now()});
+pet.addEventListener('pointercancel',()=>dragging=false);
+pet.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();tap()}});
+window.addEventListener('resize',()=>{if(prank)returnPrank();const r=root.getBoundingClientRect();move(r.left,r.top,0)});
+document.addEventListener('visibilitychange',()=>{if(document.hidden)returnPrank()});
+window.addEventListener('pagehide',returnPrank);
+function sync(){root.style.display=visible()?'block':'none';if(!visible()||gameOpen()||asleep()||!enabled())returnPrank()}
+sync();setInterval(sync,1100);
 setInterval(()=>{
- if(!canMove())return;
- const humor=root.dataset.humor||'feliz';
- if(Math.random()<(humor==='triste'?.55:.8))walk();
- else gesture(humor==='feliz'?'pulando':'olhando');
-},4300);
+ if(!canAct())return;
+ if(Math.random()<.88)wander();
+ else gesture('pulando');
+},2500);
+setInterval(()=>{if(canAct()&&Math.random()<.65)steal()},9500);
 })();
 </script>
 
@@ -3402,7 +3524,7 @@ setInterval(()=>{
 'use strict';
 const $=id=>document.getElementById(id), quarto=$('ben-quarto'),root=$('ben-root'),pet=$('ben-pet'),bola=$('ben-bola');
 if(!quarto||!root||!pet)return;
-const DAY=86400000,HOUR=3600000,DEFAULT={fome:100,sede:100,higiene:100,felicidade:100,energia:100,acordado:true,bolaAtiva:false,autoCuidado:false,atFome:Date.now(),atSede:Date.now(),atHigiene:Date.now(),atFelicidade:Date.now(),atEnergia:Date.now(),sonoInicio:0,sonoEnergiaInicio:100};
+const DAY=86400000,HOUR=3600000,DEFAULT={fome:100,sede:100,higiene:100,felicidade:100,energia:100,acordado:true,bolaAtiva:false,autoCuidado:false,travessurasAtivas:true,atFome:Date.now(),atSede:Date.now(),atHigiene:Date.now(),atFelicidade:Date.now(),atEnergia:Date.now(),sonoInicio:0,sonoEnergiaInicio:100};
 let estado={...DEFAULT},pronto=false,salvando=false,aba='comer',desinscrever=null,roomOpen=false,statusTimer=0;
 const clamp=n=>Math.max(0,Math.min(100,Number(n)||0));
 const normTime=n=>Number(n)||Date.now();
@@ -3413,11 +3535,11 @@ function atual(now=Date.now()){
 }
 function say(t){status(t)}
 function status(t){$('ben-quarto-status').textContent=t;clearTimeout(statusTimer);statusTimer=setTimeout(()=>$('ben-quarto-status').textContent='',5000)}
-function sleepVisual(){const sleep=estado.acordado===false&&!estado.autoCuidado;root.classList.toggle('ben-dormindo',sleep);$('ben-quarto-cenario').classList.toggle('dormindo',sleep);if(sleep){pet.style.animation='none';if(!roomOpen){let w=pet.offsetWidth||76,h=pet.offsetHeight||88;root.style.transition='left .7s ease,top .7s ease';root.style.left='8px';root.style.top=Math.max(65,innerHeight-h-18)+'px';root.style.bottom='auto'}}else{pet.style.animation=''}
+function sleepVisual(){const sleep=estado.acordado===false&&!estado.autoCuidado;root.classList.toggle('ben-dormindo',sleep);if(sleep)window.benDevolverTravessura?.();$('ben-quarto-cenario').classList.toggle('dormindo',sleep);if(sleep){pet.style.animation='none';if(!roomOpen){let w=pet.offsetWidth||76,h=pet.offsetHeight||88;root.style.transition='left .7s ease,top .7s ease';root.style.left='8px';root.style.top=Math.max(65,innerHeight-h-18)+'px';root.style.bottom='auto'}}else{pet.style.animation=''}
  bola.classList.toggle('ativa',!!estado.bolaAtiva);if(estado.bolaAtiva)iniciarBola();else{bola.classList.remove('ativa');bola.style.display='none';window.benBolaPerseguindo=false;}
 }
 function renderHumor(){const v=atual();const min=Math.min(...Object.values(v));root.dataset.humor=estado.acordado===false&&!estado.autoCuidado?'dormindo':min<25?'triste':min<55?'cansado':'feliz'}
-function renderBars(){const v=atual();const menor=Math.min(...Object.values(v));$('ben-quarto-humor').textContent=estado.autoCuidado?'✨ Tudo em 100%!':estado.acordado===false?'😴 Ben está dormindo':v.fome<25?'🥺 Estou com fome!':v.sede<25?'🥤 Estou com sede!':v.higiene<25?'🫧 Preciso de banho!':v.energia<25?'😴 Estou com sono!':v.felicidade<25?'🥹 Quero carinho!':menor<55?'🧸 Preciso de atenção!':'🥰 Estou feliz!';root.dataset.humor=menor<25?'triste':menor<55?'cansado':'feliz';const toggle=$('ben-auto-toggle');toggle.textContent=estado.autoCuidado?'Ativado ✓':'Desligado';toggle.setAttribute('aria-checked',String(!!estado.autoCuidado));const itens=[['🍎','Fome','fome','#e8ab72'],['🥤','Sede','sede','#78bada'],['🫧','Higiene','higiene','#76c6b2'],['💤','Energia','energia','#a69bd9'],['❤️','Felicidade','felicidade','#df86ac']];$('ben-quarto-barras').replaceChildren(...itens.map(([emoji,nome,key,color])=>{const box=document.createElement('div');box.className='ben-quarto-barra';const val=Math.round(v[key]);box.innerHTML='<div class="ben-quarto-barra-topo"><span>'+emoji+' '+nome+'</span><strong>'+val+'%</strong></div><div class="ben-quarto-trilho"><div class="ben-quarto-nivel" style="background:'+color+';width:'+val+'%"></div></div>';return box}));}
+function renderBars(){const v=atual();const menor=Math.min(...Object.values(v));$('ben-quarto-humor').textContent=estado.autoCuidado?'✨ Tudo em 100%!':estado.acordado===false?'😴 Ben está dormindo':v.fome<25?'🥺 Estou com fome!':v.sede<25?'🥤 Estou com sede!':v.higiene<25?'🫧 Preciso de banho!':v.energia<25?'😴 Estou com sono!':v.felicidade<25?'🥹 Quero carinho!':menor<55?'🧸 Preciso de atenção!':'🥰 Estou feliz!';root.dataset.humor=menor<25?'triste':menor<55?'cansado':'feliz';const toggle=$('ben-auto-toggle');toggle.textContent=estado.autoCuidado?'Ativado ✓':'Desligado';toggle.setAttribute('aria-checked',String(!!estado.autoCuidado));const pranks=$('ben-travessuras-toggle');pranks.textContent=estado.travessurasAtivas===false?'Desativadas':'Ativadas ✓';pranks.setAttribute('aria-checked',String(estado.travessurasAtivas!==false));const itens=[['🍎','Fome','fome','#e8ab72'],['🥤','Sede','sede','#78bada'],['🫧','Higiene','higiene','#76c6b2'],['💤','Energia','energia','#a69bd9'],['❤️','Felicidade','felicidade','#df86ac']];$('ben-quarto-barras').replaceChildren(...itens.map(([emoji,nome,key,color])=>{const box=document.createElement('div');box.className='ben-quarto-barra';const val=Math.round(v[key]);box.innerHTML='<div class="ben-quarto-barra-topo"><span>'+emoji+' '+nome+'</span><strong>'+val+'%</strong></div><div class="ben-quarto-trilho"><div class="ben-quarto-nivel" style="background:'+color+';width:'+val+'%"></div></div>';return box}));}
 function action(label,emoji,handler,primary=false){const b=document.createElement('button');b.type='button';b.className='ben-quarto-acao'+(primary?' ben-quarto-principal':'');b.innerHTML='<span>'+emoji+'</span>'+label;b.onclick=handler;return b}
 async function save(patch){if(!window.benCuidadosAPI){status('Conectando ao Firebase... tente novamente.');return false}if(salvando)return false;salvando=true;try{await window.benCuidadosAPI.salvar(patch);estado={...estado,...patch};render();return true}catch(err){console.warn('Erro ao salvar cuidados:',err);status('Não consegui sincronizar com Firebase. Verifique as regras ben_estado.');return false}finally{salvando=false}}
 const alimentos=[['Maçã','🍎',14,0],['Banana','🍌',18,0],['Morango','🍓',12,0],['Papinha','🥣',28,3],['Sanduíche','🥪',30,0],['Arroz e feijão','🍛',38,1],['Leitinho','🥛',8,22],['Água fresca','💧',0,35],['Suquinho','🧃',5,27],['Melancia','🍉',14,16],['Uvas','🍇',12,3],['Sopinha','🍲',32,9],['Macarrão','🍝',34,2],['Panqueca','🥞',25,0],['Biscoito','🍪',10,0],['Chá','🫖',0,25],['Mamadeira','🍼',12,29],['Pera','🍐',15,4],['Brócolis','🥦',20,0]];
@@ -3425,7 +3547,7 @@ async function alimentar(item){if(estado.autoCuidado){say('Estou de barriguinha 
 function animarUrso(){const el=$('ben-quarto-ursinho');el.style.animation='none';el.style.transform='translateY(-12px) rotate(8deg)';setTimeout(()=>{el.style.transform='';el.style.animation=''},550);particulas('💛',5)}
 async function banho(){if(estado.acordado===false){say('Shhh, ainda estou dormindo. 💤');return}const now=Date.now();if(await save({higiene:100,atHigiene:now,felicidade:clamp(atual().felicidade+8),atFelicidade:now})){say('Ploc ploc! Bolhinhas! Agora estou bem cheirosinho! 🫧❤️');animarUrso();status('Banho concluído! ✨')}}
 async function dormir(){if(estado.autoCuidado){say('Cuidados automáticos estão ligados. 🌟');return}if(estado.acordado===false)return;const now=Date.now();if(await save({acordado:false,sonoInicio:now,sonoEnergiaInicio:atual(now).energia})){say('Boa noite, papai e mamãe... amo vocês. Zzz... 🌙');quarto.classList.add('quartinho-noite');sleepVisual()}}
-async function acordar(automatico=false){if(estado.acordado!==false)return;const now=Date.now(),e=atual(now).energia;if(await save({acordado:true,energia:e,atEnergia:now,sonoInicio:0})){say(automatico?'Dormi tão gostosinho! Acordei cheio de energia! ☀️🥰':'Bom dia! Um beijinho pra vocês! 🥰');sleepVisual()}}
+async function acordar(automatico=false){if(estado.acordado!==false)return;const now=Date.now(),e=atual(now).energia;if(await save({acordado:true,energia:e,atEnergia:now,sonoInicio:0})){say(automatico?'Dormi tão gostosinho! Acordei cheio de energia! ☀️🥰' :'Bom dia! Já estou pronto para brincar! ☀️');sleepVisual()}}
 async function alternarBola(){if(estado.acordado===false){say('A bola me espera depois do soninho. 💤');return}const ligar=!estado.bolaAtiva,now=Date.now();if(await save({bolaAtiva:ligar,felicidade:100,atFelicidade:now})){say(ligar?'EBAAA! Joga a bolinha pra mim! ⚽❤️':'Foi muito divertido! Depois a gente brinca mais! 🥰');if(ligar)iniciarBola()}}
 function renderConteudo(){const destino=$('ben-quarto-conteudo');const oldScroll=destino.querySelector('.ben-lista-rolavel')?.scrollTop||0;destino.replaceChildren();cena.dataset.scene=aba;const intro=document.createElement('p');intro.className='ben-quarto-subtitulo';destino.append(intro);const row=document.createElement('div');row.className='ben-quarto-comidas';destino.append(row);
  if(aba==='comer'){intro.textContent='Deslize a lista para ver todos os alimentos. Toque em uma comida para alimentar Ben. 🍽️';row.classList.add('ben-lista-rolavel');alimentos.forEach(a=>{const b=action(a[0],a[1],()=>alimentar(a));row.append(b)})}
@@ -3464,10 +3586,10 @@ async function enxaguar(){if(estado.acordado===false){status('Ben está dormindo
 function arrastavel(botao,emoji,feito){botao.addEventListener('pointerdown',e=>{if(e.button!==0)return;dragCuidado={id:e.pointerId,startX:e.clientX,startY:e.clientY,x:e.clientX,y:e.clientY,moved:false,feito,emoji,botao};botao.setPointerCapture(e.pointerId)});botao.addEventListener('pointermove',e=>{const d=dragCuidado;if(!d||d.id!==e.pointerId)return;d.x=e.clientX;d.y=e.clientY;if(!d.moved&&Math.hypot(d.x-d.startX,d.y-d.startY)>9){d.moved=true;d.ghost=document.createElement('div');d.ghost.className='ben-drag-icone';d.ghost.textContent=d.emoji;document.body.append(d.ghost)}if(d.moved){e.preventDefault();d.ghost.style.left=d.x+'px';d.ghost.style.top=d.y+'px';const r=roomBen.getBoundingClientRect();const alvo=d.x>=r.left-40&&d.x<=r.right+40&&d.y>=r.top-40&&d.y<=r.bottom+40;cena.classList.toggle('ben-alvo',alvo);if(alvo&&Math.random()<.18)particulas(d.emoji==='🚿'?'💦':(d.emoji==='🧼'?'🫧':'💛'),1)}});const finish=e=>{const d=dragCuidado;if(!d||d.id!==e.pointerId)return;dragCuidado=null;cena.classList.remove('ben-alvo');if(d.ghost)d.ghost.remove();if(d.moved){e.preventDefault();e.stopPropagation();const r=roomBen.getBoundingClientRect();if(d.x>=r.left-42&&d.x<=r.right+42&&d.y>=r.top-42&&d.y<=r.bottom+42)d.feito();else status('Arraste até o corpinho do Ben para cuidar dele. 💛')}else d.feito()};botao.addEventListener('pointerup',finish);botao.addEventListener('pointercancel',e=>{if(dragCuidado){dragCuidado.ghost?.remove();dragCuidado=null;cena.classList.remove('ben-alvo')}});botao.onclick=null}
 roomBen.addEventListener('pointerdown',e=>{if(aba==='banho'&&ensaboado){roomBen.setPointerCapture(e.pointerId);particulas('🫧',4)}});roomBen.addEventListener('pointermove',e=>{if(aba==='banho'&&ensaboado&&e.buttons){particulas('🫧',3);$('ben-espuma').classList.add('ativa')}});
 
-function render(){sleepVisual();renderHumor();if(!roomOpen)return;renderBars();renderConteudo()}
-function abrir(){roomOpen=true;quarto.classList.add('aberto');quarto.setAttribute('aria-hidden','false');render();}
+function render(){window.benTravessurasHabilitadas=estado.travessurasAtivas!==false;window.dispatchEvent(new Event('ben-travessuras-alteradas'));sleepVisual();renderHumor();if(!roomOpen)return;renderBars();renderConteudo()}
+function abrir(){window.benDevolverTravessura?.();roomOpen=true;quarto.classList.add('aberto');quarto.setAttribute('aria-hidden','false');render();}
 function fechar(){roomOpen=false;quarto.classList.remove('aberto');quarto.setAttribute('aria-hidden','true');sleepVisual()}
-window.benAbrirCuidados=abrir;$('ben-auto-toggle').addEventListener('click',async()=>{const ligado=!estado.autoCuidado,now=Date.now();const patch={autoCuidado:ligado};if(ligado)Object.assign(patch,{fome:100,sede:100,higiene:100,energia:100,felicidade:100,atFome:now,atSede:now,atHigiene:now,atEnergia:now,atFelicidade:now,acordado:true,sonoInicio:0});else Object.assign(patch,{atFome:now,atSede:now,atHigiene:now,atEnergia:now,atFelicidade:now});if(await save(patch))status(ligado?'✨ Cuidados automáticos ativados!':'Cuidados manuais ativados. ❤️')});$('ben-quarto-fechar').addEventListener('click',fechar);
+window.benAbrirCuidados=abrir;$('ben-travessuras-toggle').addEventListener('click',async()=>{const enabled=estado.travessurasAtivas===false;if(await save({travessurasAtivas:enabled}))status(enabled?'🐾 Ben pode fazer travessuras!':'Travessuras desativadas. Ben continua passeando!')});$('ben-auto-toggle').addEventListener('click',async()=>{const ligado=!estado.autoCuidado,now=Date.now();const patch={autoCuidado:ligado};if(ligado)Object.assign(patch,{fome:100,sede:100,higiene:100,energia:100,felicidade:100,atFome:now,atSede:now,atHigiene:now,atEnergia:now,atFelicidade:now,acordado:true,sonoInicio:0});else Object.assign(patch,{atFome:now,atSede:now,atHigiene:now,atEnergia:now,atFelicidade:now});if(await save(patch))status(ligado?'✨ Cuidados automáticos ativados!':'Cuidados manuais ativados. ❤️')});$('ben-quarto-fechar').addEventListener('click',fechar);
 quarto.addEventListener('click',e=>{if(e.target===quarto)fechar()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&roomOpen)fechar()});
 quarto.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{aba=b.dataset.tab;quarto.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('ativo',x===b));render()}));
 // Firebase realtime: ambos os pais veem os cuidados do mesmo Ben; não grava progresso a cada segundo.
@@ -3492,7 +3614,7 @@ function draw(){
  bola.style.setProperty('--ben-ball-shadow',String(Math.max(.48,1-(bordaY()-y)/300)));
 }
 function podeBrincar(){
- return estado.bolaAtiva&&estado.acordado!==false&&!roomOpen&&!document.hidden&&
+ return estado.bolaAtiva&&estado.acordado!==false&&!roomOpen&&!document.hidden&&!window.benTravessuraEmCurso&&
  !root.classList.contains('ben-conversando')&&!root.classList.contains('ben-minimizado')&&
  root.style.display!=='none'&&!drag;
 }

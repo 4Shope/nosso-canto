@@ -3262,12 +3262,12 @@ body.dark-mode #ben-auto-toggle[aria-checked="true"]{background:#427755;color:wh
 /* Ben: travessuras reversíveis com interface acessível no celular */
 #ben-travessuras-toggle{flex-shrink:0;border:1px solid #dcaea2;background:#fff;border-radius:999px;padding:9px 11px;color:#79524e;font-size:11px;font-weight:700;cursor:pointer}
 #ben-travessuras-toggle[aria-checked="true"]{background:#6c9b7a;color:#fff;border-color:#6c9b7a}
-.ben-travessura-brinquedo{position:fixed;z-index:99999;display:grid;place-items:center;min-width:60px;min-height:60px;max-width:165px;touch-action:manipulation;pointer-events:auto;cursor:pointer;transition:left .7s cubic-bezier(.3,.6,.25,1.15),top .7s cubic-bezier(.2,.6,.3,1);animation:ben-travessura-chute .7s ease-in-out infinite alternate;filter:drop-shadow(0 6px 10px #4d2a2844)}
+.ben-travessura-brinquedo{position:fixed;z-index:99999;display:grid;place-items:center;min-width:60px;min-height:60px;max-width:165px;touch-action:manipulation;pointer-events:auto;cursor:pointer;transition:left 2.2s cubic-bezier(.3,.6,.25,1.15),top 2.2s cubic-bezier(.2,.6,.3,1);animation:ben-travessura-chute 2.4s ease-in-out infinite alternate;filter:drop-shadow(0 6px 10px #4d2a2844)}
 .ben-travessura-brinquedo .ben-palavra-roubada{display:block;font-size:20px;font-weight:800;background:#fff8ed;border:2px solid #e9b7aa;color:#76504a;border-radius:14px;padding:9px 13px;white-space:nowrap;box-shadow:0 4px 12px #0002}
 .ben-travessura-brinquedo .ben-objeto-roubado{pointer-events:auto!important;width:60px;height:60px}
 .ben-menu-devolucao{width:60px;height:60px;display:flex;align-items:center;justify-content:center;border:2px dashed #d2aaa2;border-radius:50%;background:#fff4ef;color:#9f7168;font-size:19px;pointer-events:auto;cursor:pointer;opacity:.8}
 #ben-root.ben-travesso #ben-pet{animation:ben-passeio .28s ease-in-out infinite alternate}
-@keyframes ben-travessura-chute{from{transform:translateY(0) rotate(-12deg)}to{transform:translateY(-15px) rotate(16deg)}}
+@keyframes ben-travessura-chute{from{transform:translateY(0) rotate(-7deg)}to{transform:translateY(-8px) rotate(8deg)}}
 @media(max-width:420px){.ben-travessuras-config{gap:8px;padding:9px}.ben-travessuras-config small{font-size:10px}#ben-travessuras-toggle{font-size:10px;padding:8px}}
 @media(prefers-reduced-motion:reduce){.ben-travessura-brinquedo{animation:none!important}}
 body.dark-mode .ben-travessura-brinquedo .ben-palavra-roubada{background:#403237;color:#ffe7df}
@@ -3299,29 +3299,29 @@ body.dark-mode .ben-menu-devolucao{background:#463339;color:#ffe7df}
 .ben-food-card span{font-size:38px!important}
 .ben-food-card small{font-size:10px;color:#a17a70}
 .ben-food-feed{min-width:76px;max-width:88px;min-height:70px!important;flex:0 0 80px;font-size:10px!important}
-.ben-food-flight{position:fixed;z-index:260000;font-size:34px;pointer-events:none;transform:translate(-50%,-50%);transition:left .48s cubic-bezier(.2,.8,.2,1),top .48s cubic-bezier(.2,.8,.2,1),transform .48s ease;filter:drop-shadow(0 5px 5px #0003)}
-#ben-quarto-ursinho.ben-mastigando{animation:ben-mastiga .16s ease-in-out 4 alternate}
-#ben-quarto-ursinho.ben-mastigando .ben-boca{transform-box:fill-box;transform-origin:center;animation:ben-boca-mastiga .13s ease-in-out 5 alternate}@keyframes ben-boca-mastiga{to{transform:scaleY(1.6)}}
-@keyframes ben-mastiga{to{transform:translateY(-3px) scaleY(.96)}}
+.ben-food-flight{position:fixed;z-index:260000;font-size:34px;pointer-events:none;transform:translate(-50%,-50%);transition:left 1.15s cubic-bezier(.2,.8,.2,1),top 1.15s cubic-bezier(.2,.8,.2,1),transform 1.15s ease;filter:drop-shadow(0 5px 5px #0003)}
+#ben-quarto-ursinho.ben-mastigando{animation:ben-mastiga .52s ease-in-out 3 alternate}
+#ben-quarto-ursinho.ben-mastigando .ben-boca{transform-box:fill-box;transform-origin:center;animation:ben-boca-mastiga .48s ease-in-out 3 alternate}@keyframes ben-boca-mastiga{to{transform:scaleY(1.6)}}
+@keyframes ben-mastiga{to{transform:translateY(-4px) scaleY(.96)}}
 .ben-care-card,.ben-bath-tool{flex:1;max-width:205px;min-height:80px!important;touch-action:none!important;background:linear-gradient(145deg,#fffaf5,#ffeae2)!important;border:2px solid #f0d5c9!important}
 .ben-care-card span,.ben-bath-tool span{font-size:36px!important}
 .ben-care-nav{width:40px;min-width:40px;min-height:65px!important;flex:0 0 40px}
 .ben-game-ball{position:absolute;z-index:18;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:31px;background:radial-gradient(circle at 30% 25%,#fff,#ffd76c 42%,#f29a36 78%);box-shadow:0 6px 12px #5b3c2c55;touch-action:none;user-select:none;will-change:left,top,transform}
 .ben-game-ball:after{content:"";position:absolute;inset:5px;border:2px dashed #fff9;border-radius:50%;pointer-events:none}
-#ben-quarto-ursinho.ben-carinho{animation:ben-carinho .38s ease-in-out 3}
-#ben-quarto-ursinho.ben-escovando{animation:ben-escova .35s ease-in-out 4}
+#ben-quarto-ursinho.ben-carinho{animation:ben-carinho 1.05s ease-in-out 3}
+#ben-quarto-ursinho.ben-escovando{animation:ben-escova .95s ease-in-out 4}
 #ben-quarto-ursinho.ben-descansando{transform:rotate(-8deg) translateY(5px)}
 @keyframes ben-carinho{50%{transform:translateY(-5px) rotate(5deg)}}
 @keyframes ben-escova{50%{transform:rotate(-5deg) scale(1.03)}}
-.ben-tool-effect{position:absolute;z-index:20;pointer-events:none;font-size:30px;animation:ben-tool-swipe .85s ease-in-out forwards}
+ .ben-tool-effect{position:absolute;z-index:20;pointer-events:none;font-size:30px;animation:ben-tool-swipe 1.8s ease-in-out forwards}
 @keyframes ben-tool-swipe{0%{opacity:0;transform:translate(-30px,12px) rotate(-20deg) scale(.7)}30%{opacity:1}100%{opacity:0;transform:translate(55px,-18px) rotate(25deg) scale(1.05)}}
-.ben-prank-object{position:fixed!important;z-index:999999!important;pointer-events:none!important;will-change:left,top,transform;box-sizing:border-box}
+.ben-prank-object{position:fixed!important;z-index:999999!important;pointer-events:none!important;will-change:left,top,transform,opacity;box-sizing:border-box;transition:opacity 1s ease}
 .ben-prank-button{display:grid;place-items:center;border-radius:50%;background:linear-gradient(145deg,#fff,#ffe5dc);border:3px solid #fff;box-shadow:0 9px 20px #4e292b44;font-size:32px}
 .ben-prank-photo{object-fit:cover;border:5px solid #fff;border-radius:10px;box-shadow:0 12px 25px #24161655;background:#fff}
 .ben-prank-text{display:flex;flex-direction:column;justify-content:center;gap:5px;padding:10px 12px;border:2px solid #fff;border-radius:15px;background:#fff7d8;color:#6c4240;box-shadow:0 9px 24px #2416163d;font:800 15px/1.25 system-ui;overflow:hidden}
 .ben-prank-text small{font-size:10px;color:#c04e79}
-.ben-graffiti-layer{position:fixed;inset:0;width:100vw;height:100dvh;z-index:99997;pointer-events:none;opacity:0;transition:opacity .7s ease}
-#ben-root.ben-travesso #ben-pet{animation:ben-passeio .23s ease-in-out infinite alternate}
+.ben-graffiti-layer{position:fixed;inset:0;width:100vw;height:100dvh;z-index:99997;pointer-events:none;opacity:0;transition:opacity 4.8s ease}
+#ben-root.ben-travesso #ben-pet{animation:ben-passeio .9s ease-in-out infinite alternate}\n.ben-paint-brush{position:fixed;z-index:1000000;left:-60px;top:-60px;font-size:34px;pointer-events:none;filter:drop-shadow(0 3px 3px #0005);transition:opacity 1.5s ease;will-change:left,top,transform}
 @media(max-height:700px){#ben-quarto .ben-quarto-card{gap:3px;padding-top:calc(env(safe-area-inset-top,0px) + 5px)!important;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 5px)!important}#ben-quarto-cenario{min-height:135px;max-height:25dvh}#ben-quarto-conteudo{min-height:120px;max-height:22dvh}#ben-quarto .ben-modo-auto{min-height:32px}}
 @media(max-width:390px){#ben-quarto .ben-quarto-card{padding-left:8px!important;padding-right:8px!important}#ben-quarto .ben-quarto-cabecalho h2{font-size:17px}.ben-food-nav,.ben-care-nav{width:34px;min-width:34px;flex-basis:34px}.ben-food-feed{flex-basis:70px;min-width:68px}.ben-food-card span{font-size:34px!important}}
 @media(prefers-reduced-motion:reduce){.ben-prank-object,.ben-graffiti-layer,.ben-food-flight{transition:none!important;animation:none!important}}
@@ -3394,16 +3394,17 @@ const clamp=(n,a,b)=>Math.max(a,Math.min(b,n));
 const rand=(a,b)=>a+Math.random()*(b-a);
 const site=document.getElementById('conteudo-site'),login=document.getElementById('tela-login');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
-let dragging=false,downX=0,downY=0,offX=0,offY=0,lastTouch=Date.now()-30000;
+let dragging=false,didDrag=false,suppressClick=false,downX=0,downY=0,offX=0,offY=0,lastTouch=Date.now()-30000;
 let prank=null,prankTimer=0,nextTimer=0,walkTimer=0,walking=false,gestureTimer=0;
 function visible(){return !!site&&getComputedStyle(site).display!=='none'&&(!login||getComputedStyle(login).display==='none')}
 function asleep(){return root.classList.contains('ben-dormindo')}
 function roomOpen(){return !!document.querySelector('#ben-quarto.aberto')}
 function enabled(){return window.benTravessurasHabilitadas!==false}
-function canAct(){return visible()&&!document.hidden&&!dragging&&!asleep()&&!roomOpen()&&!prank&&!window.benBolaPerseguindo&&Date.now()-lastTouch>1800}
-function placeBen(x,y,duration=.55){
+function canAct(){return visible()&&!document.hidden&&!dragging&&!asleep()&&!roomOpen()&&!prank&&!window.benBolaPerseguindo&&Date.now()-lastTouch>2600}
+function later(p,fn,ms){const id=setTimeout(()=>{if(prank===p)fn()},ms);p.timers.push(id);return id}
+function placeBen(x,y,duration=1.5){
  const r=root.getBoundingClientRect();
- root.style.transition='left '+duration+'s ease,top '+duration+'s ease';
+ root.style.transition='left '+duration+'s cubic-bezier(.22,.7,.25,1),top '+duration+'s cubic-bezier(.22,.7,.25,1)';
  root.style.left=clamp(x-r.width*.35,4,Math.max(4,innerWidth-r.width-4))+'px';
  root.style.top=clamp(y-r.height*.65,58,Math.max(58,innerHeight-r.height-8))+'px';
  root.style.bottom='auto';
@@ -3412,30 +3413,47 @@ function gesture(name){
  if(reduced.matches)return;
  pet.classList.remove('ben-pet-pulando','ben-pet-olhando','ben-pet-acenando');
  void pet.offsetWidth;pet.classList.add('ben-pet-'+name);
- clearTimeout(gestureTimer);gestureTimer=setTimeout(()=>pet.classList.remove('ben-pet-pulando','ben-pet-olhando','ben-pet-acenando'),1100);
+ clearTimeout(gestureTimer);gestureTimer=setTimeout(()=>pet.classList.remove('ben-pet-pulando','ben-pet-olhando','ben-pet-acenando'),2200);
 }
 function wander(){
  if(!canAct()||walking||reduced.matches)return;
  const mood=root.dataset.humor||'feliz',slow=mood==='triste'||mood==='cansado',r=root.getBoundingClientRect();
+ const duration=slow?5.8:rand(3.8,5.4);
  const x=rand(8,Math.max(9,innerWidth-r.width-8));
  const y=rand(65,Math.max(66,innerHeight-r.height-12));
  walking=true;root.classList.add('ben-andando');
- root.style.transition='left '+(slow?2.8:1.05+Math.random()*.45)+'s cubic-bezier(.22,.7,.25,1),top '+(slow?2.8:1.05+Math.random()*.45)+'s cubic-bezier(.22,.7,.25,1)';
+ root.style.transition='left '+duration+'s cubic-bezier(.22,.7,.25,1),top '+duration+'s cubic-bezier(.22,.7,.25,1)';
  root.style.left=x+'px';root.style.top=y+'px';root.style.bottom='auto';
- clearTimeout(walkTimer);walkTimer=setTimeout(()=>{walking=false;root.classList.remove('ben-andando');if(Math.random()<.5)gesture(slow?'olhando':'pulando')},slow?2900:1600);
+ clearTimeout(walkTimer);walkTimer=setTimeout(()=>{walking=false;root.classList.remove('ben-andando');if(Math.random()<.55)gesture(slow?'olhando':'pulando')},duration*1000+180);
 }
 function restore(){
  const p=prank;if(!p)return;
- cancelAnimationFrame(p.raf);clearTimeout(prankTimer);prank=null;window.benTravessuraEmCurso=false;
+ cancelAnimationFrame(p.raf);(p.timers||[]).forEach(clearTimeout);
  if(p.source){p.source.style.visibility=p.oldVisibility;p.source.style.opacity=p.oldOpacity}
  if(p.cards)p.cards.forEach(o=>{o.el.style.transform=o.transform;o.el.style.transition=o.transition});
- p.overlay?.remove();p.canvas?.remove();
+ p.overlay?.remove();p.canvas?.remove();p.brush?.remove();p.caption?.remove();
+ prank=null;window.benTravessuraEmCurso=false;
  root.classList.remove('ben-travesso');
- lastTouch=Date.now()-900;
+ lastTouch=Date.now()-1200;
  schedule();
 }
 window.benDevolverTravessura=restore;
 window.addEventListener('ben-travessuras-alteradas',()=>{if(!enabled())restore()});
+function finish(p){
+ if(prank!==p||p.finishing)return;
+ p.finishing=true;
+ if(p.overlay){
+  p.overlay.style.transition='left 2.6s cubic-bezier(.2,.7,.2,1),top 2.6s cubic-bezier(.2,.7,.2,1),transform 2.6s ease,opacity .5s';
+  p.overlay.style.left=p.originX+'px';p.overlay.style.top=p.originY+'px';p.overlay.style.transform='rotate(0deg)';
+  placeBen(p.originX+p.w/2,p.originY+p.h/2,2.6);
+  gesture('olhando');
+  later(p,()=>restore(),2800);
+ }else if(p.cards){
+  p.cards.forEach(o=>{o.el.style.transition='transform 2.4s cubic-bezier(.2,.7,.2,1)';o.el.style.transform=o.transform});
+  if(p.cards[0]){const r=p.cards[0].el.getBoundingClientRect();placeBen(r.left+r.width/2,r.top+r.height/2,2.4)}
+  later(p,()=>restore(),2700);
+ }
+}
 function shuffleWords(text){
  const words=String(text||'').trim().split(/\s+/).filter(Boolean);
  if(words.length<2)return text;
@@ -3474,8 +3492,7 @@ function beginObject(type,source){
  let overlay;
  if(type==='button'){
   overlay=document.createElement('div');overlay.className='ben-prank-object ben-prank-button';
-  overlay.textContent=source.textContent.trim()||'📌';
-  overlay.style.width='62px';overlay.style.height='62px';
+  overlay.textContent=source.textContent.trim()||'📌';overlay.style.width='62px';overlay.style.height='62px';
  }else if(type==='photo'){
   overlay=source.cloneNode(false);overlay.removeAttribute('id');overlay.removeAttribute('onclick');
   overlay.className='ben-prank-object ben-prank-photo';overlay.alt='Foto passeando com o Ben';
@@ -3487,77 +3504,143 @@ function beginObject(type,source){
   overlay.append(main,tag);overlay.style.width=Math.min(230,Math.max(130,rect.width+35))+'px';overlay.style.height='auto';
  }
  styleOverlay(overlay,rect);
+ overlay.style.opacity='0';overlay.style.transition='opacity .9s ease,left 1.4s ease,top 1.4s ease,transform 1.4s ease';
  if(type==='photo'){overlay.style.width=Math.min(132,Math.max(82,rect.width))+'px';overlay.style.height=Math.min(132,Math.max(82,rect.height))+'px'}
  if(type==='button'){overlay.style.width='62px';overlay.style.height='62px'}
  if(type==='text'){overlay.style.width=Math.min(230,Math.max(130,rect.width+35))+'px';overlay.style.height='auto'}
- source.style.visibility='hidden';
  document.body.append(overlay);
  const w=overlay.getBoundingClientRect().width,h=overlay.getBoundingClientRect().height;
- const p={type,source,oldVisibility,oldOpacity,overlay,x:rect.left+(rect.width-w)/2,y:rect.top+(rect.height-h)/2,w,h,vx:rand(-4.2,4.2),vy:rand(-6.8,-4.3),rotation:rand(-16,16),spin:rand(-5,5),bounces:0,last:0,lastChase:0,started:performance.now(),raf:0};
+ const p={type,source,oldVisibility,oldOpacity,overlay,x:rect.left+(rect.width-w)/2,y:rect.top+(rect.height-h)/2,w,h,originX:rect.left+(rect.width-w)/2,originY:rect.top+(rect.height-h)/2,timers:[],raf:0,finishing:false};
  prank=p;window.benTravessuraEmCurso=true;root.classList.add('ben-travesso');
- placeBen(rect.left+rect.width/2,rect.top+rect.height/2,.48);gesture('olhando');
- setTimeout(()=>{if(prank!==p)return;gesture('pulando');physics(p)},520);
+ placeBen(rect.left+rect.width/2,rect.top+rect.height/2,3.8);gesture('olhando');
+ later(p,()=>{
+  source.style.visibility='hidden';overlay.style.opacity='1';gesture('pulando');
+  carryObject(p);
+ },3900);
+}
+function carryObject(p){
+ if(prank!==p)return;
+ const started=performance.now();
+ function frame(now){
+  if(prank!==p)return;
+  const r=root.getBoundingClientRect(),progress=Math.min(1,(now-started)/3300);
+  const sway=Math.sin(progress*Math.PI*5)*12;
+  p.overlay.style.left=(r.left+r.width*.62+sway-p.w*.22)+'px';
+  p.overlay.style.top=(r.top+r.height*.46+Math.sin(progress*Math.PI*7)*7-p.h*.18)+'px';
+  p.overlay.style.transform='rotate('+(-12+Math.sin(progress*Math.PI*6)*18)+'deg) scale('+(1+Math.sin(progress*Math.PI*8)*.045)+')';
+  if(progress<1){p.raf=requestAnimationFrame(frame);return}
+  physics(p);
+ }
+ p.raf=requestAnimationFrame(frame);
 }
 function physics(p){
+ let x=parseFloat(p.overlay.style.left)||p.x,y=parseFloat(p.overlay.style.top)||p.y;
+ let vx=rand(-1.7,1.7),vy=rand(-1.7,-.6),rotation=0,spin=rand(-1.3,1.3),last=0,lastChase=0;
+ const started=performance.now();
  function frame(now){
   if(prank!==p)return;
   if(!enabled()||document.hidden||!visible()||asleep()||roomOpen()){restore();return}
-  const dt=Math.min(2.4,Math.max(.4,(now-(p.last||now))/16.67));p.last=now;
-  p.vy+=.27*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;p.rotation+=p.spin*dt;
-  const floor=Math.max(72,innerHeight-p.h-74);
-  if(p.x<5){p.x=5;p.vx=Math.abs(p.vx)*.82;p.spin*=-.8}
-  if(p.x>innerWidth-p.w-5){p.x=innerWidth-p.w-5;p.vx=-Math.abs(p.vx)*.82;p.spin*=-.8}
-  if(p.y<62){p.y=62;p.vy=Math.abs(p.vy)*.72}
-  if(p.y>floor){p.y=floor;p.vy=-Math.max(2.5,Math.abs(p.vy)*.66);p.vx*=.91;p.bounces++}
-  if(Math.abs(p.vx)<.9)p.vx+=(Math.random()<.5?-1:1)*1.2;
-  p.overlay.style.left=p.x+'px';p.overlay.style.top=p.y+'px';p.overlay.style.transform='rotate('+p.rotation+'deg)';
-  if(now-p.lastChase>230){p.lastChase=now;placeBen(p.x+p.w*.5,p.y+p.h*.55,.22)}
-  if(now-p.started>7200||p.bounces>=7){restore();return}
+  const dt=Math.min(2.2,Math.max(.4,(now-(last||now))/16.67));last=now;
+  vy+=.075*dt;x+=vx*dt;y+=vy*dt;rotation+=spin*dt;
+  const floor=Math.max(72,innerHeight-p.h-82);
+  if(x<5){x=5;vx=Math.abs(vx)*.76;spin*=-.75}
+  if(x>innerWidth-p.w-5){x=innerWidth-p.w-5;vx=-Math.abs(vx)*.76;spin*=-.75}
+  if(y<62){y=62;vy=Math.abs(vy)*.62}
+  if(y>floor){y=floor;vy=-Math.max(1.1,Math.abs(vy)*.52);vx*=.94}
+  vx*=.997;spin*=.998;
+  p.overlay.style.left=x+'px';p.overlay.style.top=y+'px';p.overlay.style.transform='rotate('+rotation+'deg)';
+  if(now-lastChase>1150){lastChase=now;placeBen(x+p.w*.5,y+p.h*.55,1.25)}
+  if(now-started>19000){finish(p);return}
   p.raf=requestAnimationFrame(frame);
  }
  p.raf=requestAnimationFrame(frame);
 }
 function graffiti(){
+ const dpr=Math.min(2,devicePixelRatio||1);
  const canvas=document.createElement('canvas');canvas.className='ben-graffiti-layer';
- canvas.width=Math.round(innerWidth*(devicePixelRatio||1));canvas.height=Math.round(innerHeight*(devicePixelRatio||1));
- canvas.style.width='100vw';canvas.style.height='100dvh';
+ canvas.width=Math.round(innerWidth*dpr);canvas.height=Math.round(innerHeight*dpr);
+ canvas.style.width='100vw';canvas.style.height='100dvh';canvas.style.opacity='1';
  const ctx=canvas.getContext('2d');if(!ctx)return;
- ctx.scale(devicePixelRatio||1,devicePixelRatio||1);
+ ctx.scale(dpr,dpr);
+ const brush=document.createElement('div');brush.className='ben-paint-brush';brush.textContent='🖌️';
+ document.body.append(canvas,brush);
+ const p={type:'paint',canvas,brush,timers:[],raf:0,finishing:false};prank=p;window.benTravessuraEmCurso=true;root.classList.add('ben-travesso');
  const colors=['#ff4f8b','#ffb000','#16b8a6','#8b5cf6','#2588ff','#f05b35','#e54bdf'];
+ const words=['Fabricio, olha o que eu fiz!','Maria, fui eu! 🐾','Ben esteve aqui!','PAPAI 💛','MAMÃE ✨'];
  const color=()=>colors[Math.floor(Math.random()*colors.length)];
- for(let k=0;k<5;k++){
-  ctx.strokeStyle=color();ctx.lineWidth=rand(3,8);ctx.lineCap='round';ctx.lineJoin='round';
-  ctx.beginPath();let x=rand(20,innerWidth-20),y=rand(80,innerHeight-90);ctx.moveTo(x,y);
-  for(let i=0;i<7;i++){x+=rand(-48,48);y+=rand(-35,35);ctx.quadraticCurveTo(x+rand(-20,20),y+rand(-20,20),x,y)}ctx.stroke();
+ const total=7;
+ function drawStroke(index){
+  if(prank!==p)return;
+  if(index>=total){writeMessage(0);return}
+  const x0=rand(55,Math.max(56,innerWidth-55)),y0=rand(100,Math.max(101,innerHeight-100));
+  const points=[{x:x0,y:y0}];
+  const count=rand(7,11);
+  for(let i=1;i<count;i++)points.push({x:clamp(points[i-1].x+rand(-44,44),18,innerWidth-18),y:clamp(points[i-1].y+rand(-36,36),75,innerHeight-35)});
+  const c=color(),width=rand(4,8),duration=rand(2100,2700);
+  placeBen(x0,y0,1.7);gesture('olhando');
+  ctx.strokeStyle=c;ctx.lineWidth=width;ctx.lineCap='round';ctx.lineJoin='round';
+  let began=0;
+  function paintFrame(now){
+   if(prank!==p)return;
+   if(!began)began=now;
+   const progress=Math.min(1,(now-began)/duration),segment=progress*(points.length-1),full=Math.floor(segment),part=segment-full;
+   ctx.beginPath();ctx.moveTo(points[0].x,points[0].y);
+   for(let j=1;j<=full;j++)ctx.lineTo(points[j].x,points[j].y);
+   if(full<points.length-1){const a=points[full],b=points[full+1];ctx.lineTo(a.x+(b.x-a.x)*part,a.y+(b.y-a.y)*part)}
+   ctx.stroke();
+   const at=points[Math.min(full+1,points.length-1)],prev=points[full];
+   const bx=prev.x+(at.x-prev.x)*part,by=prev.y+(at.y-prev.y)*part;
+   brush.style.left=(bx-14)+'px';brush.style.top=(by-33)+'px';brush.style.transform='rotate('+(-25+part*50)+'deg)';
+   if(progress<1){p.raf=requestAnimationFrame(paintFrame);return}
+   later(p,()=>drawStroke(index+1),650);
+  }
+  p.raf=requestAnimationFrame(paintFrame);
  }
- for(let k=0;k<7;k++){
-  const x=rand(25,innerWidth-40),y=rand(85,innerHeight-100),r=rand(8,22);
-  ctx.strokeStyle=color();ctx.lineWidth=rand(2,5);ctx.beginPath();
-  if(Math.random()<.5){ctx.arc(x,y,r,0,Math.PI*2)}else{for(let i=0;i<10;i++){const a=-Math.PI/2+i*Math.PI/5,rr=i%2?r*.42:r;const px=x+Math.cos(a)*rr,py=y+Math.sin(a)*rr;i?ctx.lineTo(px,py):ctx.moveTo(px,py)}ctx.closePath()}ctx.stroke();
+ function writeMessage(index){
+  if(prank!==p)return;
+  if(index>=2){
+   later(p,()=>{canvas.style.opacity='0';brush.style.opacity='0';later(p,()=>restore(),4800)},17000);
+   return;
+  }
+  const message=words[Math.floor(Math.random()*words.length)];
+  const x=rand(35,Math.max(36,innerWidth-260)),y=rand(110,Math.max(111,innerHeight-65));
+  placeBen(x,y,1.6);gesture('olhando');
+  ctx.font='900 22px system-ui';ctx.lineWidth=5;ctx.strokeStyle='#fff';ctx.fillStyle=color();ctx.lineJoin='round';
+  let n=0;
+  function letter(){
+   if(prank!==p)return;
+   n=Math.min(message.length,n+1);
+   ctx.strokeText(message.slice(0,n),x,y);ctx.fillText(message.slice(0,n),x,y);
+   brush.style.left=(x+Math.min(n,message.length)*11)+'px';brush.style.top=(y-34)+'px';
+   if(n<message.length)later(p,letter,180);else later(p,()=>writeMessage(index+1),1100);
+  }
+  letter();
  }
- const words=['Fabricio!','Maria!','Ben passou 🐾','hehe 😈','AUAU!','PAPAI 💛','MAMÃE ✨'];
- for(let i=0;i<3;i++){
-  ctx.save();ctx.translate(rand(25,innerWidth-60),rand(100,innerHeight-90));ctx.rotate(rand(-.35,.35));
-  ctx.font='900 '+Math.round(rand(17,27))+'px system-ui';ctx.lineWidth=4;ctx.strokeStyle='#fff';ctx.strokeText(words[Math.floor(Math.random()*words.length)],0,0);
-  ctx.fillStyle=color();ctx.fillText(words[Math.floor(Math.random()*words.length)],0,0);ctx.restore();
- }
- document.body.append(canvas);canvas.style.opacity='1';
- setTimeout(()=>{canvas.style.opacity='0'},4200);setTimeout(()=>canvas.remove(),5200);
+ drawStroke(0);
 }
 function shuffleCards(){
  const cards=visibleTargets('#bloco-galeria-momentos .quadro-polaroid,#bloco-nossos-textos .declaracao-card');
  if(!cards.length){graffiti();return}
  const chosen=cards.sort(()=>Math.random()-.5).slice(0,Math.min(3,cards.length));
  const saved=chosen.map(el=>({el,transform:el.style.transform,transition:el.style.transition}));
- chosen.forEach((o,i)=>{o.el.style.transition='transform .45s cubic-bezier(.2,.8,.2,1)';o.el.style.transform='translate('+rand(-25,25)+'px,'+rand(-18,18)+'px) rotate('+rand(-8,8)+'deg)'});
- setTimeout(()=>saved.forEach(o=>{o.el.style.transform=o.transform;o.el.style.transition=o.transition}),3600);
- setTimeout(graffiti,300);
+ const p={type:'cards',cards:saved,timers:[],raf:0,finishing:false};prank=p;window.benTravessuraEmCurso=true;root.classList.add('ben-travesso');
+ const first=chosen[0].getBoundingClientRect();placeBen(first.left+first.width/2,first.top+first.height/2,3.6);gesture('olhando');
+ function moveOne(i){
+  if(prank!==p)return;
+  if(i>=chosen.length){later(p,()=>finish(p),17000);return}
+  const el=chosen[i],r=el.getBoundingClientRect();
+  placeBen(r.left+r.width/2,r.top+r.height/2,1.7);gesture('pulando');
+  el.style.transition='transform 2.2s cubic-bezier(.2,.7,.2,1)';
+  el.style.transform='translate('+rand(-34,34)+'px,'+rand(-26,26)+'px) rotate('+rand(-11,11)+'deg)';
+  later(p,()=>moveOne(i+1),2600);
+ }
+ later(p,()=>moveOne(0),3700);
 }
 function doPrank(){
  if(!enabled()||!canAct()||reduced.matches)return;
  const choice=Math.random();
- if(choice<.22){placeBen(rand(20,innerWidth-70),rand(90,innerHeight-140),.6);setTimeout(graffiti,550);return}
- if(choice<.38){shuffleCards();return}
+ if(choice<.34){graffiti();return}
+ if(choice<.56){shuffleCards();return}
  const target=chooseTarget();
  if(target){beginObject(target.type,target.el);return}
  graffiti();
@@ -3565,12 +3648,12 @@ function doPrank(){
 function schedule(){
  clearTimeout(nextTimer);
  if(!enabled())return;
- nextTimer=setTimeout(()=>{if(canAct())doPrank();schedule()},rand(14000,27000));
+ nextTimer=setTimeout(()=>{if(canAct())doPrank();schedule()},rand(36000,54000));
 }
 pet.addEventListener('pointerdown',e=>{
  if(e.button!==0)return;
- if(prank){restore();lastTouch=Date.now();return}
- dragging=true;downX=e.clientX;downY=e.clientY;
+ if(prank){restore();lastTouch=Date.now();suppressClick=true;return}
+ dragging=true;didDrag=false;downX=e.clientX;downY=e.clientY;
  const r=root.getBoundingClientRect();offX=e.clientX-r.left;offY=e.clientY-r.top;
  lastTouch=Date.now();walking=false;root.classList.remove('ben-andando');clearTimeout(walkTimer);
  pet.setPointerCapture(e.pointerId);
@@ -3578,18 +3661,23 @@ pet.addEventListener('pointerdown',e=>{
 pet.addEventListener('pointermove',e=>{
  if(!dragging)return;
  if(Math.hypot(e.clientX-downX,e.clientY-downY)>7){
-  root.style.transition='none';root.style.left=clamp(e.clientX-offX,4,innerWidth-pet.offsetWidth-4)+'px';
+  didDrag=true;root.style.transition='none';root.style.left=clamp(e.clientX-offX,4,innerWidth-pet.offsetWidth-4)+'px';
   root.style.top=clamp(e.clientY-offY,58,innerHeight-pet.offsetHeight-8)+'px';root.style.bottom='auto';
  }
 });
-pet.addEventListener('pointerup',()=>{dragging=false;lastTouch=Date.now()});
-pet.addEventListener('pointercancel',()=>{dragging=false;lastTouch=Date.now()});
-pet.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();if(prank)restore();else window.benAbrirCuidados?.();lastTouch=Date.now()}});
+pet.addEventListener('pointerup',()=>{dragging=false;lastTouch=Date.now();setTimeout(()=>{didDrag=false},0)});
+pet.addEventListener('pointercancel',()=>{dragging=false;lastTouch=Date.now();setTimeout(()=>{didDrag=false},0)});
+pet.addEventListener('click',()=>{
+ if(suppressClick){suppressClick=false;return}
+ if(didDrag){didDrag=false;return}
+ if(prank){restore();lastTouch=Date.now();return}
+ lastTouch=Date.now();window.benAbrirCuidados?.();
+});
 window.addEventListener('resize',()=>{if(prank)restore()});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)restore()});
 window.addEventListener('pagehide',restore);
 setInterval(()=>{root.style.display=visible()?'block':'none';if(!visible()||roomOpen()||asleep())restore()},850);
-setInterval(wander,1800);
+setInterval(wander,4700);
 schedule();
 })();
 </script>
@@ -3674,18 +3762,18 @@ async function useBathStep(){
  if(estado.autoCuidado){status('Ben já está limpinho no modo automático! ✨');return}
  bathBusy=true;
  if(bathStep===0){ensaboado=true;$('ben-espuma').classList.add('ativa');toolEffect('🫧');status('Espuma por todo lado! Agora enxágue o Ben.');bathStep=1}
- else if(bathStep===1){const shower=$('ben-quarto-cenario').querySelector('.ben-quarto-chuveiro');shower.classList.add('ativo');toolEffect('💦');status('Água quentinha! Tirando toda a espuma…');await new Promise(r=>setTimeout(r,1050));shower.classList.remove('ativo');$('ben-espuma').classList.remove('ativa');ensaboado=false;bathStep=2}
- else if(bathStep===2){toolEffect('🧻');roomBen.classList.add('ben-descansando');status('Ben ficou sequinho e fofinho! Falta escovar os dentinhos.');await new Promise(r=>setTimeout(r,650));roomBen.classList.remove('ben-descansando');bathStep=3}
- else {toolEffect('🪥');roomBen.classList.add('ben-escovando');await new Promise(r=>setTimeout(r,900));roomBen.classList.remove('ben-escovando');const now=Date.now();if(await save({higiene:100,atHigiene:now,felicidade:clamp(atual().felicidade+8),atFelicidade:now})){status('Banho completo! Ben está limpinho, sequinho e com os dentinhos brilhando! ✨');bathStep=0;ensaboado=false}}
+ else if(bathStep===1){const shower=$('ben-quarto-cenario').querySelector('.ben-quarto-chuveiro');shower.classList.add('ativo');toolEffect('💦');status('Água quentinha! Tirando toda a espuma…');await new Promise(r=>setTimeout(r,2200));shower.classList.remove('ativo');$('ben-espuma').classList.remove('ativa');ensaboado=false;bathStep=2}
+ else if(bathStep===2){toolEffect('🧻');roomBen.classList.add('ben-descansando');status('Ben ficou sequinho e fofinho! Falta escovar os dentinhos.');await new Promise(r=>setTimeout(r,1800));roomBen.classList.remove('ben-descansando');bathStep=3}
+ else {toolEffect('🪥');roomBen.classList.add('ben-escovando');await new Promise(r=>setTimeout(r,2200));roomBen.classList.remove('ben-escovando');const now=Date.now();if(await save({higiene:100,atHigiene:now,felicidade:clamp(atual().felicidade+8),atFelicidade:now})){status('Banho completo! Ben está limpinho, sequinho e com os dentinhos brilhando! ✨');bathStep=0;ensaboado=false}}
  bathBusy=false;if(roomOpen)renderConteudo();
 }
 function useCare(index){
  if(estado.acordado===false&&!estado.autoCuidado){status('Ben está dormindo. 💤');return}
  const now=Date.now(),v=atual();
- if(index===0){roomBen.classList.add('ben-carinho');toolEffect('💛');setTimeout(()=>roomBen.classList.remove('ben-carinho'),1200);save({felicidade:clamp(v.felicidade+14),atFelicidade:now}).then(ok=>{if(ok)status('Ben fechou os olhinhos e adorou o carinho! 🐾')})}
- if(index===1){roomBen.classList.add('ben-escovando');toolEffect('🪮');setTimeout(()=>roomBen.classList.remove('ben-escovando'),1200);save({higiene:clamp(v.higiene+9),atHigiene:now,felicidade:clamp(v.felicidade+6),atFelicidade:now}).then(ok=>{if(ok)status('Pelinho macio e arrumado!')})}
+ if(index===0){roomBen.classList.add('ben-carinho');toolEffect('💛');setTimeout(()=>roomBen.classList.remove('ben-carinho'),3200);save({felicidade:clamp(v.felicidade+14),atFelicidade:now}).then(ok=>{if(ok)status('Ben fechou os olhinhos e adorou o carinho! 🐾')})}
+ if(index===1){roomBen.classList.add('ben-escovando');toolEffect('🪮');setTimeout(()=>roomBen.classList.remove('ben-escovando'),3900);save({higiene:clamp(v.higiene+9),atHigiene:now,felicidade:clamp(v.felicidade+6),atFelicidade:now}).then(ok=>{if(ok)status('Pelinho macio e arrumado!')})}
  if(index===2)startRoomBall();
- if(index===3){roomBen.classList.add('ben-descansando');setTimeout(()=>roomBen.classList.remove('ben-descansando'),1400);save({energia:clamp(v.energia+12),atEnergia:now,felicidade:clamp(v.felicidade+4),atFelicidade:now}).then(ok=>{if(ok)status('Ben descansou um pouquinho. 🛋️')})}
+ if(index===3){roomBen.classList.add('ben-descansando');setTimeout(()=>roomBen.classList.remove('ben-descansando'),3000);save({energia:clamp(v.energia+12),atEnergia:now,felicidade:clamp(v.felicidade+4),atFelicidade:now}).then(ok=>{if(ok)status('Ben descansou um pouquinho. 🛋️')})}
 }
 function startRoomBall(){
  if(roomBall){cancelAnimationFrame(roomBall.raf);roomBall.el.remove();roomBall=null}

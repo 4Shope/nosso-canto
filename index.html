@@ -3737,7 +3737,7 @@ function handleDoubleInteraction(e){
  const x=e.clientX||innerWidth/2,y=e.clientY||innerHeight/2;
  const target=e.target.closest('img,p,h1,h2,h3,h4,section,article,.bloco-separado,.card-separador-interno,.contador-bloco,.moldura-imagem,.quadro-polaroid,.declaracao-card');
  const blocked=e.target.closest('button,a,input,select,textarea,[contenteditable="true"],[role="button"],video,audio,iframe');
- if(target&&!blocked&&target!==area){const modes=['boop','flip','squish','jelly','dance','peek','zoom','orbit','glow','paw'];playWithTarget(modes[Math.floor(Math.random()*modes.length)],target)}
+ if(target&&!blocked&&target!==area&&!target.querySelector('button,a,input,select,textarea,[contenteditable="true"],[role="button"]')){const modes=['boop','flip','squish','jelly','dance','peek','zoom','orbit','glow','paw'];playWithTarget(modes[Math.floor(Math.random()*modes.length)],target)}
  else ambientPrank('paws',x,y);
 }
 function handleTouchDoubleTap(e){

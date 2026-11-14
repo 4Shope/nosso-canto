@@ -3324,7 +3324,7 @@ body.dark-mode .ben-menu-devolucao{background:#463339;color:#ffe7df}
 @keyframes ben-game-burst{0%{opacity:1;transform:translate(-50%,-50%) scale(.45) rotate(-15deg)}65%{opacity:1;transform:translate(-50%,-75%) scale(1.35) rotate(20deg)}100%{opacity:0;transform:translate(-50%,-110%) scale(.7) rotate(35deg)}}
 #ben-quarto-ursinho.ben-game-pounce{animation:ben-game-pounce .42s cubic-bezier(.2,.8,.2,1)}
 @keyframes ben-game-pounce{0%,100%{transform:translateY(0) rotate(0)}35%{transform:translateY(-18px) rotate(-9deg) scale(1.06,.94)}70%{transform:translateY(2px) rotate(7deg) scale(.96,1.04)}}
-@media(max-width:420px){.ben-game-hud{top:7px;left:7px;right:7px;gap:4px}.ben-game-hint{font-size:9px;padding:6px 7px}.ben-game-score,.ben-game-clock{padding:6px 8px}}
+#ben-quarto-cenario[data-scene="brincar"]{background-image:radial-gradient(circle at 14px 14px,#ffffff35 1px,transparent 2px),linear-gradient(180deg,#fff2ee 0 58%,#ffd9d2 58% 72%,#efc28f 72% 100%);background-size:28px 28px,auto}\n.ben-game-star{filter:drop-shadow(0 0 7px #ffe18b) drop-shadow(0 4px 4px #a76c254d)}\n@media(max-width:420px){.ben-game-hud{top:7px;left:7px;right:7px;gap:4px}.ben-game-hint{font-size:9px;padding:6px 7px}.ben-game-score,.ben-game-clock{padding:6px 8px}}
 .ben-game-ball:after{content:none}
 #ben-quarto-ursinho.ben-carinho{animation:ben-carinho 1.05s ease-in-out 3}
 #ben-quarto-ursinho.ben-escovando{animation:ben-escova .95s ease-in-out 4}
@@ -3667,7 +3667,7 @@ function doPrank(){
 function schedule(){
  clearTimeout(nextTimer);
  if(!enabled())return;
- nextTimer=setTimeout(()=>{if(canAct())doPrank();schedule()},rand(14000,22000));
+ nextTimer=setTimeout(()=>{if(canAct())doPrank();schedule()},rand(9000,15000));
 }
 pet.addEventListener('pointerdown',e=>{
  if(e.button!==0)return;
@@ -3838,7 +3838,7 @@ function startRoomBall(){
    vx=bound(vx+dir*random(4.5,6.8),-10,10);vy=-random(6.8,9.2);spin+=random(5,10);
    roomBen.classList.remove('ben-game-pounce');void roomBen.offsetWidth;roomBen.classList.add('ben-game-pounce');
    setTimeout(()=>roomBen.classList.remove('ben-game-pounce'),650);
-   burst(x+size/2,y+size/2,'dust');updateHud();
+   burst(x+size/2,y+size/2,'dust');hud.querySelector('.ben-game-hint').textContent='Ben chutou! +1';updateHud();
   }
  }
  function pointerDown(e){
@@ -3890,7 +3890,7 @@ function startRoomBall(){
    }
    kick();
    if(Math.hypot(x+size/2-sx,y+size/2-sy)<48&&t-lastStar>650){
-    lastStar=t;score+=3;burst(sx,sy,'star');placeStar();vx+=random(-2.5,2.5);vy-=2.2;updateHud();
+    lastStar=t;score+=3;burst(sx,sy,'star');placeStar();vx+=random(-2.5,2.5);vy-=2.2;hud.querySelector('.ben-game-hint').textContent='Pegou a estrela! +3';updateHud();
    }
   }
   position();updateHud();

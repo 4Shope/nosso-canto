@@ -3703,8 +3703,8 @@ function ambientPrank(kind,x=rand(55,Math.max(56,innerWidth-55)),y=rand(95,Math.
  const effect=document.createElement('div');effect.className='ben-prank-sparkles';effect.style.inset='0';effect.style.width='100vw';effect.style.height='100dvh';
  const p={type:'ambient',effect,timers:[],raf:0,finishing:false};prank=p;window.benTravessuraEmCurso=true;root.classList.add('ben-travesso');
  const add=(emoji,left,top,delay=0)=>{const s=document.createElement('span');s.className='ben-prank-spark';s.textContent=emoji;s.style.left=left+'px';s.style.top=top+'px';s.style.setProperty('--dx',rand(-70,70)+'px');s.style.setProperty('--dy',rand(-90,30)+'px');s.style.animationDelay=delay+'ms';effect.append(s)};
- if(kind==='rain'){
-  const rain=['🌟','💛','🐾','🍓','🧸','💫','🌈','🫧','🎈'];
+ if(kind==='rain'||kind==='hearts'){
+  const rain=kind==='hearts'?['💗','💖','💕','💘','💝','💞']:['🌟','💛','🐾','🍓','🧸','💫','🌈','🫧','🎈'];
   for(let i=0;i<20;i++){const s=document.createElement('span');s.className='ben-prank-fall';s.textContent=rain[Math.floor(Math.random()*rain.length)];s.style.left=rand(4,Math.max(5,innerWidth-35))+'px';s.style.fontSize=rand(20,34)+'px';s.style.animationDuration=rand(1.8,3.1)+'s';s.style.animationDelay=rand(0,900)+'ms';effect.append(s)}
   placeBen(x,y,1.1);gesture('pulando');
  }else if(kind==='bubble'){
@@ -3721,6 +3721,13 @@ function ambientPrank(kind,x=rand(55,Math.max(56,innerWidth-55)),y=rand(95,Math.
   const edge=Math.random()<.5?8:innerWidth-48;placeBen(edge,y,.75);gesture('olhando');
   later(p,()=>{placeBen(x,y,1);gesture('pulando')},900);
   for(let i=0;i<5;i++)add(['👀','🙈','🐾','✨','😜'][i],x+rand(-40,40),y+rand(-35,35),i*120);
+ }else if(kind==='sneeze'){
+  placeBen(x,y,.8);gesture('pulando');
+  const burst=['🤧','💨','💨','⭐','🐾','✨'];burst.forEach((v,i)=>add(v,x+rand(-45,45),y+rand(-38,38),i*95));
+  const bubble=document.createElement('div');bubble.className='ben-prank-bubble';bubble.textContent='ATCHIM!!! 🤧';bubble.style.left=clamp(x-30,8,innerWidth-220)+'px';bubble.style.top=clamp(y-85,65,innerHeight-90)+'px';effect.append(bubble);
+ }else if(kind==='zoomies'){
+  placeBen(rand(35,Math.max(36,innerWidth-55)),rand(85,Math.max(86,innerHeight-90)),.45);gesture('pulando');
+  for(let i=0;i<3;i++){const px=rand(35,Math.max(36,innerWidth-55)),py=rand(85,Math.max(86,innerHeight-90));later(p,()=>{const rr=root.getBoundingClientRect();add('💨',rr.left+rr.width/2,rr.top+rr.height/2,i*80);placeBen(px,py,.42);gesture('pulando')},520*(i+1))}
  }else{
   const stickers=['😈','🐾','🧸','💛','🫧','⭐'];
   for(let i=0;i<6;i++)add(stickers[i],x+rand(-55,55),y+rand(-45,45),i*90);
@@ -3753,7 +3760,7 @@ function doPrank(){
  if(choice<.28){shuffleCards();return}
  if(choice<.43){const target=chooseTarget();if(target){beginObject(target.type,target.el);return}}
  const modes=['wiggle','spin','bounce','tilt','wobble','glow','paw','flip','squish','jelly','boop','dance','peek','zoom','orbit'];
- const r=Math.random();if(r<.12){ambientPrank('rain');return}if(r<.23){ambientPrank('bubble');return}if(r<.34){ambientPrank('confetti');return}if(r<.43){ambientPrank('paws');return}if(r<.50){ambientPrank('peek');return}
+ const r=Math.random();if(r<.08){ambientPrank('rain');return}if(r<.16){ambientPrank('bubble');return}if(r<.24){ambientPrank('confetti');return}if(r<.32){ambientPrank('paws');return}if(r<.39){ambientPrank('peek');return}if(r<.44){ambientPrank('sneeze');return}if(r<.48){ambientPrank('hearts');return}if(r<.52){ambientPrank('zoomies');return}
  playWithTarget(modes[Math.floor(Math.random()*modes.length)]);
 }
 function schedule(){

@@ -3698,14 +3698,15 @@ function pageTapReaction(e){
  if(!siteArea||e.target.closest('#ben-root,#ben-quarto,.modal,.modal-postagem,.lightbox-modal,.menu-flutuante-container,.ben-prank-object'))return;
  lastTouch=Date.now();
  if(e.button!==undefined&&e.button!==0)return;
- if(e.target.closest('button,a,input,select,textarea,[contenteditable="true"],[role="button"]'))return;
  if(!enabled()||!visible()||document.hidden||reduced.matches||asleep()||roomOpen()||prank||dragging||window.benBolaPerseguindo)return;
  if(Date.now()-lastTapReaction<1650)return;
  lastTapReaction=Date.now();
  const x=e.clientX||innerWidth/2,y=e.clientY||innerHeight/2;
- placeBen(x,y,1.05);gesture(Math.random()<.55?'olhando':'pulando');
+ const interactive=!!e.target.closest('button,a,input,select,textarea,[contenteditable="true"],[role="button"]');
+ if(interactive)gesture('olhando');
+ else {placeBen(x,y,1.05);gesture(Math.random()<.55?'olhando':'pulando')}
  const fx=document.createElement('div');fx.className='ben-tap-sparkles';fx.style.left=(x-28)+'px';fx.style.top=(y-28)+'px';fx.style.width='56px';fx.style.height='56px';
- ['🐾','✨','💛'].forEach((v,i)=>{const s=document.createElement('span');s.textContent=v;s.style.left=(8+i*18)+'px';s.style.top=(8+(i%2)*15)+'px';s.style.animationDelay=(i*.1)+'s';fx.append(s)});
+ ['🐾','✨','💛'].forEach((v,i)=>{const s=document.createElement('span');s.textContent=v;s.style.left=(8+i*18)+'px';s.style.top=(8+(i%2)*15)+'px';s.style.setProperty('--dx',rand(-22,22)+'px');s.style.setProperty('--dy',rand(-30,10)+'px');s.style.animationDelay=(i*.1)+'s';fx.append(s)});
  document.body.append(fx);setTimeout(()=>fx.remove(),1900);
 }
 

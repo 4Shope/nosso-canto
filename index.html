@@ -3343,6 +3343,7 @@ body.dark-mode .ben-menu-devolucao{background:#463339;color:#ffe7df}
 @keyframes ben-prank-spark{0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(-25deg)}18%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.3) rotate(35deg)}}
 .ben-tap-sparkles{position:fixed;z-index:99996;pointer-events:none;overflow:visible}
 .ben-tap-sparkles span{position:absolute;animation:ben-prank-spark 1.5s ease-out forwards}
+#conteudo-site{touch-action:manipulation}
 .ben-prank-bubble{position:fixed;z-index:99999;pointer-events:none;max-width:min(240px,72vw);padding:11px 15px;border:3px solid #fff;border-radius:20px 20px 20px 5px;background:linear-gradient(145deg,#fff5c9,#ffe0ed);color:#704451;font:900 14px/1.25 system-ui;box-shadow:0 8px 22px #3b243344;animation:ben-bubble-pop .35s cubic-bezier(.2,.9,.3,1.4) both}
 @keyframes ben-bubble-pop{from{opacity:0;transform:scale(.2) rotate(-12deg)}to{opacity:1;transform:scale(1) rotate(0)}}
 .ben-prank-fall{position:absolute;top:-50px;animation:ben-prank-fall linear forwards;filter:drop-shadow(0 3px 4px #44333344)}
@@ -3733,7 +3734,7 @@ function ambientPrank(kind,x=rand(55,Math.max(56,innerWidth-55)),y=rand(95,Math.
   for(let i=0;i<6;i++)add(stickers[i],x+rand(-55,55),y+rand(-45,45),i*90);
   placeBen(x,y,1.05);gesture('pulando');
  }
- later(p,()=>restore(),kind==='rain'?3800:kind==='bubble'?2800:kind==='peek'?2600:2300);
+ later(p,()=>restore(),kind==='rain'||kind==='hearts'?3800:kind==='bubble'?2800:kind==='peek'?2600:2300);
 }
 function handleDoubleInteraction(e){
  const area=e.target.closest('#conteudo-site');
@@ -3749,6 +3750,7 @@ function handleDoubleInteraction(e){
 }
 function handleTouchDoubleTap(e){
  if(e.pointerType!=='touch')return;
+ if(!e.target.closest('#conteudo-site')){lastPointerTap=0;return}
  const now=Date.now(),x=e.clientX,y=e.clientY;
  if(lastPointerTap&&now-lastPointerTap<390&&Math.hypot(x-lastPointerX,y-lastPointerY)<42){lastPointerTap=0;handleDoubleInteraction(e)}
  else{lastPointerTap=now;lastPointerX=x;lastPointerY=y}
@@ -3792,6 +3794,7 @@ pet.addEventListener('click',()=>{
  lastTouch=Date.now();window.benAbrirCuidados?.();
 });
 document.addEventListener('pointerdown',handleTouchDoubleTap,true);
+ document.addEventListener('pointermove',e=>{if(e.pointerType==='touch'&&lastPointerTap&&Math.hypot(e.clientX-lastPointerX,e.clientY-lastPointerY)>14)lastPointerTap=0},{passive:true});
  document.addEventListener('dblclick',handleDoubleInteraction,true);
 window.addEventListener('resize',()=>{if(prank)restore()});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)restore()});

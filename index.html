@@ -3273,6 +3273,59 @@ body.dark-mode #ben-auto-toggle[aria-checked="true"]{background:#427755;color:wh
 body.dark-mode .ben-travessura-brinquedo .ben-palavra-roubada{background:#403237;color:#ffe7df}
 body.dark-mode .ben-menu-devolucao{background:#463339;color:#ffe7df}
 </style>
+<style>
+#ben-quarto{padding:0!important;align-items:stretch!important;overflow:hidden!important;overscroll-behavior:none}
+#ben-quarto .ben-quarto-card{width:100%!important;height:100dvh!important;max-height:100dvh!important;min-height:0!important;border:0!important;border-radius:0!important;overflow:hidden!important;display:flex!important;flex-direction:column!important;gap:5px;padding:calc(env(safe-area-inset-top,0px) + 8px) 12px calc(env(safe-area-inset-bottom,0px) + 8px)!important;transform:none!important}
+#ben-quarto .ben-quarto-cabecalho{flex:0 0 auto;padding:2px 2px 5px}
+#ben-quarto .ben-quarto-cabecalho h2{font-size:19px}
+#ben-quarto-cenario{flex:1 1 auto;height:auto!important;min-height:158px;max-height:31dvh;border-radius:18px;touch-action:pan-y}
+#ben-quarto .ben-modo-auto{flex:0 0 auto;min-height:36px;padding:6px 9px;margin:0;gap:8px}
+#ben-quarto .ben-modo-auto strong{font-size:11px}
+#ben-quarto .ben-modo-auto small{font-size:9px;line-height:1.2}
+#ben-quarto-barras{flex:0 0 auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:4px;margin:3px 0}
+#ben-quarto .ben-quarto-barra{padding:5px 3px;min-width:0}
+#ben-quarto .ben-quarto-barra-topo{display:flex;flex-direction:column;align-items:center;gap:2px;font-size:9px;margin-bottom:4px;white-space:nowrap}
+#ben-quarto .ben-quarto-trilho{height:5px}
+#ben-quarto .ben-quarto-abas{flex:0 0 auto;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:5px;margin:0 0 3px}
+#ben-quarto .ben-quarto-abas button{min-width:0;padding:9px 2px;font-size:10px;white-space:nowrap}
+#ben-quarto-conteudo{flex:0 0 auto;min-height:145px;max-height:25dvh;overflow:hidden;padding:8px;display:flex;flex-direction:column;gap:6px}
+#ben-quarto-conteudo .ben-quarto-subtitulo{flex:0 0 auto;font-size:11px;line-height:1.25;margin:0;text-align:center}
+#ben-quarto-conteudo .ben-quarto-comidas{flex:1;min-height:0;display:flex;align-items:stretch;justify-content:center;gap:8px;overflow:hidden}
+#ben-quarto .ben-quarto-rodape{display:none}
+#ben-quarto-status{flex:0 0 auto;min-height:17px;margin:1px 0 0;text-align:center}
+.ben-food-carousel{align-items:center!important}
+.ben-food-nav{width:39px;min-width:39px;min-height:66px!important;flex:0 0 39px;border-radius:12px!important;font-size:22px!important}
+.ben-food-card{flex:1;max-width:180px;min-width:0;min-height:80px!important;border:2px solid #f0d5c9!important;background:linear-gradient(145deg,#fffaf4,#ffe8dc)!important;touch-action:none!important;user-select:none}
+.ben-food-card span{font-size:38px!important}
+.ben-food-card small{font-size:10px;color:#a17a70}
+.ben-food-feed{min-width:76px;max-width:88px;min-height:70px!important;flex:0 0 80px;font-size:10px!important}
+.ben-food-flight{position:fixed;z-index:260000;font-size:34px;pointer-events:none;transform:translate(-50%,-50%);transition:left .48s cubic-bezier(.2,.8,.2,1),top .48s cubic-bezier(.2,.8,.2,1),transform .48s ease;filter:drop-shadow(0 5px 5px #0003)}
+#ben-quarto-ursinho.ben-mastigando{animation:ben-mastiga .16s ease-in-out 4 alternate}
+@keyframes ben-mastiga{to{transform:translateY(-3px) scaleY(.96)}}
+.ben-care-card,.ben-bath-tool{flex:1;max-width:205px;min-height:80px!important;touch-action:none!important;background:linear-gradient(145deg,#fffaf5,#ffeae2)!important;border:2px solid #f0d5c9!important}
+.ben-care-card span,.ben-bath-tool span{font-size:36px!important}
+.ben-care-nav{width:40px;min-width:40px;min-height:65px!important;flex:0 0 40px}
+.ben-game-ball{position:absolute;z-index:18;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:31px;background:radial-gradient(circle at 30% 25%,#fff,#ffd76c 42%,#f29a36 78%);box-shadow:0 6px 12px #5b3c2c55;touch-action:none;user-select:none;will-change:left,top,transform}
+.ben-game-ball:after{content:"";position:absolute;inset:5px;border:2px dashed #fff9;border-radius:50%;pointer-events:none}
+#ben-quarto-ursinho.ben-carinho{animation:ben-carinho .38s ease-in-out 3}
+#ben-quarto-ursinho.ben-escovando{animation:ben-escova .35s ease-in-out 4}
+#ben-quarto-ursinho.ben-descansando{transform:rotate(-8deg) translateY(5px)}
+@keyframes ben-carinho{50%{transform:translateY(-5px) rotate(5deg)}}
+@keyframes ben-escova{50%{transform:rotate(-5deg) scale(1.03)}}
+.ben-tool-effect{position:absolute;z-index:20;pointer-events:none;font-size:30px;animation:ben-tool-swipe .85s ease-in-out forwards}
+@keyframes ben-tool-swipe{0%{opacity:0;transform:translate(-30px,12px) rotate(-20deg) scale(.7)}30%{opacity:1}100%{opacity:0;transform:translate(55px,-18px) rotate(25deg) scale(1.05)}}
+.ben-prank-object{position:fixed!important;z-index:999999!important;pointer-events:none!important;will-change:left,top,transform;box-sizing:border-box}
+.ben-prank-button{display:grid;place-items:center;border-radius:50%;background:linear-gradient(145deg,#fff,#ffe5dc);border:3px solid #fff;box-shadow:0 9px 20px #4e292b44;font-size:32px}
+.ben-prank-photo{object-fit:cover;border:5px solid #fff;border-radius:10px;box-shadow:0 12px 25px #24161655;background:#fff}
+.ben-prank-text{display:flex;flex-direction:column;justify-content:center;gap:5px;padding:10px 12px;border:2px solid #fff;border-radius:15px;background:#fff7d8;color:#6c4240;box-shadow:0 9px 24px #2416163d;font:800 15px/1.25 system-ui;overflow:hidden}
+.ben-prank-text small{font-size:10px;color:#c04e79}
+.ben-graffiti-layer{position:fixed;inset:0;width:100vw;height:100dvh;z-index:99997;pointer-events:none;opacity:0;transition:opacity .7s ease}
+#ben-root.ben-travesso #ben-pet{animation:ben-passeio .23s ease-in-out infinite alternate}
+@media(max-height:700px){#ben-quarto .ben-quarto-card{gap:3px;padding-top:calc(env(safe-area-inset-top,0px) + 5px)!important;padding-bottom:calc(env(safe-area-inset-bottom,0px) + 5px)!important}#ben-quarto-cenario{min-height:135px;max-height:25dvh}#ben-quarto-conteudo{min-height:120px;max-height:22dvh}#ben-quarto .ben-modo-auto{min-height:32px}}
+@media(max-width:390px){#ben-quarto .ben-quarto-card{padding-left:8px!important;padding-right:8px!important}#ben-quarto .ben-quarto-cabecalho h2{font-size:17px}.ben-food-nav,.ben-care-nav{width:34px;min-width:34px;flex-basis:34px}.ben-food-feed{flex-basis:70px;min-width:68px}.ben-food-card span{font-size:34px!important}}
+@media(prefers-reduced-motion:reduce){.ben-prank-object,.ben-graffiti-layer,.ben-food-flight{transition:none!important;animation:none!important}}
+body.dark-mode .ben-food-card,body.dark-mode .ben-care-card,body.dark-mode .ben-bath-tool{background:#403237!important;color:#f8e6df!important}
+</style>
 <!-- Ben: bichinho virtual, sem chat ou IA -->
 <div id="ben-root" aria-label="Ben, nosso bichinho virtual">  <div id="ben-pet" role="button" tabindex="0" aria-label="Abrir cuidados do Ben" title="Cuide de mim! Arraste-me para mudar de lugar">
     <svg viewBox="0 0 100 110" role="img" aria-label="Ben, um ursinho fofo">
@@ -3546,7 +3599,7 @@ schedule();
 const $=id=>document.getElementById(id), quarto=$('ben-quarto'),root=$('ben-root'),pet=$('ben-pet'),bola=$('ben-bola');
 if(!quarto||!root||!pet)return;
 const DAY=86400000,HOUR=3600000,DEFAULT={fome:100,sede:100,higiene:100,felicidade:100,energia:100,acordado:true,bolaAtiva:false,autoCuidado:false,travessurasAtivas:true,atFome:Date.now(),atSede:Date.now(),atHigiene:Date.now(),atFelicidade:Date.now(),atEnergia:Date.now(),sonoInicio:0,sonoEnergiaInicio:100};
-let estado={...DEFAULT},pronto=false,salvando=false,aba='comer',desinscrever=null,roomOpen=false,statusTimer=0;
+let estado={...DEFAULT},pronto=false,salvando=false,aba='comer',desinscrever=null,roomOpen=false,statusTimer=0,foodIndex=0,careIndex=0,bathStep=0,bathBusy=false,roomBall=null;
 const clamp=n=>Math.max(0,Math.min(100,Number(n)||0));
 const normTime=n=>Number(n)||Date.now();
 function valor(base,key,at,now,dur){return clamp((Number.isFinite(Number(base[key]))?Number(base[key]):100)-Math.max(0,now-normTime(base[at]))/dur*100)}
@@ -3564,38 +3617,52 @@ function renderBars(){const v=atual();const menor=Math.min(...Object.values(v));
 function action(label,emoji,handler,primary=false){const b=document.createElement('button');b.type='button';b.className='ben-quarto-acao'+(primary?' ben-quarto-principal':'');b.innerHTML='<span>'+emoji+'</span>'+label;b.onclick=handler;return b}
 async function save(patch){if(!window.benCuidadosAPI){status('Conectando ao Firebase... tente novamente.');return false}if(salvando)return false;salvando=true;try{await window.benCuidadosAPI.salvar(patch);estado={...estado,...patch};render();return true}catch(err){console.warn('Erro ao salvar cuidados:',err);status('Não consegui sincronizar com Firebase. Verifique as regras ben_estado.');return false}finally{salvando=false}}
 const alimentos=[['Maçã','🍎',14,0],['Banana','🍌',18,0],['Morango','🍓',12,0],['Papinha','🥣',28,3],['Sanduíche','🥪',30,0],['Arroz e feijão','🍛',38,1],['Leitinho','🥛',8,22],['Água fresca','💧',0,35],['Suquinho','🧃',5,27],['Melancia','🍉',14,16],['Uvas','🍇',12,3],['Sopinha','🍲',32,9],['Macarrão','🍝',34,2],['Panqueca','🥞',25,0],['Biscoito','🍪',10,0],['Chá','🫖',0,25],['Mamadeira','🍼',12,29],['Pera','🍐',15,4],['Brócolis','🥦',20,0]];
-async function alimentar(item){if(estado.autoCuidado){say('Estou de barriguinha cheia! ✨');animarUrso();return}if(estado.acordado===false){say('Zzz… estou mimindo, papai e mamãe. 💤');return}const a=atual(),now=Date.now();const p={fome:clamp(a.fome+item[2]),atFome:now,sede:clamp(a.sede+item[3]),atSede:now};if(await save(p)){say(['Nhac! Que delícia! Obrigado pelo carinho! 🥰','Obaaa, adorei! Minha barriguinha tá feliz! ❤️','Humm! Vocês cuidam tão bem de mim! 🧸'][Math.floor(Math.random()*3)]);animarUrso()}}
+async function alimentar(item,fromX,fromY){if(estado.autoCuidado){say('Estou de barriguinha cheia! ✨');return}if(estado.acordado===false){say('Zzz… estou mimindo, papai e mamãe. 💤');return}const a=atual(),now=Date.now();const p={fome:clamp(a.fome+item[2]),atFome:now,sede:clamp(a.sede+item[3]),atSede:now};if(await save(p)){animarComida(item[1],fromX,fromY);say(['Nhac! Que delícia! 🥰','Obaaa, adorei! Minha barriguinha está feliz! ❤️','Humm, que comidinha boa! 🧸'][Math.floor(Math.random()*3)]);}}
+function animarComida(emoji,fromX,fromY){const mouth=mouthPoint(),el=document.createElement('div');el.className='ben-food-flight';el.textContent=emoji;el.style.left=(fromX??innerWidth/2)+'px';el.style.top=(fromY??innerHeight-110)+'px';document.body.append(el);requestAnimationFrame(()=>{el.style.left=mouth.x+'px';el.style.top=mouth.y+'px';el.style.transform='translate(-50%,-50%) scale(.22) rotate(25deg)'});setTimeout(()=>{el.remove();roomBen.classList.add('ben-mastigando');setTimeout(()=>roomBen.classList.remove('ben-mastigando'),750)},510)}
+function mouthPoint(){const r=roomBen.getBoundingClientRect();return{x:r.left+r.width*.5,y:r.top+r.height*.49}}
+function isMouth(x,y){const m=mouthPoint();return Math.abs(x-m.x)<Math.max(28,roomBen.offsetWidth*.34)&&Math.abs(y-m.y)<Math.max(24,roomBen.offsetHeight*.24)}
+function attachDrag(button,emoji,onDrop,targetFn){let d=null;button.style.touchAction='none';button.addEventListener('pointerdown',e=>{if(e.button!==0&&e.pointerType==='mouse')return;d={id:e.pointerId,x:e.clientX,y:e.clientY,lastX:e.clientX,lastY:e.clientY,moved:false,ghost:null};try{button.setPointerCapture(e.pointerId)}catch{}e.preventDefault()});button.addEventListener('pointermove',e=>{if(!d||d.id!==e.pointerId)return;d.lastX=e.clientX;d.lastY=e.clientY;if(!d.moved&&Math.hypot(d.lastX-d.x,d.lastY-d.y)>7){d.moved=true;d.ghost=document.createElement('div');d.ghost.className='ben-drag-icone';d.ghost.textContent=emoji;document.body.append(d.ghost)}if(d.moved&&d.ghost){d.ghost.style.left=d.lastX+'px';d.ghost.style.top=d.lastY+'px';e.preventDefault()}});const end=e=>{if(!d||d.id!==e.pointerId)return;const q=d;d=null;q.ghost?.remove();if(!q.moved){const r=button.getBoundingClientRect();onDrop(r.left+r.width/2,r.top+r.height/2);return}if(targetFn(q.lastX,q.lastY))onDrop(q.lastX,q.lastY);else status('Chegue pertinho do Ben para ele receber! 💛')};button.addEventListener('pointerup',end);button.addEventListener('pointercancel',e=>{if(d&&d.id===e.pointerId){d.ghost?.remove();d=null}});button.onclick=null}
+function animarUrso(){roomBen.classList.remove('ben-carinho','ben-escovando','ben-descansando');void roomBen.offsetWidth;roomBen.classList.add('ben-carinho');setTimeout(()=>roomBen.classList.remove('ben-carinho'),1200)}
+
 function animarUrso(){const el=$('ben-quarto-ursinho');el.style.animation='none';el.style.transform='translateY(-12px) rotate(8deg)';setTimeout(()=>{el.style.transform='';el.style.animation=''},550);particulas('💛',5)}
 async function banho(){if(estado.acordado===false){say('Shhh, ainda estou dormindo. 💤');return}const now=Date.now();if(await save({higiene:100,atHigiene:now,felicidade:clamp(atual().felicidade+8),atFelicidade:now})){say('Ploc ploc! Bolhinhas! Agora estou bem cheirosinho! 🫧❤️');animarUrso();status('Banho concluído! ✨')}}
 async function dormir(){if(estado.autoCuidado){say('Cuidados automáticos estão ligados. 🌟');return}if(estado.acordado===false)return;const now=Date.now();if(await save({acordado:false,sonoInicio:now,sonoEnergiaInicio:atual(now).energia})){say('Boa noite, papai e mamãe... amo vocês. Zzz... 🌙');quarto.classList.add('quartinho-noite');sleepVisual()}}
 async function acordar(automatico=false){if(estado.acordado!==false)return;const now=Date.now(),e=atual(now).energia;if(await save({acordado:true,energia:e,atEnergia:now,sonoInicio:0})){say(automatico?'Dormi tão gostosinho! Acordei cheio de energia! ☀️🥰' :'Bom dia! Já estou pronto para brincar! ☀️');sleepVisual()}}
 async function alternarBola(){if(estado.acordado===false){say('A bola me espera depois do soninho. 💤');return}const ligar=!estado.bolaAtiva,now=Date.now();if(await save({bolaAtiva:ligar,felicidade:100,atFelicidade:now})){say(ligar?'EBAAA! Joga a bolinha pra mim! ⚽❤️':'Foi muito divertido! Depois a gente brinca mais! 🥰');if(ligar)iniciarBola()}}
-function renderConteudo(){const destino=$('ben-quarto-conteudo');const oldScroll=destino.querySelector('.ben-lista-rolavel')?.scrollTop||0;destino.replaceChildren();cena.dataset.scene=aba;const intro=document.createElement('p');intro.className='ben-quarto-subtitulo';destino.append(intro);const row=document.createElement('div');row.className='ben-quarto-comidas';destino.append(row);
- if(aba==='comer'){intro.textContent='Deslize a lista para ver todos os alimentos. Toque em uma comida para alimentar Ben. 🍽️';row.classList.add('ben-lista-rolavel');alimentos.forEach(a=>{const b=action(a[0],a[1],()=>alimentar(a));row.append(b)})}
- if(aba==='banho'){intro.textContent='Agora é hora do banheiro: ensaboe o Ben e depois leve o chuveirinho até ele para enxaguar. 🛁';const sab=action('Passar sabão','🧼',()=>ensaboar());sab.classList.add('ben-arrastavel');arrastavel(sab,'🧼',()=>ensaboar());const chu=action('Ligar chuveiro','🚿',()=>enxaguar());chu.classList.add('ben-arrastavel');arrastavel(chu,'🚿',()=>enxaguar());row.append(sab,chu);const tip=document.createElement('p');tip.className='ben-banhar-indicacao';tip.textContent='Dica: esfregue o dedo sobre o corpinho dele enquanto ele está ensaboado para espalhar a espuma.';destino.append(tip)}
- if(aba==='sono'){const energia=Math.round(atual().energia);intro.textContent=estado.acordado===false?'Ben está dormindo na caminha, bem quietinho, e vai acordar sozinho quando recuperar toda a energia.':'Leve o Ben para a caminha. A energia recupera 100 pontos em 8 horas. Agora: '+energia+'%.';row.append(action(estado.acordado===false?'Acordar o Ben':'Colocar na cama',estado.acordado===false?'☀️':'🌙',estado.acordado===false?()=>acordar(false):dormir,true))}
- if(aba==='carinho'){
-   intro.textContent='Cuidados de bichinho virtual: toque em uma ação para interagir com o Ben. 🐾';
-   const atividades=[
-    ['Acariciar','🐾',14,0,'Ben relaxou com o carinho!'],
-    ['Escovar o pelo','🪮',10,0,'Pelinho arrumado e Ben contente!'],
-    ['Dar brinquedo','🧸',19,0,'Ben pegou o brinquedo e ficou animado!'],
-    ['Passear','🐕',18,-7,'Ben passeou e gastou um pouquinho de energia!'],
-    ['Descansar','🛋️',7,12,'Ben descansou um pouquinho!']
-   ];
-   atividades.forEach(a=>row.append(action(a[0],a[1],async()=>{
-     if(estado.acordado===false&&!estado.autoCuidado){status('Ben está dormindo. 💤');return}
-     const v=atual(),now=Date.now();
-     const patch={
-       felicidade:clamp(v.felicidade+a[2]),atFelicidade:now,
-       energia:clamp(v.energia+a[3]),atEnergia:now
-     };
-     if(a[0]==='Escovar o pelo')Object.assign(patch,{higiene:clamp(v.higiene+12),atHigiene:now});
-     if(await save(patch)){particulas(a[1],8);animarUrso();status(a[4])}
-   })));
+function renderConteudo(){
+ const destino=$('ben-quarto-conteudo');destino.replaceChildren();cena.dataset.scene=aba;
+ const intro=document.createElement('p');intro.className='ben-quarto-subtitulo';destino.append(intro);
+ const row=document.createElement('div');row.className='ben-quarto-comidas';destino.append(row);
+ if(aba==='comer'){
+  const item=alimentos[foodIndex%alimentos.length];intro.textContent='Arraste a comidinha até a boca do Ben — ou toque nela para dar. 🍽️';row.classList.add('ben-food-carousel');
+  const prev=action('','‹',()=>{foodIndex=(foodIndex-1+alimentos.length)%alimentos.length;renderConteudo()});prev.classList.add('ben-food-nav');prev.setAttribute('aria-label','Comida anterior');
+  const food=action(item[0],item[1],()=>{});food.classList.add('ben-food-card');const meta=document.createElement('small');meta.textContent='Toque ou arraste até a boca';food.append(meta);attachDrag(food,item[1],(x,y)=>alimentar(item,x,y),isMouth);
+  const next=action('','›',()=>{foodIndex=(foodIndex+1)%alimentos.length;renderConteudo()});next.classList.add('ben-food-nav');next.setAttribute('aria-label','Próxima comida');
+  const feed=action('Dar ao Ben','🥣',()=>{const r=food.getBoundingClientRect();alimentar(item,r.left+r.width/2,r.top+r.height/2)},true);feed.classList.add('ben-food-feed');row.append(prev,food,next,feed);
  }
- if(aba==='brincar'){intro.textContent='Ative a bolinha e volte para a página principal para brincar com o Ben. Ele corre atrás dela sozinho!';row.append(action(estado.bolaAtiva?'Guardar bolinha':'Soltar bolinha',estado.bolaAtiva?'📦':'⚽',alternarBola,true));const p=document.createElement('p');p.className='ben-quarto-subtitulo';p.style.marginTop='10px';p.textContent='Feche o quartinho para brincar na página. Enquanto a bola estiver ativa, a felicidade fica em 100%.';destino.append(p)}
- if(aba==='comer')row.scrollTop=oldScroll;
+ if(aba==='banho'){
+  const etapas=[['Sabonete','🧼','Esfregue o sabonete no corpinho do Ben para fazer espuma.'],['Chuveirinho','🚿','Arraste a água até o Ben para enxaguar toda a espuma.'],['Toalha','🧻','Agora seque o Ben com a toalhinha.'],['Escova de dentes','🪥','Finalize escovando os dentinhos dele.']];
+  const etapa=etapas[bathStep];intro.textContent='Banho do Ben · etapa '+(bathStep+1)+' de 4 — '+etapa[2];
+  const tool=action(etapa[0],etapa[1],()=>useBathStep());tool.classList.add('ben-bath-tool');attachDrag(tool,etapa[1],()=>useBathStep(),(x,y)=>{const r=roomBen.getBoundingClientRect();return x>=r.left-35&&x<=r.right+35&&y>=r.top-35&&y<=r.bottom+35});row.append(tool);
+  const hint=document.createElement('small');hint.textContent='Arraste o item até o Ben ou toque para usar';hint.style.cssText='text-align:center;color:#a17a70;font-size:10px';destino.append(hint);
+ }
+ if(aba==='sono'){
+  const energia=Math.round(atual().energia);intro.textContent=estado.acordado===false?'Shhh… Ben está aconchegado na caminha. A energia recupera aos poucos.':'Hora de descansar. Apague a luz para Ben dormir. Energia: '+energia+'%.';
+  row.append(action(estado.acordado===false?'Acender a luz e acordar':'Apagar a luz e dormir',estado.acordado===false?'☀️':'🌙',estado.acordado===false?()=>acordar(false):dormir,true));
+ }
+ if(aba==='carinho'){
+  const atividades=[['Acariciar','🐾','Passe o dedo suavemente pelo corpinho do Ben.'],['Escovar o pelo','🪮','Passe a escovinha pelo Ben para deixar o pelo arrumado.'],['Brincar de bolinha','⚽','Toque para soltar a bolinha e depois arraste para jogar.'],['Descansar','🛋️','Um descanso tranquilo para recuperar um pouco de energia.']];
+  const a=atividades[careIndex%atividades.length];intro.textContent=a[2];row.classList.add('ben-food-carousel');
+  const prev=action('','‹',()=>{careIndex=(careIndex-1+atividades.length)%atividades.length;renderConteudo()});prev.classList.add('ben-care-nav');
+  const item=action(a[0],a[1],()=>useCare(careIndex));item.classList.add('ben-care-card');
+  if(careIndex===0||careIndex===1)attachDrag(item,a[1],()=>useCare(careIndex),(x,y)=>{const r=roomBen.getBoundingClientRect();return x>=r.left-35&&x<=r.right+35&&y>=r.top-35&&y<=r.bottom+35});
+  const next=action('','›',()=>{careIndex=(careIndex+1)%atividades.length;renderConteudo()});next.classList.add('ben-care-nav');row.append(prev,item,next);
+ }
+ if(aba==='brincar'){
+  intro.textContent='Jogue a bolinha dentro do quartinho! Arraste e solte para ela quicar; Ben vai tentar alcançar.';
+  row.append(action('Soltar bolinha','⚽',startRoomBall,true));
+  row.append(action(estado.bolaAtiva?'Guardar bola da tela':'Brincar na tela principal',estado.bolaAtiva?'📦':'🐾',alternarBola));
+ }
 }
 let ensaboado=false,dragCuidado=null;
 const cena=$('ben-quarto-cenario'),roomBen=$('ben-quarto-ursinho');

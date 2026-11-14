@@ -3664,19 +3664,59 @@ function renderConteudo(){
   row.append(action(estado.bolaAtiva?'Guardar bola da tela':'Brincar na tela principal',estado.bolaAtiva?'📦':'🐾',alternarBola));
  }
 }
-let ensaboado=false,dragCuidado=null;
+let ensaboado=false;
 const cena=$('ben-quarto-cenario'),roomBen=$('ben-quarto-ursinho');
-// Reutiliza o MESMO desenho SVG do mascote da página, sem imagens externas.
 const svgOriginal=pet.querySelector('svg');if(svgOriginal){const clone=svgOriginal.cloneNode(true);clone.removeAttribute('aria-label');roomBen.replaceChildren(clone)}
-function particulas(emoji,n=7){const host=$('ben-quarto-particulas');for(let i=0;i<n;i++){const el=document.createElement('span');el.className='ben-particula';el.textContent=emoji;el.style.left=(32+Math.random()*35)+'%';el.style.top=(30+Math.random()*45)+'%';el.style.animationDelay=(i*.07)+'s';host.append(el);setTimeout(()=>el.remove(),1500)}}
-function ensaboar(){if(estado.acordado===false){status('Acorde Ben para dar banho. 💤');return}if(aba!=='banho'){aba='banho';render()}ensaboado=true;$('ben-espuma').classList.add('ativa');particulas('🫧',12);status('Prontinho! Ele está todo ensaboado. Agora leve o chuveiro até o Ben. 🧼')}
-async function enxaguar(){if(estado.acordado===false){status('Ben está dormindo. 💤');return}if(!ensaboado){status('Primeiro passe o sabonete no Ben! 🧼');return}const chuva=$('ben-quarto-cenario').querySelector('.ben-quarto-chuveiro');chuva.classList.add('ativo');particulas('💦',12);status('Águinha quentinha caindo no Ben... 🚿');await new Promise(r=>setTimeout(r,1450));chuva.classList.remove('ativo');$('ben-espuma').classList.remove('ativa');ensaboado=false;await banho()}
-function arrastavel(botao,emoji,feito){botao.addEventListener('pointerdown',e=>{if(e.button!==0)return;dragCuidado={id:e.pointerId,startX:e.clientX,startY:e.clientY,x:e.clientX,y:e.clientY,moved:false,feito,emoji,botao};botao.setPointerCapture(e.pointerId)});botao.addEventListener('pointermove',e=>{const d=dragCuidado;if(!d||d.id!==e.pointerId)return;d.x=e.clientX;d.y=e.clientY;if(!d.moved&&Math.hypot(d.x-d.startX,d.y-d.startY)>9){d.moved=true;d.ghost=document.createElement('div');d.ghost.className='ben-drag-icone';d.ghost.textContent=d.emoji;document.body.append(d.ghost)}if(d.moved){e.preventDefault();d.ghost.style.left=d.x+'px';d.ghost.style.top=d.y+'px';const r=roomBen.getBoundingClientRect();const alvo=d.x>=r.left-40&&d.x<=r.right+40&&d.y>=r.top-40&&d.y<=r.bottom+40;cena.classList.toggle('ben-alvo',alvo);if(alvo&&Math.random()<.18)particulas(d.emoji==='🚿'?'💦':(d.emoji==='🧼'?'🫧':'💛'),1)}});const finish=e=>{const d=dragCuidado;if(!d||d.id!==e.pointerId)return;dragCuidado=null;cena.classList.remove('ben-alvo');if(d.ghost)d.ghost.remove();if(d.moved){e.preventDefault();e.stopPropagation();const r=roomBen.getBoundingClientRect();if(d.x>=r.left-42&&d.x<=r.right+42&&d.y>=r.top-42&&d.y<=r.bottom+42)d.feito();else status('Arraste até o corpinho do Ben para cuidar dele. 💛')}else d.feito()};botao.addEventListener('pointerup',finish);botao.addEventListener('pointercancel',e=>{if(dragCuidado){dragCuidado.ghost?.remove();dragCuidado=null;cena.classList.remove('ben-alvo')}});botao.onclick=null}
-roomBen.addEventListener('pointerdown',e=>{if(aba==='banho'&&ensaboado){roomBen.setPointerCapture(e.pointerId);particulas('🫧',4)}});roomBen.addEventListener('pointermove',e=>{if(aba==='banho'&&ensaboado&&e.buttons){particulas('🫧',3);$('ben-espuma').classList.add('ativa')}});
-
+function toolEffect(emoji){const r=roomBen.getBoundingClientRect(),el=document.createElement('span');el.className='ben-tool-effect';el.textContent=emoji;el.style.position='fixed';el.style.left=(r.left+r.width*.45)+'px';el.style.top=(r.top+r.height*.45)+'px';document.body.append(el);setTimeout(()=>el.remove(),900)}
+async function useBathStep(){
+ if(bathBusy||estado.acordado===false)return;
+ if(estado.autoCuidado){status('Ben já está limpinho no modo automático! ✨');return}
+ bathBusy=true;
+ if(bathStep===0){ensaboado=true;$('ben-espuma').classList.add('ativa');toolEffect('🫧');status('Espuma por todo lado! Agora enxágue o Ben.');bathStep=1}
+ else if(bathStep===1){const shower=$('ben-quarto-cenario').querySelector('.ben-quarto-chuveiro');shower.classList.add('ativo');toolEffect('💦');status('Água quentinha! Tirando toda a espuma…');await new Promise(r=>setTimeout(r,1050));shower.classList.remove('ativo');$('ben-espuma').classList.remove('ativa');ensaboado=false;bathStep=2}
+ else if(bathStep===2){toolEffect('🧻');roomBen.classList.add('ben-descansando');status('Ben ficou sequinho e fofinho! Falta escovar os dentinhos.');await new Promise(r=>setTimeout(r,650));roomBen.classList.remove('ben-descansando');bathStep=3}
+ else {toolEffect('🪥');roomBen.classList.add('ben-escovando');await new Promise(r=>setTimeout(r,900));roomBen.classList.remove('ben-escovando');const now=Date.now();if(await save({higiene:100,atHigiene:now,felicidade:clamp(atual().felicidade+8),atFelicidade:now})){status('Banho completo! Ben está limpinho, sequinho e com os dentinhos brilhando! ✨');bathStep=0;ensaboado=false}}
+ bathBusy=false;if(roomOpen)renderConteudo();
+}
+function useCare(index){
+ if(estado.acordado===false&&!estado.autoCuidado){status('Ben está dormindo. 💤');return}
+ const now=Date.now(),v=atual();
+ if(index===0){roomBen.classList.add('ben-carinho');toolEffect('💛');setTimeout(()=>roomBen.classList.remove('ben-carinho'),1200);save({felicidade:clamp(v.felicidade+14),atFelicidade:now}).then(ok=>{if(ok)status('Ben fechou os olhinhos e adorou o carinho! 🐾')})}
+ if(index===1){roomBen.classList.add('ben-escovando');toolEffect('🪮');setTimeout(()=>roomBen.classList.remove('ben-escovando'),1200);save({higiene:clamp(v.higiene+9),atHigiene:now,felicidade:clamp(v.felicidade+6),atFelicidade:now}).then(ok=>{if(ok)status('Pelinho macio e arrumado!')})}
+ if(index===2)startRoomBall();
+ if(index===3){roomBen.classList.add('ben-descansando');setTimeout(()=>roomBen.classList.remove('ben-descansando'),1400);save({energia:clamp(v.energia+12),atEnergia:now,felicidade:clamp(v.felicidade+4),atFelicidade:now}).then(ok=>{if(ok)status('Ben descansou um pouquinho. 🛋️')})}
+}
+function startRoomBall(){
+ if(roomBall){cancelAnimationFrame(roomBall.raf);roomBall.el.remove();roomBall=null}
+ const el=document.createElement('div');el.className='ben-game-ball';el.textContent='⚽';cena.append(el);
+ const bounds=()=>({w:cena.clientWidth,h:cena.clientHeight});
+ let x=bounds().w*.72,y=bounds().h*.48,vx=1.8,vy=-2.8,drag=null,last=performance.now(),hits=0,started=performance.now();
+ const state={el,raf:0};roomBall=state;
+ const draw=()=>{el.style.left=x+'px';el.style.top=y+'px';el.style.transform='rotate('+((performance.now()-started)*.24)+'deg)'};
+ el.addEventListener('pointerdown',e=>{drag={id:e.pointerId,px:e.clientX,py:e.clientY};vx=0;vy=0;el.setPointerCapture(e.pointerId);e.preventDefault()});
+ el.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;const r=cena.getBoundingClientRect();x=clamp(e.clientX-r.left-23,0,bounds().w-46);y=clamp(e.clientY-r.top-23,0,bounds().h-46);draw()});
+ el.addEventListener('pointerup',e=>{if(!drag||drag.id!==e.pointerId)return;vx=clamp((e.clientX-drag.px)*.12,-8,8);vy=clamp((e.clientY-drag.py)*.12-2,-9,7);drag=null});
+ function tick(t){
+  if(roomBall!==state)return;
+  if(!roomOpen){el.remove();roomBall=null;return}
+  const dt=Math.min(2.2,Math.max(.4,(t-last)/16.67));last=t;
+  if(!drag){
+   vy+=.22*dt;x+=vx*dt;y+=vy*dt;const box=bounds();
+   if(x<0||x>box.w-46){x=clamp(x,0,box.w-46);vx*=-.78;hits++}
+   if(y<0){y=0;vy=Math.abs(vy)*.7}
+   if(y>box.h-46){y=box.h-46;vy=-Math.max(2.4,Math.abs(vy)*.68);vx*=.92;hits++}
+   const pr=roomBen.getBoundingClientRect(),sr=cena.getBoundingClientRect(),px=pr.left-sr.left+pr.width/2,py=pr.top-sr.top+pr.height*.58;
+   if(Math.hypot(x+23-px,y+23-py)<56){vx+=(x+23<px?-2.5:2.5);vy=-4;hits++;roomBen.classList.add('ben-carinho');setTimeout(()=>roomBen.classList.remove('ben-carinho'),500)}
+  }
+  draw();
+  if(t-started>9500||hits>=9){el.remove();roomBall=null;const now=Date.now();save({felicidade:clamp(atual().felicidade+14),atFelicidade:now}).then(ok=>{if(ok)status('Que partida divertida! Ben adorou buscar a bolinha! ⚽❤️')});return}
+  state.raf=requestAnimationFrame(tick)
+ }
+ state.raf=requestAnimationFrame(tick);
+}
 function render(){window.benTravessurasHabilitadas=estado.travessurasAtivas!==false;window.dispatchEvent(new Event('ben-travessuras-alteradas'));sleepVisual();renderHumor();if(!roomOpen)return;renderBars();renderConteudo()}
 function abrir(){window.benDevolverTravessura?.();roomOpen=true;quarto.classList.add('aberto');quarto.setAttribute('aria-hidden','false');render();}
-function fechar(){roomOpen=false;quarto.classList.remove('aberto');quarto.setAttribute('aria-hidden','true');sleepVisual()}
+function fechar(){roomOpen=false;if(roomBall){cancelAnimationFrame(roomBall.raf);roomBall.el.remove();roomBall=null}quarto.classList.remove('aberto');quarto.setAttribute('aria-hidden','true');sleepVisual()}
 window.benAbrirCuidados=abrir;$('ben-travessuras-toggle').addEventListener('click',async()=>{const enabled=estado.travessurasAtivas===false;if(await save({travessurasAtivas:enabled}))status(enabled?'🐾 Ben pode fazer travessuras!':'Travessuras desativadas. Ben continua passeando!')});$('ben-auto-toggle').addEventListener('click',async()=>{const ligado=!estado.autoCuidado,now=Date.now();const patch={autoCuidado:ligado};if(ligado)Object.assign(patch,{fome:100,sede:100,higiene:100,energia:100,felicidade:100,atFome:now,atSede:now,atHigiene:now,atEnergia:now,atFelicidade:now,acordado:true,sonoInicio:0});else Object.assign(patch,{atFome:now,atSede:now,atHigiene:now,atEnergia:now,atFelicidade:now});if(await save(patch))status(ligado?'✨ Cuidados automáticos ativados!':'Cuidados manuais ativados. ❤️')});$('ben-quarto-fechar').addEventListener('click',fechar);
 quarto.addEventListener('click',e=>{if(e.target===quarto)fechar()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&roomOpen)fechar()});
 quarto.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{aba=b.dataset.tab;quarto.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('ativo',x===b));render()}));

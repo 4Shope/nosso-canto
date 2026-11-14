@@ -3701,7 +3701,7 @@ function playWithTarget(mode,targetOverride=null){
  later(p,()=>finish(p),rand(4200,5700));
 }
 function ambientPrank(kind,x=rand(55,Math.max(56,innerWidth-55)),y=rand(95,Math.max(96,innerHeight-90))){
- const effect=document.createElement('div');effect.className='ben-prank-sparkles';effect.style.inset='0';effect.style.width='100vw';effect.style.height='100dvh';
+ const effect=document.createElement('div');effect.className='ben-prank-sparkles';effect.style.inset='0';effect.style.width='100vw';effect.style.height='100dvh';document.body.append(effect);
  const p={type:'ambient',effect,timers:[],raf:0,finishing:false};prank=p;window.benTravessuraEmCurso=true;root.classList.add('ben-travesso');
  const add=(emoji,left,top,delay=0)=>{const s=document.createElement('span');s.className='ben-prank-spark';s.textContent=emoji;s.style.left=left+'px';s.style.top=top+'px';s.style.setProperty('--dx',rand(-70,70)+'px');s.style.setProperty('--dy',rand(-90,30)+'px');s.style.animationDelay=delay+'ms';effect.append(s)};
  if(kind==='rain'||kind==='hearts'){

@@ -3343,6 +3343,11 @@ body.dark-mode .ben-menu-devolucao{background:#463339;color:#ffe7df}
 @keyframes ben-prank-spark{0%{opacity:0;transform:translate(-50%,-50%) scale(.2) rotate(-25deg)}18%{opacity:1}100%{opacity:0;transform:translate(calc(-50% + var(--dx)),calc(-50% + var(--dy))) scale(1.3) rotate(35deg)}}
 .ben-tap-sparkles{position:fixed;z-index:99996;pointer-events:none;overflow:visible}
 .ben-tap-sparkles span{position:absolute;animation:ben-prank-spark 1.5s ease-out forwards}
+#conteudo-site{touch-action:manipulation}
+.ben-prank-bubble{position:fixed;z-index:99999;pointer-events:none;max-width:min(240px,72vw);padding:11px 15px;border:3px solid #fff;border-radius:20px 20px 20px 5px;background:linear-gradient(145deg,#fff5c9,#ffe0ed);color:#704451;font:900 14px/1.25 system-ui;box-shadow:0 8px 22px #3b243344;animation:ben-bubble-pop .35s cubic-bezier(.2,.9,.3,1.4) both}
+@keyframes ben-bubble-pop{from{opacity:0;transform:scale(.2) rotate(-12deg)}to{opacity:1;transform:scale(1) rotate(0)}}
+.ben-prank-fall{position:absolute;top:-50px;animation:ben-prank-fall linear forwards;filter:drop-shadow(0 3px 4px #44333344)}
+@keyframes ben-prank-fall{0%{transform:translateY(-40px) rotate(0) scale(.65);opacity:0}12%{opacity:1}85%{opacity:1}100%{transform:translateY(110vh) rotate(500deg) scale(1.1);opacity:0}}
 .ben-graffiti-layer{position:fixed;inset:0;width:100vw;height:100dvh;z-index:99997;pointer-events:none;opacity:0;transition:opacity 1.8s ease}
 #ben-root.ben-travesso #ben-pet{animation:ben-passeio .9s ease-in-out infinite alternate}
 .ben-paint-brush{position:fixed;z-index:1000000;left:-60px;top:-60px;font-size:34px;pointer-events:none;filter:drop-shadow(0 3px 3px #0005);transition:opacity 1.5s ease;will-change:left,top,transform}
@@ -3419,7 +3424,7 @@ const rand=(a,b)=>a+Math.random()*(b-a);
 const site=document.getElementById('conteudo-site'),login=document.getElementById('tela-login');
 const reduced=matchMedia('(prefers-reduced-motion: reduce)');
 let dragging=false,didDrag=false,suppressClick=false,downX=0,downY=0,offX=0,offY=0,lastTouch=Date.now()-30000;
-let prank=null,prankTimer=0,nextTimer=0,walkTimer=0,walking=false,gestureTimer=0,lastTapReaction=0;
+let prank=null,prankTimer=0,nextTimer=0,walkTimer=0,walking=false,gestureTimer=0,lastPointerTap=0,lastPointerX=0,lastPointerY=0,lastManualMove=0;
 function visible(){return !!site&&getComputedStyle(site).display!=='none'&&(!login||getComputedStyle(login).display==='none')}
 function asleep(){return root.classList.contains('ben-dormindo')}
 function roomOpen(){return !!document.querySelector('#ben-quarto.aberto')}
@@ -3456,7 +3461,7 @@ function restore(){
  if(p.source){p.source.style.visibility=p.oldVisibility;p.source.style.opacity=p.oldOpacity}
  if(p.cards)p.cards.forEach(o=>{o.el.style.transform=o.transform;o.el.style.transition=o.transition});
  if(p.target){const el=p.target.el,s=p.target.saved;el.style.transform=s.transform;el.style.transition=s.transition;el.style.filter=s.filter;el.style.boxShadow=s.boxShadow;el.style.borderRadius=s.borderRadius}
- p.effect?.remove();p.overlay?.remove();p.canvas?.remove();p.brush?.remove();p.caption?.remove();
+ p.effect?.remove();if(p.effects)p.effects.forEach(el=>el.remove());p.overlay?.remove();p.canvas?.remove();p.brush?.remove();p.caption?.remove();
  prank=null;window.benTravessuraEmCurso=false;
  root.classList.remove('ben-travesso');
  lastTouch=Date.now()-1200;
@@ -3669,15 +3674,17 @@ function shuffleCards(){
  later(p,()=>moveOne(0),1000);
 }
 
-function playWithTarget(mode){
+function playWithTarget(mode,targetOverride=null){
  const selector='#conteudo-site section,#conteudo-site article,#conteudo-site .container-blocos > *,#conteudo-site .bloco-separado,#conteudo-site .card-separador-interno,#conteudo-site .contador-bloco,#conteudo-site .moldura-imagem,#conteudo-site .pdf-bloco,#conteudo-site .titulo-secao,#conteudo-site h1,#conteudo-site h2,#conteudo-site h3,#conteudo-site p,#conteudo-site img,#conteudo-site .numero-card,#conteudo-site .contador-tempo,#conteudo-site .quadro-polaroid,#conteudo-site .declaracao-card';
  const targets=visibleTargets(selector);
- if(!targets.length){gesture('olhando');return}
- const el=targets[Math.floor(Math.random()*targets.length)],r=el.getBoundingClientRect();
+ const el=targetOverride&&targetOverride.isConnected?targetOverride:(targets.length?targets[Math.floor(Math.random()*targets.length)]:null);
+ if(!el){gesture('olhando');return}
+ const r=el.getBoundingClientRect();
  const saved={transform:el.style.transform,transition:el.style.transition,filter:el.style.filter,boxShadow:el.style.boxShadow,borderRadius:el.style.borderRadius};
  const effect=document.createElement('div');effect.className='ben-prank-sparkles';
  effect.style.left=r.left+'px';effect.style.top=r.top+'px';effect.style.width=Math.max(40,r.width)+'px';effect.style.height=Math.max(35,r.height)+'px';
- const emojis=mode==='paw'?['🐾','🐾','💛','✨']:mode==='glow'?['✨','💫','⭐','💖']:['😈','🐾','✨','🧸'];
+ const emojiSets={paw:['🐾','🐾','💛','✨'],glow:['✨','💫','⭐','💖'],flip:['🙃','🌀','✨','😵'],squish:['🫧','💥','🐾','✨'],jelly:['🍮','💛','🫧','✨'],boop:['👆','💥','💗','✨'],dance:['💃','🕺','🎵','⭐'],peek:['👀','🙈','🐾','✨'],zoom:['💨','⭐','💥','✨'],orbit:['🪐','⭐','💫','✨']};
+ const emojis=emojiSets[mode]||['😈','🐾','✨','🧸'];
  emojis.forEach((emoji,i)=>{const s=document.createElement('span');s.className='ben-prank-spark';s.textContent=emoji;s.style.left=(18+Math.random()*64)+'%';s.style.top=(18+Math.random()*64)+'%';s.style.setProperty('--dx',(rand(-55,55))+'px');s.style.setProperty('--dy',(rand(-65,25))+'px');s.style.animationDelay=(i*.12)+'s';effect.append(s)});
  document.body.append(effect);
  const p={type:'target',target:{el,saved},effect,timers:[],raf:0,finishing:false};
@@ -3685,7 +3692,7 @@ function playWithTarget(mode){
  placeBen(r.left+r.width/2,r.top+r.height/2,1.25);gesture(Math.random()<.5?'olhando':'pulando');
  el.style.transition='transform .55s cubic-bezier(.2,.8,.2,1),filter .55s ease,box-shadow .55s ease,border-radius .55s ease';
  const base=saved.transform||'';
- const transforms={wiggle:'rotate(-7deg) translateX(-5px) scale(1.025)',spin:'rotate(360deg) scale(1.06)',bounce:'translateY(-17px) scale(1.045)',tilt:'rotate(8deg) translate(5px,-3px)',wobble:'rotate(-5deg) translateY(-7px) scale(1.03)',paw:'rotate(-3deg) scale(1.035)',glow:'scale(1.045)'};
+ const transforms={wiggle:'rotate(-7deg) translateX(-5px) scale(1.025)',spin:'rotate(360deg) scale(1.06)',bounce:'translateY(-17px) scale(1.045)',tilt:'rotate(8deg) translate(5px,-3px)',wobble:'rotate(-5deg) translateY(-7px) scale(1.03)',paw:'rotate(-3deg) scale(1.035)',glow:'scale(1.045)',flip:'rotateY(180deg) rotate(7deg) scale(1.08)',squish:'scale(1.18,.78) rotate(-4deg)',jelly:'scale(1.12,.9) rotate(5deg)',boop:'translateY(-12px) scale(1.13)',dance:'rotate(-13deg) translateY(-9px) scale(1.06)',peek:'translateX(12px) rotate(10deg) scale(.96)',zoom:'scale(1.22) rotate(-5deg)',orbit:'rotate(18deg) scale(1.08)'};
  el.style.transform=(base+' '+(transforms[mode]||transforms.wiggle)).trim();
  if(mode==='glow'){el.style.filter='brightness(1.08) saturate(1.35) drop-shadow(0 0 12px #f3a8b5)';el.style.boxShadow='0 0 0 4px #f4c1c855,0 12px 25px #9a657044'}
  else if(mode==='paw'){el.style.borderRadius='24px';el.style.filter='drop-shadow(0 7px 9px #9b6b5a66)'}
@@ -3693,30 +3700,69 @@ function playWithTarget(mode){
  later(p,()=>{if(prank!==p)return;el.style.transform=(base+' '+(mode==='wiggle'?'rotate(7deg) translateX(5px)':mode==='bounce'?'translateY(3px) scale(.98)':'rotate(-4deg)')).trim();gesture('pulando')},620);
  later(p,()=>finish(p),rand(4200,5700));
 }
-function pageTapReaction(e){
- const siteArea=e.target.closest('#conteudo-site');
- if(!siteArea||e.target.closest('#ben-root,#ben-quarto,.modal,.modal-postagem,.lightbox-modal,.menu-flutuante-container,.ben-prank-object'))return;
- lastTouch=Date.now();
- if(e.button!==undefined&&e.button!==0)return;
- if(!enabled()||!visible()||document.hidden||reduced.matches||asleep()||roomOpen()||prank||dragging||window.benBolaPerseguindo)return;
- if(Date.now()-lastTapReaction<1650)return;
- lastTapReaction=Date.now();
- const x=e.clientX||innerWidth/2,y=e.clientY||innerHeight/2;
- const interactive=!!e.target.closest('button,a,input,select,textarea,[contenteditable="true"],[role="button"]');
- if(interactive)gesture('olhando');
- else {placeBen(x,y,1.05);gesture(Math.random()<.55?'olhando':'pulando')}
- const fx=document.createElement('div');fx.className='ben-tap-sparkles';fx.style.left=(x-28)+'px';fx.style.top=(y-28)+'px';fx.style.width='56px';fx.style.height='56px';
- ['🐾','✨','💛'].forEach((v,i)=>{const s=document.createElement('span');s.textContent=v;s.style.left=(8+i*18)+'px';s.style.top=(8+(i%2)*15)+'px';s.style.setProperty('--dx',rand(-22,22)+'px');s.style.setProperty('--dy',rand(-30,10)+'px');s.style.animationDelay=(i*.1)+'s';fx.append(s)});
- document.body.append(fx);setTimeout(()=>fx.remove(),1900);
+function ambientPrank(kind,x=rand(55,Math.max(56,innerWidth-55)),y=rand(95,Math.max(96,innerHeight-90))){
+ const effect=document.createElement('div');effect.className='ben-prank-sparkles';effect.style.inset='0';effect.style.width='100vw';effect.style.height='100dvh';document.body.append(effect);
+ const p={type:'ambient',effect,timers:[],raf:0,finishing:false};prank=p;window.benTravessuraEmCurso=true;root.classList.add('ben-travesso');
+ const add=(emoji,left,top,delay=0)=>{const s=document.createElement('span');s.className='ben-prank-spark';s.textContent=emoji;s.style.left=left+'px';s.style.top=top+'px';s.style.setProperty('--dx',rand(-70,70)+'px');s.style.setProperty('--dy',rand(-90,30)+'px');s.style.animationDelay=delay+'ms';effect.append(s)};
+ if(kind==='rain'||kind==='hearts'){
+  const rain=kind==='hearts'?['💗','💖','💕','💘','💝','💞']:['🌟','💛','🐾','🍓','🧸','💫','🌈','🫧','🎈'];
+  for(let i=0;i<20;i++){const s=document.createElement('span');s.className='ben-prank-fall';s.textContent=rain[Math.floor(Math.random()*rain.length)];s.style.left=rand(4,Math.max(5,innerWidth-35))+'px';s.style.fontSize=rand(20,34)+'px';s.style.animationDuration=rand(1.8,3.1)+'s';s.style.animationDelay=rand(0,900)+'ms';effect.append(s)}
+  placeBen(x,y,1.1);gesture('pulando');
+ }else if(kind==='bubble'){
+  const bubble=document.createElement('div');bubble.className='ben-prank-bubble';bubble.textContent=['EU VI ISSO! 😼','Foi sem querer… eu acho! 🐾','Oi, pai e mãe! 💛','Essa parte é minha agora! 😈','Hehehe! ✨','Cadê minha bolinha? 🥺'][Math.floor(Math.random()*6)];bubble.style.left=clamp(x-25,8,innerWidth-250)+'px';bubble.style.top=clamp(y-80,65,innerHeight-100)+'px';effect.append(bubble);placeBen(x,y,1.15);gesture('olhando');
+ }else if(kind==='paws'){
+  const r=root.getBoundingClientRect(),sx=r.left+r.width/2,sy=r.top+r.height/2,steps=9;
+  for(let i=0;i<steps;i++){const t=(i+1)/steps;add('🐾',sx+(x-sx)*t+Math.sin(i*1.8)*15,sy+(y-sy)*t+Math.cos(i*1.8)*10,i*85)}
+  placeBen(x,y,1.35);gesture('pulando');
+ }else if(kind==='confetti'){
+  const bits=['🎉','🎊','💖','⭐','🍬','🫧','🐾','🌸'];
+  for(let i=0;i<22;i++)add(bits[i%bits.length],x+rand(-90,90),y+rand(-70,70),rand(0,450));
+  placeBen(x,y,1.05);gesture('pulando');
+ }else if(kind==='peek'){
+  const edge=Math.random()<.5?8:innerWidth-48;placeBen(edge,y,.75);gesture('olhando');
+  later(p,()=>{placeBen(x,y,1);gesture('pulando')},900);
+  for(let i=0;i<5;i++)add(['👀','🙈','🐾','✨','😜'][i],x+rand(-40,40),y+rand(-35,35),i*120);
+ }else if(kind==='sneeze'){
+  placeBen(x,y,.8);gesture('pulando');
+  const burst=['🤧','💨','💨','⭐','🐾','✨'];burst.forEach((v,i)=>add(v,x+rand(-45,45),y+rand(-38,38),i*95));
+  const bubble=document.createElement('div');bubble.className='ben-prank-bubble';bubble.textContent='ATCHIM!!! 🤧';bubble.style.left=clamp(x-30,8,innerWidth-220)+'px';bubble.style.top=clamp(y-85,65,innerHeight-90)+'px';effect.append(bubble);
+ }else if(kind==='zoomies'){
+  placeBen(rand(35,Math.max(36,innerWidth-55)),rand(85,Math.max(86,innerHeight-90)),.45);gesture('pulando');
+  for(let i=0;i<3;i++){const px=rand(35,Math.max(36,innerWidth-55)),py=rand(85,Math.max(86,innerHeight-90));later(p,()=>{const rr=root.getBoundingClientRect();add('💨',rr.left+rr.width/2,rr.top+rr.height/2,i*80);placeBen(px,py,.42);gesture('pulando')},520*(i+1))}
+ }else{
+  const stickers=['😈','🐾','🧸','💛','🫧','⭐'];
+  for(let i=0;i<6;i++)add(stickers[i],x+rand(-55,55),y+rand(-45,45),i*90);
+  placeBen(x,y,1.05);gesture('pulando');
+ }
+ later(p,()=>restore(),kind==='rain'||kind==='hearts'?3800:kind==='bubble'?2800:kind==='peek'?2600:2300);
 }
-
+function handleDoubleInteraction(e){
+ const area=e.target.closest('#conteudo-site');
+ if(!area||e.target.closest('#ben-root,#ben-quarto,.modal,.modal-postagem,.lightbox-modal,.menu-flutuante-container,.ben-prank-object'))return;
+ if(!enabled()||!visible()||document.hidden||reduced.matches||asleep()||roomOpen()||prank||dragging||window.benBolaPerseguindo)return;
+ if(Date.now()-lastManualMove<700)return;
+ lastManualMove=Date.now();lastTouch=Date.now();clearTimeout(walkTimer);walking=false;root.classList.remove('ben-andando');
+ const x=e.clientX||innerWidth/2,y=e.clientY||innerHeight/2;
+ const target=e.target.closest('img,p,h1,h2,h3,h4,section,article,.bloco-separado,.card-separador-interno,.contador-bloco,.moldura-imagem,.quadro-polaroid,.declaracao-card');
+ const blocked=e.target.closest('button,a,input,select,textarea,[contenteditable="true"],[role="button"],video,audio,iframe');
+ if(target&&!blocked&&target!==area&&!target.querySelector('button,a,input,select,textarea,[contenteditable="true"],[role="button"]')){const modes=['boop','flip','squish','jelly','dance','peek','zoom','orbit','glow','paw'];playWithTarget(modes[Math.floor(Math.random()*modes.length)],target)}
+ else ambientPrank('paws',x,y);
+}
+function handleTouchDoubleTap(e){
+ if(e.pointerType!=='touch')return;
+ if(!e.target.closest('#conteudo-site')){lastPointerTap=0;return}
+ const now=Date.now(),x=e.clientX,y=e.clientY;
+ if(lastPointerTap&&now-lastPointerTap<390&&Math.hypot(x-lastPointerX,y-lastPointerY)<42){lastPointerTap=0;handleDoubleInteraction(e)}
+ else{lastPointerTap=now;lastPointerX=x;lastPointerY=y}
+}
 function doPrank(){
  if(!enabled()||!canAct()||reduced.matches)return;
  const choice=Math.random();
  if(choice<.14){graffiti();return}
  if(choice<.28){shuffleCards();return}
  if(choice<.43){const target=chooseTarget();if(target){beginObject(target.type,target.el);return}}
- const modes=['wiggle','spin','bounce','tilt','wobble','glow','paw'];
+ const modes=['wiggle','spin','bounce','tilt','wobble','glow','paw','flip','squish','jelly','boop','dance','peek','zoom','orbit'];
+ const r=Math.random();if(r<.08){ambientPrank('rain');return}if(r<.16){ambientPrank('bubble');return}if(r<.24){ambientPrank('confetti');return}if(r<.32){ambientPrank('paws');return}if(r<.39){ambientPrank('peek');return}if(r<.44){ambientPrank('sneeze');return}if(r<.48){ambientPrank('hearts');return}if(r<.52){ambientPrank('zoomies');return}
  playWithTarget(modes[Math.floor(Math.random()*modes.length)]);
 }
 function schedule(){
@@ -3747,7 +3793,9 @@ pet.addEventListener('click',()=>{
  if(prank){restore();lastTouch=Date.now();return}
  lastTouch=Date.now();window.benAbrirCuidados?.();
 });
-document.addEventListener('pointerdown',pageTapReaction,true);
+document.addEventListener('pointerdown',handleTouchDoubleTap,true);
+ document.addEventListener('pointermove',e=>{if(e.pointerType==='touch'&&lastPointerTap&&Math.hypot(e.clientX-lastPointerX,e.clientY-lastPointerY)>14)lastPointerTap=0},{passive:true});
+ document.addEventListener('dblclick',handleDoubleInteraction,true);
 window.addEventListener('resize',()=>{if(prank)restore()});
 document.addEventListener('visibilitychange',()=>{if(document.hidden)restore()});
 window.addEventListener('pagehide',restore);

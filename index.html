@@ -3306,8 +3306,26 @@ body.dark-mode .ben-menu-devolucao{background:#463339;color:#ffe7df}
 .ben-care-card,.ben-bath-tool{flex:1;max-width:205px;min-height:80px!important;touch-action:none!important;background:linear-gradient(145deg,#fffaf5,#ffeae2)!important;border:2px solid #f0d5c9!important}
 .ben-care-card span,.ben-bath-tool span{font-size:36px!important}
 .ben-care-nav{width:40px;min-width:40px;min-height:65px!important;flex:0 0 40px}
-.ben-game-ball{position:absolute;z-index:18;width:46px;height:46px;border-radius:50%;display:grid;place-items:center;font-size:31px;background:radial-gradient(circle at 30% 25%,#fff,#ffd76c 42%,#f29a36 78%);box-shadow:0 6px 12px #5b3c2c55;touch-action:none;user-select:none;will-change:left,top,transform}
-.ben-game-ball:after{content:"";position:absolute;inset:5px;border:2px dashed #fff9;border-radius:50%;pointer-events:none}
+.ben-game-ball{position:absolute;z-index:22;width:58px;height:58px;border-radius:50%;display:grid;place-items:center;background:radial-gradient(circle at 27% 22%,#fff9d7 0 4%,#ffe07a 13%,#f6a438 52%,#d66a2e 82%,#914124 100%);box-shadow:inset -7px -9px 12px #7e3b293b,inset 5px 5px 9px #fff9,0 9px 14px #4c302d55;touch-action:none;user-select:none;will-change:left,top,transform;overflow:hidden}
+.ben-game-ball-panels{position:absolute;inset:-12%;border-radius:50%;background:repeating-conic-gradient(from 12deg,#fff0 0deg 24deg,#fff9 25deg 29deg,#fff0 30deg 56deg);opacity:.78}
+.ben-game-ball-panels:after{content:"";position:absolute;inset:17%;border:3px solid #fff9;border-radius:38% 62% 44% 56%;transform:rotate(28deg);box-shadow:0 0 0 7px #8b4d2b22}
+.ben-game-ball-shine{position:absolute;left:10px;top:8px;width:17px;height:9px;border-radius:50%;background:#fff9;filter:blur(2px);transform:rotate(-35deg)}
+.ben-game-shadow{position:absolute;z-index:17;height:12px;border-radius:50%;background:#593d3548;filter:blur(4px);pointer-events:none}
+.ben-game-hud{position:absolute;z-index:35;top:10px;left:10px;right:10px;display:flex;align-items:center;justify-content:space-between;gap:7px;pointer-events:none;font:800 12px system-ui;color:#765047;text-shadow:0 1px #fff9}
+.ben-game-score,.ben-game-clock,.ben-game-hint{padding:7px 10px;border-radius:20px;background:#fffaf0e8;border:1px solid #fff;box-shadow:0 3px 9px #784a3820}
+.ben-game-score b{font-size:14px}
+.ben-game-hint{font-size:10px;color:#a36b59}
+.ben-game-star{position:absolute;z-index:19;width:39px;height:39px;display:grid;place-items:center;font-size:30px;filter:drop-shadow(0 4px 4px #a76c254d);pointer-events:none;transform:scale(.8);transition:transform .25s}
+.ben-game-star.ben-star-pop{animation:ben-star-pop .6s cubic-bezier(.2,1.5,.4,1) both}
+@keyframes ben-star-pop{from{transform:scale(0) rotate(-70deg)}to{transform:scale(1) rotate(0)}}
+.ben-game-burst{position:absolute;z-index:40;pointer-events:none;font-size:25px;animation:ben-game-burst .8s ease-out forwards}
+.ben-game-burst.dust{font-size:28px}
+.ben-game-burst.star{font-size:34px}
+@keyframes ben-game-burst{0%{opacity:1;transform:translate(-50%,-50%) scale(.45) rotate(-15deg)}65%{opacity:1;transform:translate(-50%,-75%) scale(1.35) rotate(20deg)}100%{opacity:0;transform:translate(-50%,-110%) scale(.7) rotate(35deg)}}
+#ben-quarto-ursinho.ben-game-pounce{animation:ben-game-pounce .42s cubic-bezier(.2,.8,.2,1)}
+@keyframes ben-game-pounce{0%,100%{transform:translateY(0) rotate(0)}35%{transform:translateY(-18px) rotate(-9deg) scale(1.06,.94)}70%{transform:translateY(2px) rotate(7deg) scale(.96,1.04)}}
+#ben-quarto-cenario[data-scene="brincar"]{background-image:radial-gradient(circle at 14px 14px,#ffffff35 1px,transparent 2px),linear-gradient(180deg,#fff2ee 0 58%,#ffd9d2 58% 72%,#efc28f 72% 100%);background-size:28px 28px,auto}\n.ben-game-star{filter:drop-shadow(0 0 7px #ffe18b) drop-shadow(0 4px 4px #a76c254d)}\n@media(max-width:420px){.ben-game-hud{top:7px;left:7px;right:7px;gap:4px}.ben-game-hint{font-size:9px;padding:6px 7px}.ben-game-score,.ben-game-clock{padding:6px 8px}}
+.ben-game-ball:after{content:none}
 #ben-quarto-ursinho.ben-carinho{animation:ben-carinho 1.05s ease-in-out 3}
 #ben-quarto-ursinho.ben-escovando{animation:ben-escova .95s ease-in-out 4}
 #ben-quarto-ursinho.ben-descansando{transform:rotate(-8deg) translateY(5px)}
@@ -3649,7 +3667,7 @@ function doPrank(){
 function schedule(){
  clearTimeout(nextTimer);
  if(!enabled())return;
- nextTimer=setTimeout(()=>{if(canAct())doPrank();schedule()},rand(36000,54000));
+ nextTimer=setTimeout(()=>{if(canAct())doPrank();schedule()},rand(9000,15000));
 }
 pet.addEventListener('pointerdown',e=>{
  if(e.button!==0)return;
@@ -3777,42 +3795,116 @@ function useCare(index){
  if(index===3){roomBen.classList.add('ben-descansando');setTimeout(()=>roomBen.classList.remove('ben-descansando'),3000);save({energia:clamp(v.energia+12),atEnergia:now,felicidade:clamp(v.felicidade+4),atFelicidade:now}).then(ok=>{if(ok)status('Ben descansou um pouquinho. 🛋️')})}
 }
 function startRoomBall(){
- if(roomBall){cancelAnimationFrame(roomBall.raf);roomBall.el.remove();roomBall=null}
- const el=document.createElement('div');el.className='ben-game-ball';el.textContent='⚽';cena.append(el);
- const bounds=()=>({w:cena.clientWidth,h:cena.clientHeight});
- let x=bounds().w*.72,y=bounds().h*.48,vx=1.8,vy=-2.8,drag=null,last=performance.now(),hits=0,started=performance.now();
- const oldPet={left:roomBen.style.left,top:roomBen.style.top,bottom:roomBen.style.bottom,transition:roomBen.style.transition};
- const state={el,raf:0,restore:()=>{roomBen.style.left=oldPet.left;roomBen.style.top=oldPet.top;roomBen.style.bottom=oldPet.bottom;roomBen.style.transition=oldPet.transition}};roomBall=state;
- let lastChase=0;
- const draw=()=>{el.style.left=x+'px';el.style.top=y+'px';el.style.transform='rotate('+((performance.now()-started)*.24)+'deg)'};
- el.addEventListener('pointerdown',e=>{drag={id:e.pointerId,px:e.clientX,py:e.clientY};vx=0;vy=0;el.setPointerCapture(e.pointerId);e.preventDefault()});
- el.addEventListener('pointermove',e=>{if(!drag||drag.id!==e.pointerId)return;const r=cena.getBoundingClientRect();x=clamp(e.clientX-r.left-23,0,bounds().w-46);y=clamp(e.clientY-r.top-23,0,bounds().h-46);draw()});
- el.addEventListener('pointerup',e=>{if(!drag||drag.id!==e.pointerId)return;vx=clamp((e.clientX-drag.px)*.12,-8,8);vy=clamp((e.clientY-drag.py)*.12-2,-9,7);drag=null});
+ const random=(a,b)=>a+Math.random()*(b-a),bound=(n,a,b)=>Math.max(a,Math.min(b,n));
+ if(roomBall){roomBall.cleanup();roomBall=null}
+ const box=()=>({w:cena.clientWidth,h:cena.clientHeight});
+ const size=58,initial=box();
+ const shadow=document.createElement('div');shadow.className='ben-game-shadow';cena.append(shadow);
+ const el=document.createElement('div');el.className='ben-game-ball';el.setAttribute('role','button');el.setAttribute('aria-label','Bolinha: arraste e solte para jogar');el.innerHTML='<span class="ben-game-ball-panels"></span><span class="ben-game-ball-shine"></span>';cena.append(el);
+ const hud=document.createElement('div');hud.className='ben-game-hud';hud.innerHTML='<span class="ben-game-score">⭐ <b>0</b></span><span class="ben-game-clock">⏱️ 25</span><span class="ben-game-hint">Acerte as estrelinhas!</span>';cena.append(hud);
+ const target=document.createElement('div');target.className='ben-game-star';target.textContent='⭐';cena.append(target);
+ let x=initial.w*.72,y=initial.h*.48,vx=random(-2.8,2.8),vy=-3.8,rotation=0,spin=random(-3,3),drag=null,last=performance.now(),started=performance.now(),lastChase=0,lastKick=0,lastStar=0,score=0,impacts=0,finished=false;
+ const oldPet={left:roomBen.style.left,top:roomBen.style.top,bottom:roomBen.style.bottom,transition:roomBen.style.transition,transform:roomBen.style.transform};
+ const state={el,hud,target,shadow,raf:0,restore:()=>{roomBen.style.left=oldPet.left;roomBen.style.top=oldPet.top;roomBen.style.bottom=oldPet.bottom;roomBen.style.transition=oldPet.transition;roomBen.style.transform=oldPet.transform},cleanup:()=>{cancelAnimationFrame(state.raf);el.remove();hud.remove();target.remove();shadow.remove();state.restore()}};
+ roomBall=state;
+ let sx=initial.w*.18,sy=initial.h*.28;
+ function placeStar(){
+  const b=box();sx=random(35,Math.max(36,b.w-55));sy=random(80,Math.max(81,b.h-90));
+  target.style.left=sx+'px';target.style.top=sy+'px';target.classList.remove('ben-star-pop');void target.offsetWidth;target.classList.add('ben-star-pop');
+ }
+ function updateHud(){
+  hud.querySelector('.ben-game-score b').textContent=String(score);
+  hud.querySelector('.ben-game-clock').textContent='⏱️ '+Math.max(0,25-Math.floor((performance.now()-started)/1000));
+ }
+ function position(){
+  el.style.left=x+'px';el.style.top=y+'px';
+  el.style.transform='rotate('+rotation+'deg) scale('+ (Math.abs(vy)>6?.94:1.02)+','+(Math.abs(vy)>6?1.06:.98)+')';
+  const floor=box().h-size;
+  const height=bound((floor-y)/Math.max(1,floor),.25,1);
+  shadow.style.left=(x+8)+'px';shadow.style.top=(Math.min(box().h-15,y+size+7))+'px';
+  shadow.style.width=(size-16)+'px';shadow.style.transform='scaleX('+(1.25-height*.35)+') scaleY('+(1.1-height*.45)+')';shadow.style.opacity=String(.2+height*.25);
+ }
+ function burst(px,py,kind='spark'){
+  const layer=document.createElement('span');layer.className='ben-game-burst '+kind;layer.textContent=kind==='star'?'✨':kind==='dust'?'💨':'✦';layer.style.left=px+'px';layer.style.top=py+'px';cena.append(layer);setTimeout(()=>layer.remove(),1000);
+ }
+ function kick(){
+  const pr=roomBen.getBoundingClientRect(),sr=cena.getBoundingClientRect();
+  const bx=pr.left-sr.left+pr.width*.5,by=pr.top-sr.top+pr.height*.58;
+  const dx=x+size/2-bx,dy=y+size/2-by;
+  const dist=Math.hypot(dx,dy);
+  if(dist<76&&performance.now()-lastKick>850&&!drag){
+   lastKick=performance.now();impacts++;score+=1;
+   const dir=dx>=0?1:-1;
+   vx=bound(vx+dir*random(4.5,6.8),-10,10);vy=-random(6.8,9.2);spin+=random(5,10);
+   roomBen.classList.remove('ben-game-pounce');void roomBen.offsetWidth;roomBen.classList.add('ben-game-pounce');
+   setTimeout(()=>roomBen.classList.remove('ben-game-pounce'),650);
+   burst(x+size/2,y+size/2,'dust');hud.querySelector('.ben-game-hint').textContent='Ben chutou! +1';updateHud();
+  }
+ }
+ function pointerDown(e){
+  if(finished)return;
+  drag={id:e.pointerId,px:e.clientX,py:e.clientY,lastX:e.clientX,lastY:e.clientY,lastTime:performance.now()};
+  vx=0;vy=0;el.setPointerCapture(e.pointerId);e.preventDefault();
+ }
+ function pointerMove(e){
+  if(!drag||drag.id!==e.pointerId)return;
+  const r=cena.getBoundingClientRect(),now=performance.now(),dt=Math.max(12,now-drag.lastTime);
+  x=bound(e.clientX-r.left-size/2,0,box().w-size);y=bound(e.clientY-r.top-size/2,0,box().h-size);
+  vx=bound((e.clientX-drag.lastX)/dt*16.67,-12,12);vy=bound((e.clientY-drag.lastY)/dt*16.67,-12,12);
+  drag.lastX=e.clientX;drag.lastY=e.clientY;drag.lastTime=now;position();
+ }
+ function pointerUp(e){
+  if(!drag||drag.id!==e.pointerId)return;
+  const r=cena.getBoundingClientRect();
+  x=bound(e.clientX-r.left-size/2,0,box().w-size);y=bound(e.clientY-r.top-size/2,0,box().h-size);
+  vx=bound((e.clientX-drag.px)*.22,-13,13);vy=bound((e.clientY-drag.py)*.22-1,-13,11);
+  spin=bound(vx*1.6,-18,18);drag=null;burst(x+size/2,y+size/2,'spark');
+ }
+ el.addEventListener('pointerdown',pointerDown);el.addEventListener('pointermove',pointerMove);el.addEventListener('pointerup',pointerUp);el.addEventListener('pointercancel',()=>{drag=null});
+ function finish(){
+  if(finished||roomBall!==state)return;finished=true;cancelAnimationFrame(state.raf);
+  state.cleanup();roomBall=null;
+  const now=Date.now(),gain=Math.min(30,score*3+8);
+  save({felicidade:bound(atual().felicidade+gain),atFelicidade:now}).then(ok=>{if(ok)status('Partida encerrada! Ben marcou '+score+' pontos e ganhou +'+gain+' de alegria! ⭐🐾')});
+ }
+ placeStar();position();updateHud();
  function tick(t){
   if(roomBall!==state)return;
-  if(!roomOpen){el.remove();roomBall=null;return}
-  const dt=Math.min(2.2,Math.max(.4,(t-last)/16.67));last=t;
+  if(!roomOpen){finish();return}
+  const dt=Math.min(2.5,Math.max(.35,(t-last)/16.67));last=t;
   if(!drag){
-   vy+=.22*dt;x+=vx*dt;y+=vy*dt;const box=bounds();
-   if(x<0||x>box.w-46){x=clamp(x,0,box.w-46);vx*=-.78;hits++}
-   if(y<0){y=0;vy=Math.abs(vy)*.7}
-   if(y>box.h-46){y=box.h-46;vy=-Math.max(2.4,Math.abs(vy)*.68);vx*=.92;hits++}
-   const pr=roomBen.getBoundingClientRect(),sr=cena.getBoundingClientRect(),px=pr.left-sr.left+pr.width/2,py=pr.top-sr.top+pr.height*.58;
-   if(t-lastChase>190){lastChase=t;roomBen.style.transition='left .22s ease,top .22s ease';roomBen.style.left=clamp(x+23-roomBen.offsetWidth*.5,5,box.w-roomBen.offsetWidth-5)+'px';roomBen.style.top=clamp(y+23-roomBen.offsetHeight*.5,12,box.h-roomBen.offsetHeight-6)+'px';roomBen.style.bottom='auto'}
-   if(Math.hypot(x+23-px,y+23-py)<56){vx+=(x+23<px?-2.5:2.5);vy=-4;hits++;roomBen.classList.add('ben-carinho');setTimeout(()=>roomBen.classList.remove('ben-carinho'),1300)}
+   const b=box();vy+=.31*dt;x+=vx*dt;y+=vy*dt;rotation+=spin*dt;
+   const floor=b.h-size;
+   if(x<0){x=0;vx=Math.abs(vx)*.82;spin=Math.abs(spin)*.9;burst(4,y+size/2)}
+   if(x>b.w-size){x=b.w-size;vx=-Math.abs(vx)*.82;spin=-Math.abs(spin)*.9;burst(b.w-4,y+size/2)}
+   if(y<0){y=0;vy=Math.abs(vy)*.72;spin*=.8}
+   if(y>floor){y=floor;vy=-Math.max(2.2,Math.abs(vy)*.73);vx*=.975;spin*=.88;impacts++;if(Math.abs(vy)>3)burst(x+size/2,y+size-4,'dust')}
+   vx*=Math.pow(.997,dt);spin*=Math.pow(.994,dt);
+   if(Math.abs(vx)<.025)vx=0;
+   if(Math.abs(vy)<.025&&y>=floor-1)vy=0;
+   if(t-lastChase>115){lastChase=t;
+    const tx=bound(x+size/2-roomBen.offsetWidth*.5,5,b.w-roomBen.offsetWidth-5);
+    const ty=bound(y+size/2-roomBen.offsetHeight*.58,8,b.h-roomBen.offsetHeight-6);
+    roomBen.style.transition='left .28s cubic-bezier(.2,.7,.2,1),top .28s cubic-bezier(.2,.7,.2,1)';
+    roomBen.style.left=tx+'px';roomBen.style.top=ty+'px';roomBen.style.bottom='auto';
+   }
+   kick();
+   if(Math.hypot(x+size/2-sx,y+size/2-sy)<48&&t-lastStar>650){
+    lastStar=t;score+=3;burst(sx,sy,'star');placeStar();vx+=random(-2.5,2.5);vy-=2.2;hud.querySelector('.ben-game-hint').textContent='Pegou a estrela! +3';updateHud();
+   }
   }
-  draw();
-  if(t-started>9500||hits>=9){el.remove();state.restore();roomBall=null;const now=Date.now();save({felicidade:clamp(atual().felicidade+14),atFelicidade:now}).then(ok=>{if(ok)status('Que partida divertida! Ben adorou buscar a bolinha! ⚽❤️')});return}
-  state.raf=requestAnimationFrame(tick)
+  position();updateHud();
+  if(t-started>25000){finish();return}
+  state.raf=requestAnimationFrame(tick);
  }
  state.raf=requestAnimationFrame(tick);
 }
 function render(){window.benTravessurasHabilitadas=estado.travessurasAtivas!==false;window.dispatchEvent(new Event('ben-travessuras-alteradas'));sleepVisual();renderHumor();if(!roomOpen)return;renderBars();renderConteudo()}
 function abrir(){window.benDevolverTravessura?.();roomOpen=true;quarto.classList.add('aberto');quarto.setAttribute('aria-hidden','false');render();}
-function fechar(){roomOpen=false;if(roomBall){cancelAnimationFrame(roomBall.raf);roomBall.el.remove();roomBall.restore();roomBall=null}quarto.classList.remove('aberto');quarto.setAttribute('aria-hidden','true');sleepVisual()}
+function fechar(){roomOpen=false;if(roomBall){roomBall.cleanup();roomBall=null}quarto.classList.remove('aberto');quarto.setAttribute('aria-hidden','true');sleepVisual()}
 window.benAbrirCuidados=abrir;$('ben-travessuras-toggle').addEventListener('click',async()=>{const enabled=estado.travessurasAtivas===false;if(await save({travessurasAtivas:enabled}))status(enabled?'🐾 Ben pode fazer travessuras!':'Travessuras desativadas. Ben continua passeando!')});$('ben-auto-toggle').addEventListener('click',async()=>{const ligado=!estado.autoCuidado,now=Date.now();const patch={autoCuidado:ligado};if(ligado)Object.assign(patch,{fome:100,sede:100,higiene:100,energia:100,felicidade:100,atFome:now,atSede:now,atHigiene:now,atEnergia:now,atFelicidade:now,acordado:true,sonoInicio:0});else Object.assign(patch,{atFome:now,atSede:now,atHigiene:now,atEnergia:now,atFelicidade:now});if(await save(patch))status(ligado?'✨ Cuidados automáticos ativados!':'Cuidados manuais ativados. ❤️')});$('ben-quarto-fechar').addEventListener('click',fechar);
 quarto.addEventListener('click',e=>{if(e.target===quarto)fechar()});document.addEventListener('keydown',e=>{if(e.key==='Escape'&&roomOpen)fechar()});
-quarto.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{if(roomBall){cancelAnimationFrame(roomBall.raf);roomBall.el.remove();roomBall.restore();roomBall=null}aba=b.dataset.tab;quarto.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('ativo',x===b));render()}));
+quarto.querySelectorAll('[data-tab]').forEach(b=>b.addEventListener('click',()=>{if(roomBall){roomBall.cleanup();roomBall=null}aba=b.dataset.tab;quarto.querySelectorAll('[data-tab]').forEach(x=>x.classList.toggle('ativo',x===b));render()}));
 // Firebase realtime: ambos os pais veem os cuidados do mesmo Ben; não grava progresso a cada segundo.
 function conectar(){if(desinscrever||!window.benCuidadosAPI)return;try{desinscrever=window.benCuidadosAPI.observar((data,err)=>{if(err){status('Não consegui ler os cuidados da nuvem. Libere ben_estado nas regras do Firestore.');return}estado={...DEFAULT,...(data||{})};pronto=true;render();if(estado.bolaAtiva)iniciarBola()})}catch(e){/* login ainda carregando */}}
 setInterval(()=>{conectar();if(!pronto)return;if(estado.acordado===false&&!estado.autoCuidado&&atual().energia>=99.999){acordar(true)}if(roomOpen)renderBars();renderHumor();sleepVisual()},12000);conectar();

@@ -3,6 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="preconnect" href="https://www.youtube.com" crossorigin>
+<link rel="preconnect" href="https://www.google.com" crossorigin>
+<link rel="preconnect" href="https://www.gstatic.com" crossorigin>
+<link rel="dns-prefetch" href="//i.ytimg.com">
+
     <title>Nossa Playlist Completa 🎧</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -1673,8 +1678,8 @@ body.dark-mode .fila-player-item{background:rgba(255,255,255,.06)}body.dark-mode
 
         prepararPlayerVisual();
 
-        async function restaurarPlayerCompartilhado(){ let estado;try{estado=JSON.parse(localStorage.getItem(CHAVE_PLAYER_COMPARTILHADO)||'null')}catch(e){estado=null} if(!estado?.musica?.id)return;musicaAtualYouTube=estado.musica;mostrarBarraPlayer(musicaAtualYouTube,estado.tocando?'Retomando música…':'Pausada');if(!estado.tocando)return;try{await carregarYouTubeAPI();const host=document.getElementById('youtube-player-host');const iniciar=player=>{try{player.seekTo(Number(estado.tempo)||0,true);player.playVideo()}catch(e){}};if(!youtubePlayer)youtubePlayer=new YT.Player(host,{width:'1',height:'1',videoId:musicaAtualYouTube.id,playerVars:{autoplay:1,controls:0,playsinline:1,rel:0,modestbranding:1},events:{onReady:e=>iniciar(e.target),onStateChange:atualizarEstadoPlayerYouTube}});else{youtubePlayer.loadVideoById({videoId:musicaAtualYouTube.id,startSeconds:Number(estado.tempo)||0});youtubePlayer.playVideo()}iniciarSalvamentoPosicao()}catch(e){console.warn('Não foi possível retomar automaticamente:',e)}}
-        window.addEventListener('pagehide',()=>{try{if(musicaAtualYouTube){const tocando=window.YT&&youtubePlayer&&youtubePlayer.getPlayerState()===YT.PlayerState.PLAYING;salvarEstadoPlayerCompartilhado(tocando)}}catch(e){}});
+        async function restaurarPlayerCompartilhado(){ let estado;try{estado=JSON.parse(localStorage.getItem(CHAVE_PLAYER_COMPARTILHADO)||'null')}catch(e){estado=null} if(!estado?.musica?.id)return;musicaAtualYouTube=estado.musica;mostrarBarraPlayer(musicaAtualYouTube,estado.tocando?'Retomando música…':'Pausada');if(!estado.tocando)return;const atraso=Math.max(0,Math.min(15,(Date.now()-Number(estado.atualizadoEm||Date.now()))/1000));const tempoRetomar=Math.max(0,(Number(estado.tempo)||0)+atraso);try{await carregarYouTubeAPI();const host=document.getElementById('youtube-player-host');const iniciar=player=>{try{player.seekTo(tempoRetomar,true);player.playVideo()}catch(e){}};if(!youtubePlayer)youtubePlayer=new YT.Player(host,{width:'1',height:'1',videoId:musicaAtualYouTube.id,playerVars:{autoplay:1,controls:0,playsinline:1,rel:0,modestbranding:1},events:{onReady:e=>iniciar(e.target),onStateChange:atualizarEstadoPlayerYouTube}});else{youtubePlayer.loadVideoById({videoId:musicaAtualYouTube.id,startSeconds:tempoRetomar});youtubePlayer.playVideo()}iniciarSalvamentoPosicao()}catch(e){console.warn('Não foi possível retomar automaticamente:',e)}}
+        window.addEventListener('pagehide',()=>{try{if(musicaAtualYouTube){const st=window.YT&&youtubePlayer?youtubePlayer.getPlayerState():-1;const tocando=!!(window.YT&&(st===YT.PlayerState.PLAYING||st===YT.PlayerState.BUFFERING));salvarEstadoPlayerCompartilhado(tocando)}}catch(e){}});
         // Garante que o estado seja salvo ANTES de navegar para outra página.
         function salvarEstadoAntesDeNavegar() {
             try {
@@ -1691,7 +1696,11 @@ body.dark-mode .fila-player-item{background:rgba(255,255,255,.06)}body.dark-mode
             const link = e.target.closest && e.target.closest('a[href]');
             if (!link) return;
             const href = link.getAttribute('href') || '';
-            if (/^(index|playlist)\.html(?:[?#].*)?$/i.test(href)) salvarEstadoAntesDeNavegar();
+            if (!href || href.startsWith('#') || /^(mailto:|tel:|javascript:)/i.test(href)) return;
+            try {
+                const destino = new URL(href, window.location.href);
+                if (destino.origin === window.location.origin && /\.html$/i.test(destino.pathname)) salvarEstadoAntesDeNavegar();
+            } catch (_) {}
         }, true);
 
         let musicaAtualYouTube = null;
@@ -2380,9 +2389,9 @@ btnCriacao.onclick=alternarModalPostagem;
      if(e.reason==='accessNotConfigured' || /has not been used|not enabled|API.*disabled/i.test(e.message)){
        status.textContent='A busca está configurada, mas a YouTube Data API v3 ainda não está ativada neste projeto Google.';
      } else if(e.reason==='keyInvalid' || /API key not valid/i.test(e.message)){
-       status.textContent='A chave da API não foi aceita. Confira se ela foi copiada corretamente.';
-     } else if(e.reason==='ipRefererBlocked' || /referer|referrer/i.test(e.message)){
-       status.textContent='A chave está bloqueada pelas restrições do Google. Para testar, remova temporariamente a restrição de aplicativo.';
+       status.textContent='O Google não reconheceu a chave da YouTube Data API.';
+     } else if(e.status===403 || ['forbidden','insufficientPermissions','ipRefererBlocked','refererNotAllowed','API_KEY_HTTP_REFERRER_BLOCKED'].includes(e.reason) || /insufficient.*permission|referer|referrer|not authorized|forbidden/i.test(e.message)){
+       status.textContent='O Google recusou o acesso à YouTube Data API (403). Isso não é uma regra do Firestore: confira a chave, a restrição de domínio e se a YouTube Data API v3 está liberada no Google Cloud.';
      } else if(e.reason==='quotaExceeded' || /quota/i.test(e.message)){
        status.textContent='A cota diária da API do YouTube foi atingida. Tente novamente mais tarde.';
      } else if(e.name==='AbortError'){

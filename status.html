@@ -1066,24 +1066,16 @@
         options = ["Fabricio 💜", "Meu Amor 💙"];
       }
       else if (chosen === 'top_bomdia') {
-        let fab = 0, mar = 0;
-        const bdRegex = regexForTermWithIntensifiers('bom dia');
-        parsedMessages.forEach(m => {
-          if (bdRegex.test(m.content)) { if (isFabricio(m.author)) fab++; else mar++; }
-        });
-        questionText = "Quem manda mais 'Bom Dia' no dia a dia?";
-        correctAnswer = fab >= mar ? "Fabricio 💜" : "Meu Amor 💙";
-        options = ["Fabricio 💜", "Meu Amor 💙"];
+        const first = getDailyTemporalStats().mornings;
+        questionText = "Quem enviou primeiro o 'Bom Dia' em mais dias?";
+        correctAnswer = first.fabricio === first.maria ? "Empate 🤝" : first.fabricio > first.maria ? "Fabricio 💜" : "Meu Amor 💙";
+        options = ["Fabricio 💜", "Meu Amor 💙", "Empate 🤝"];
       }
       else if (chosen === 'top_boanoite') {
-        let fab = 0, mar = 0;
-        const bnRegex = regexForTermWithIntensifiers('boa noite');
-        parsedMessages.forEach(m => {
-          if (bnRegex.test(m.content)) { if (isFabricio(m.author)) fab++; else mar++; }
-        });
-        questionText = "Quem é o campeão do 'Boa Noite'?";
-        correctAnswer = fab >= mar ? "Fabricio 💜" : "Meu Amor 💙";
-        options = ["Fabricio 💜", "Meu Amor 💙"];
+        const first = getDailyTemporalStats().nights;
+        questionText = "Quem enviou primeiro o 'Boa Noite' em mais dias?";
+        correctAnswer = first.fabricio === first.maria ? "Empate 🤝" : first.fabricio > first.maria ? "Fabricio 💜" : "Meu Amor 💙";
+        options = ["Fabricio 💜", "Meu Amor 💙", "Empate 🤝"];
       }
       else if (chosen === 'night_owl') {
         questionText = "Quem envia mais mensagens de madrugada (00h às 05h)?";

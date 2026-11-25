@@ -256,6 +256,7 @@
 
   
     .advanced-grid .insight-card{min-height:94px}.pattern-tag{display:inline-flex;padding:3px 8px;border-radius:999px;font-size:.68rem;background:var(--bg-secondary);color:var(--text-muted);margin-top:5px}.section-title{letter-spacing:.01em}
+    .heatmap-grid{display:grid;grid-template-columns:34px repeat(24,minmax(9px,1fr));gap:3px;align-items:center;overflow-x:auto;padding:8px 0}.heatmap-hour,.heatmap-day{font-size:.62rem;color:var(--text-muted);text-align:center}.heatmap-cell{height:17px;min-width:9px;border-radius:4px;border:1px solid rgba(140,98,93,.12)}.heatmap-legend{font-size:.68rem;color:var(--text-muted);margin-top:8px}
 </style>
 </head>
 <body>
@@ -326,6 +327,19 @@
     <div id="analyticsTab" class="tab-content">
       <div class="card">
         <div class="section-title" style="margin-bottom: 12px;">📈 Nossa História em Gráficos</div>
+        <div class="chart-controls" id="analyticsFilters">
+          <label>Período:
+            <select id="analyticsRange" style="padding:7px;border:1px solid var(--border-color);border-radius:8px;background:var(--bg-card);color:var(--text-color);">
+              <option value="all">Todo o histórico</option><option value="30">Últimos 30 dias do arquivo</option><option value="90">Últimos 90 dias do arquivo</option><option value="365">Último ano do arquivo</option>
+            </select>
+          </label>
+          <label>Mensagens de:
+            <select id="analyticsPerson" style="padding:7px;border:1px solid var(--border-color);border-radius:8px;background:var(--bg-card);color:var(--text-color);">
+              <option value="all">Nós dois</option><option value="fabricio">Fabricio 💜</option><option value="maria">Meu Amor 💙</option>
+            </select>
+          </label>
+          <span id="analyticsFilterSummary" class="chart-hint">Carregue uma conversa para filtrar os gráficos.</span>
+        </div>
         <div class="charts-wrapper">
           <div class="chart-box">
             <canvas id="timeSeriesChart"></canvas>
@@ -359,10 +373,14 @@
       <div class="card"><div class="section-title">🧩 Padrões da conversa</div><p class="card-section-note">Aqui ficam comportamentos diferentes dos números básicos: constância, sessões e ritmo.</p><div id="deepInsights" class="advanced-grid"></div></div>
       <div class="charts-wrapper"><div class="chart-box"><div class="section-title" style="font-size:.9rem;margin-bottom:8px;">📆 Evolução por mês</div><canvas id="intensityChart"></canvas></div><div class="chart-box"><div class="section-title" style="font-size:.9rem;margin-bottom:8px;">🗓️ Semana × fim de semana</div><canvas id="heatChart"></canvas></div></div>
       <div class="card"><div class="section-title">🧭 Momentos da história</div><div id="timelineInsights" class="advanced-grid"></div></div>
+      <div class="card"><div class="section-title">☀️ Quem chegou primeiro com carinho?</div><p class="card-section-note">Só o primeiro cumprimento de cada pessoa por dia vale. Respostas e repetições no mesmo dia não somam pontos extras.</p><div id="greetingInsights" class="advanced-grid"></div></div>
+      <div class="card"><div class="section-title">🗓️ Mapa de calor: dia da semana × horário</div><p class="card-section-note">Os quadrinhos mais escuros mostram os horários de maior movimento.</p><div id="activityHeatmap" class="heatmap-grid"></div></div>
     </div>
     <div id="compareTab" class="tab-content">
       <div class="card"><div class="section-title">📌 Comparações úteis</div><p class="card-section-note">Diferenças de hábito, sem repetir o total de mensagens mostrado no resumo.</p><div id="compareDetailed" class="advanced-grid"></div></div>
+      <div class="card"><div class="section-title">💬 Ritmo de resposta</div><p class="card-section-note">Mensagens seguidas da mesma pessoa são agrupadas em uma única fala. A resposta é medida dentro de uma sessão, sem contar pausas longas.</p><div id="responseInsights" class="advanced-grid"></div></div>
       <div class="charts-wrapper"><div class="chart-box"><div class="section-title" style="font-size:.9rem;margin-bottom:8px;">👥 Participação por período</div><canvas id="authorPeriodChart"></canvas></div><div class="chart-box"><div class="section-title" style="font-size:.9rem;margin-bottom:8px;">🕒 Horários de cada um</div><canvas id="authorHourChart"></canvas></div></div>
+      <div class="charts-wrapper"><div class="chart-box"><div class="section-title" style="font-size:.9rem;margin-bottom:8px;">☀️ Primeiro cumprimento por dia</div><canvas id="greetingFirstChart"></canvas></div><div class="chart-box"><div class="section-title" style="font-size:.9rem;margin-bottom:8px;">🌅 Quem iniciou o dia</div><canvas id="dailyStarterChart"></canvas></div></div>
     </div>
     <div id="memoriesTab" class="tab-content">
       <div class="card">
@@ -704,40 +722,24 @@
       parsedMessages = [];
       const lines = text.split('\n');
       const msgRegex = /^\[?(\d{1,2}[\/\.-]\d{1,2}[\/\.-]\d{2,4}),?\s+(\d{1,2}:\d{2}(?::\d{2})?(?:\s?[AP]M)?)\]?\s*(?:-|\Live)?\s*([^:]+):\s*(.*)$/i;
-
-      for (let i = 0; i < lines.length; i++) {
-        const line = lines[i];
+      for (const line of lines) {
         const match = line.match(msgRegex);
-
         if (match) {
-          const content = match[4].trim();
-          
-          const dateParts = match[1].split(/[\/\.-]/);
-          let isoDate = "";
-          if (dateParts.length === 3) {
-            let year = dateParts[2].length === 2 ? '20' + dateParts[2] : dateParts[2];
-            let month = dateParts[1].padStart(2, '0');
-            let day = dateParts[0].padStart(2, '0');
-            isoDate = `${year}-${month}-${day}`;
-          }
-
-          let hour = 0;
-          const timeMatch = match[2].match(/(\d{1,2}):(\d{2})/);
-          if (timeMatch) hour = parseInt(timeMatch[1], 10);
-
-          parsedMessages.push({
-            date: isoDate, dateRaw: match[1], time: match[2], hour: hour,
-            author: match[3].trim(), content: content
-          });
-        } else if (parsedMessages.length > 0) {
-          const extraLine = line.trim();
-          if (extraLine) {
-            parsedMessages[parsedMessages.length - 1].content += "\n" + extraLine;
-          }
+          const parts = match[1].split(/[\/\.-]/);
+          const year = parts[2].length === 2 ? '20' + parts[2] : parts[2];
+          const month = parseInt(parts[1],10), day = parseInt(parts[0],10);
+          const isoDate = `${year}-${String(month).padStart(2,'0')}-${String(day).padStart(2,'0')}`;
+          const tm = match[2].trim().match(/^(\d{1,2}):(\d{2})(?::(\d{2}))?\s*([AP]M)?$/i);
+          let hour=0,minute=0,second=0;
+          if(tm){hour=+tm[1];minute=+tm[2];second=+(tm[3]||0);const ap=(tm[4]||'').toUpperCase();if(ap==='PM'&&hour<12)hour+=12;if(ap==='AM'&&hour===12)hour=0;}
+          const timestamp=new Date(+year,month-1,day,hour,minute,second).getTime();
+          parsedMessages.push({date:isoDate,dateRaw:match[1],time:match[2],hour,minute,second,minuteOfDay:hour*60+minute,timestamp,author:match[3].trim(),content:match[4].trim()});
+        } else if(parsedMessages.length) {
+          const extra=line.trim();if(extra)parsedMessages[parsedMessages.length-1].content+='\n'+extra;
         }
       }
+      parsedMessages.sort((a,b)=>a.timestamp-b.timestamp);
     }
-
     function isFabricio(author) {
       const name = author.toLowerCase();
       return name.includes('fabricio') || name.includes('fabrício');
@@ -1358,6 +1360,115 @@
       if(type==='deep'||type==='milestones'){const st=advancedProfile(), items=type==='deep'?[['🔥 Pico diário',st.sorted[0]?.n||0],['⚡ Média geral',st.avgAll.toFixed(1)],['🔗 Maior sequência',(()=>{let m=0,r=0,p=null;st.days.forEach(d=>{let q=new Date(d+'T12:00:00');r=p&&(q-p===86400000)?r+1:1;m=Math.max(m,r);p=q});return m})()+' dias'],['📉 Maior intervalo',st.longestGap+' dias'],['📆 Dias ativos',st.activeDays],['🕒 Hora favorita',String(st.topHour).padStart(2,'0')+'h'],['📅 Período',st.span+' dias'],['💬 Total',parsedMessages.length]]:[['🌱 Primeiro dia',st.first||'—'],['🏁 Último dia',st.last||'—'],['🏆 Dia recorde',st.busiest||'—'],['🔥 Mensagens no recorde',st.byDate[st.busiest]||0],['📅 Dias conversando',st.activeDays],['💬 Total',parsedMessages.length],['📈 Média ativa',st.avg.toFixed(1)],['⏳ História',st.span+' dias']];grid.innerHTML=items.slice(0,count).map(([a,b])=>`<div class="wrapped-item"><span>${a}</span><span class="wrapped-val">${b}</span></div>`).join('');const titles={deep:'História em Profundidade 🔬',milestones:'Nossos Marcos 🏁'};document.getElementById('wrapTitle').innerText=document.getElementById('wrapCustomTitle').value.trim()||titles[type]}
     };
 
+
+    // Estatísticas por dia: somente o primeiro cumprimento recebe o ponto daquele dia.
+    function temporalAuthorKey(author){return isFabricio(author)?'fabricio':'maria'}
+    function temporalPhraseRegex(phrase){return new RegExp(regexForTermWithIntensifiers(phrase).source,'i')}
+    function firstOccurrencePerDay(phrase){
+      const re=phrase?temporalPhraseRegex(phrase):null,first={};
+      parsedMessages.filter(m=>m.date&&Number.isFinite(m.timestamp)).forEach(m=>{
+        if(re&&!re.test(m.content))return;
+        const cur=first[m.date];
+        if(!cur||m.timestamp<cur.timestamp)first[m.date]={message:m,timestamp:m.timestamp,tie:false};
+        else if(m.timestamp===cur.timestamp&&temporalAuthorKey(m.author)!==temporalAuthorKey(cur.message.author))cur.tie=true;
+      });
+      return Object.values(first);
+    }
+    function countFirsts(items){
+      const out={fabricio:0,maria:0,ties:0};
+      items.forEach(x=>{if(x.tie)out.ties++;else out[temporalAuthorKey(x.message.author)]++});
+      return out;
+    }
+    function getDailyTemporalStats(){
+      const m=firstOccurrencePerDay('bom dia'),n=firstOccurrencePerDay('boa noite'),d=firstOccurrencePerDay(null);
+      return {mornings:countFirsts(m),nights:countFirsts(n),starters:countFirsts(d),morningDays:m.length,nightDays:n.length,activeDays:d.length};
+    }
+    function getResponseTimingStats(){
+      const msgs=parsedMessages.filter(m=>m.date&&Number.isFinite(m.timestamp)),turns=[];
+      msgs.forEach(m=>{const k=temporalAuthorKey(m.author),last=turns[turns.length-1];if(last&&last.key===k&&m.timestamp-last.lastTimestamp<=90*60000){last.lastTimestamp=m.timestamp;last.count++}else turns.push({key:k,firstTimestamp:m.timestamp,lastTimestamp:m.timestamp,count:1})});
+      const gaps={fabricio:[],maria:[]};
+      for(let i=1;i<turns.length;i++){const a=turns[i-1],b=turns[i],g=(b.firstTimestamp-a.lastTimestamp)/60000;if(a.key!==b.key&&g>=0&&g<=90)gaps[b.key].push(g)}
+      const summary=a=>{if(!a.length)return{n:0,avg:null,median:null};const x=[...a].sort((p,q)=>p-q),mid=Math.floor(x.length/2);return{n:x.length,avg:x.reduce((p,q)=>p+q,0)/x.length,median:x.length%2?x[mid]:(x[mid-1]+x[mid])/2}};
+      return{fabricio:summary(gaps.fabricio),maria:summary(gaps.maria)};
+    }
+    function fmtDurationMinutes(v){if(v===null||!Number.isFinite(v))return'—';if(v<1)return'<1 min';if(v<60)return Math.round(v)+' min';const h=Math.floor(v/60),m=Math.round(v%60);return m?h+'h '+m+'min':h+'h'}
+    function renderTemporalInsights(){
+      if(!parsedMessages.length)return;
+      const st=getDailyTemporalStats(),r=getResponseTimingStats(),g=document.getElementById('greetingInsights'),resp=document.getElementById('responseInsights');
+      if(g)g.innerHTML=[
+        ['☀️','Primeiro “bom dia”',`💜 ${st.mornings.fabricio} × 💙 ${st.mornings.maria}`,`${st.morningDays} dias com cumprimento · ${st.mornings.ties} empate(s)`],
+        ['🌙','Primeiro “boa noite”',`💜 ${st.nights.fabricio} × 💙 ${st.nights.maria}`,`${st.nightDays} dias com cumprimento · ${st.nights.ties} empate(s)`],
+        ['🌅','Quem iniciou o dia',`💜 ${st.starters.fabricio} × 💙 ${st.starters.maria}`,`${st.activeDays} dias ativos · ${st.starters.ties} empate(s)`],
+        ['🎯','Regra da contagem','1 ponto por dia','Respostas e repetições no mesmo dia não aumentam o placar']
+      ].map(x=>`<div class="insight-card"><span>${x[0]} ${x[1]}</span><b>${x[2]}</b><small>${x[3]}</small></div>`).join('');
+      if(resp)resp.innerHTML=[
+        ['⚡','Tempo médio de resposta de Fabricio',fmtDurationMinutes(r.fabricio.avg),`mediana ${fmtDurationMinutes(r.fabricio.median)} · ${r.fabricio.n} respostas`],
+        ['💙','Tempo médio de resposta do Meu Amor',fmtDurationMinutes(r.maria.avg),`mediana ${fmtDurationMinutes(r.maria.median)} · ${r.maria.n} respostas`],
+        ['🧭','Critério','Até 90 minutos','Agrupa mensagens seguidas da mesma pessoa e ignora pausas maiores que 90 min']
+      ].map(x=>`<div class="insight-card"><span>${x[0]} ${x[1]}</span><b>${x[2]}</b><small>${x[3]}</small></div>`).join('');
+      const rec=document.getElementById('recordsContent');
+      if(rec){const byDate={};parsedMessages.forEach(m=>byDate[m.dateRaw]=(byDate[m.dateRaw]||0)+1);const top=Object.entries(byDate).sort((a,b)=>b[1]-a[1])[0];
+        rec.innerHTML=`<div>📌 <b>Dia mais ativo:</b> ${top?escapeHTML(top[0])+' ('+top[1]+' mensagens)':'—'}</div>
+        <div>☀️ <b>Primeiro “bom dia”:</b> 💜 ${st.mornings.fabricio} | 💙 ${st.mornings.maria} | Empates: ${st.mornings.ties}</div>
+        <div>🌙 <b>Primeiro “boa noite”:</b> 💜 ${st.nights.fabricio} | 💙 ${st.nights.maria} | Empates: ${st.nights.ties}</div>
+        <div>🌅 <b>Quem iniciou o dia:</b> 💜 ${st.starters.fabricio} | 💙 ${st.starters.maria} | Empates: ${st.starters.ties}</div>`;}
+      renderActivityHeatmap();
+    }
+    function renderActivityHeatmap(){
+      const box=document.getElementById('activityHeatmap');if(!box)return;
+      const counts=Array.from({length:7},()=>Array(24).fill(0));
+      parsedMessages.forEach(m=>{if(m.date&&Number.isFinite(m.timestamp))counts[new Date(m.date+'T12:00:00').getDay()][m.hour]++});
+      const max=Math.max(1,...counts.flat()),days=['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'];
+      let html='<div></div>'+Array.from({length:24},(_,h)=>'<div class="heatmap-hour">'+(h%3===0?String(h).padStart(2,'0'):'·')+'</div>').join('');
+      days.forEach((d,i)=>{html+='<div class="heatmap-day">'+d+'</div>';counts[i].forEach((n,h)=>{const opacity=n?.12+.78*n/max:.035;html+='<div class="heatmap-cell" title="'+d+', '+String(h).padStart(2,'0')+'h: '+n+' mensagens" aria-label="'+d+', '+h+' horas, '+n+' mensagens" style="background:rgba(140,98,93,'+opacity+')"></div>'})});
+      box.innerHTML=html+'<div class="heatmap-legend">Mais escuro = maior volume. Toque ou mantenha pressionado um quadrinho para ver o total.</div>';
+    }
+    let greetingFirstChartInstance=null,dailyStarterChartInstance=null;
+    function renderTemporalCharts(){
+      if(!window.Chart||!parsedMessages.length)return;
+      const m=countFirsts(firstOccurrencePerDay('bom dia')),n=countFirsts(firstOccurrencePerDay('boa noite')),d=countFirsts(firstOccurrencePerDay(null));
+      const g=document.getElementById('greetingFirstChart');if(g){greetingFirstChartInstance?.destroy();greetingFirstChartInstance=new Chart(g,{type:'bar',data:{labels:['Primeiro bom dia','Primeiro boa noite'],datasets:[{label:'Fabricio 💜',data:[m.fabricio,n.fabricio],backgroundColor:'#6b21a8'},{label:'Meu Amor 💙',data:[m.maria,n.maria],backgroundColor:'#2563eb'}]},options:{responsive:true,plugins:{legend:{position:'bottom'}}}})}
+      const c=document.getElementById('dailyStarterChart');if(c){dailyStarterChartInstance?.destroy();dailyStarterChartInstance=new Chart(c,{type:'doughnut',data:{labels:['Fabricio 💜','Meu Amor 💙','Empates'],datasets:[{data:[d.fabricio,d.maria,d.ties],backgroundColor:['#6b21a8','#2563eb','#d97706']}]},options:{responsive:true,plugins:{legend:{position:'bottom'}}}})}
+    }
+    function getAnalyticsMessages(){
+      let a=parsedMessages.filter(m=>m.date&&Number.isFinite(m.timestamp));
+      const range=document.getElementById('analyticsRange')?.value||'all',person=document.getElementById('analyticsPerson')?.value||'all';
+      if(range!=='all'&&a.length){const latest=a.reduce((x,m)=>m.date>x?m.date:x,a[0].date),cut=new Date(latest+'T12:00:00');cut.setDate(cut.getDate()-Number(range)+1);const min=[cut.getFullYear(),String(cut.getMonth()+1).padStart(2,'0'),String(cut.getDate()).padStart(2,'0')].join('-');a=a.filter(m=>m.date>=min)}
+      if(person!=='all')a=a.filter(m=>temporalAuthorKey(m.author)===person);
+      const el=document.getElementById('analyticsFilterSummary');if(el)el.textContent=a.length.toLocaleString('pt-BR')+' mensagens no recorte selecionado';
+      return a;
+    }
+    function applyAnalyticsChartFilters(){
+      if(!window.Chart||!parsedMessages.length)return;
+      const a=getAnalyticsMessages(),months={},hours=Array(24).fill(0),week=Array(7).fill(0),period=Array(4).fill(0);
+      a.forEach(m=>{const k=m.date.slice(0,7);months[k]=(months[k]||0)+1;hours[m.hour]++;week[new Date(m.date+'T12:00:00').getDay()]++;period[m.hour<6?0:m.hour<12?1:m.hour<18?2:3]++});
+      const labels=Object.keys(months).sort();
+      const draw=(id,old,type,data,opts)=>{const el=document.getElementById(id);if(!el)return null;old?.destroy();return new Chart(el,{type,data,options:{responsive:true,...opts}})};
+      timeChartInstance=draw('timeSeriesChart',timeChartInstance,'line',{labels,datasets:[{label:'Mensagens',data:labels.map(k=>months[k]),borderColor:'#8c625d',backgroundColor:'rgba(140,98,93,.15)',fill:true,tension:.3}]},{plugins:{title:{display:true,text:'Mensagens por mês'}}});
+      hourlyChartInstance=draw('hourlyChart',hourlyChartInstance,'bar',{labels:Array.from({length:24},(_,i)=>i+'h'),datasets:[{label:'Mensagens',data:hours,backgroundColor:'#8c625d'}]},{onClick:(e,els)=>{if(els.length)selectHour(els[0].index)},plugins:{legend:{display:false},title:{display:true,text:'Atividade por hora'}}});
+      weekdayChartInstance=draw('weekdayChart',weekdayChartInstance,'bar',{labels:['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],datasets:[{label:'Mensagens',data:week,backgroundColor:'#8c625d'}]},{plugins:{legend:{display:false}}});
+      periodChartInstance=draw('periodChart',periodChartInstance,'doughnut',{labels:['Madrugada','Manhã','Tarde','Noite'],datasets:[{data:period,backgroundColor:['#8c625d','#d97706','#6b21a8','#2563eb']}]},{plugins:{legend:{position:'bottom'}}});
+      if(selectedHour!==null)selectHour(selectedHour);else resetHourSelection();
+    }
+    const _oldGenerateChartsTemporal=generateCharts;
+    generateCharts=function(){_oldGenerateChartsTemporal();applyAnalyticsChartFilters();renderTemporalCharts()};
+    const _oldGenerateMemoriesTemporal=generateMemoriesAndRecords;
+    generateMemoriesAndRecords=function(){_oldGenerateMemoriesTemporal();renderTemporalInsights()};
+    selectHour=function(hour){
+      selectedHour=hour;const a=getAnalyticsMessages().filter(m=>m.hour===hour),f=a.filter(m=>isFabricio(m.author)).length;
+      const v=document.getElementById('hourRangeValue'),d=document.getElementById('hourDetail');
+      if(v)v.textContent=String(hour).padStart(2,'0')+':00';
+      if(d)d.innerHTML='<b>'+a.length+'</b> mensagens entre <b>'+String(hour).padStart(2,'0')+':00</b> e <b>'+String(hour).padStart(2,'0')+':59</b> · 💜 '+f+' · 💙 '+(a.length-f)+'.';
+      const r=document.getElementById('hourRange');if(r)r.value=hour;
+      if(hourlyChartInstance){hourlyChartInstance.data.datasets[0].backgroundColor=hourlyChartInstance.data.labels.map((_,i)=>i===hour?'#d97706':'#8c625d');hourlyChartInstance.update()}
+    };
+    resetHourSelection=function(){
+      selectedHour=null;const r=document.getElementById('hourRange'),v=document.getElementById('hourRangeValue'),d=document.getElementById('hourDetail');
+      if(r)r.value=12;if(v)v.textContent='Todas';if(d)d.textContent='Toque em uma barra ou use o controle acima para ver um horário específico.';
+      if(hourlyChartInstance){hourlyChartInstance.data.datasets[0].backgroundColor='#8c625d';hourlyChartInstance.update()}
+    };
+    document.getElementById('analyticsRange')?.addEventListener('change',()=>{selectedHour=null;applyAnalyticsChartFilters()});
+    document.getElementById('analyticsPerson')?.addEventListener('change',()=>{selectedHour=null;applyAnalyticsChartFilters()});
   </script>
 </body>
 </html>

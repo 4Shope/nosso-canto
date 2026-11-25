@@ -1383,6 +1383,11 @@
       const m=firstOccurrencePerDay('bom dia'),n=firstOccurrencePerDay('boa noite'),d=firstOccurrencePerDay(null);
       return {mornings:countFirsts(m),nights:countFirsts(n),starters:countFirsts(d),morningDays:m.length,nightDays:n.length,activeDays:d.length};
     }
+    function medianGreetingClock(items,key){
+      const a=items.filter(x=>!x.tie&&temporalAuthorKey(x.message.author)===key).map(x=>x.message.minuteOfDay).sort((x,y)=>x-y);
+      if(!a.length)return'—';const mid=Math.floor(a.length/2),v=a.length%2?a[mid]:Math.round((a[mid-1]+a[mid])/2);
+      return String(Math.floor(v/60)).padStart(2,'0')+':'+String(v%60).padStart(2,'0');
+    }
     function getResponseTimingStats(){
       const msgs=parsedMessages.filter(m=>m.date&&Number.isFinite(m.timestamp)),turns=[];
       msgs.forEach(m=>{const k=temporalAuthorKey(m.author),last=turns[turns.length-1];if(last&&last.key===k&&m.timestamp-last.lastTimestamp<=90*60000){last.lastTimestamp=m.timestamp;last.count++}else turns.push({key:k,firstTimestamp:m.timestamp,lastTimestamp:m.timestamp,count:1})});
@@ -1397,7 +1402,9 @@
       const st=getDailyTemporalStats(),r=getResponseTimingStats(),g=document.getElementById('greetingInsights'),resp=document.getElementById('responseInsights');
       if(g)g.innerHTML=[
         ['☀️','Primeiro “bom dia”',`💜 ${st.mornings.fabricio} × 💙 ${st.mornings.maria}`,`${st.morningDays} dias com cumprimento · ${st.mornings.ties} empate(s)`],
+        ['⏰','Horário típico do primeiro “bom dia”',`💜 ${medianGreetingClock(firstOccurrencePerDay('bom dia'),'fabricio')} × 💙 ${medianGreetingClock(firstOccurrencePerDay('bom dia'),'maria')}`,'mediana dos horários em que cada um foi o primeiro a cumprimentar'],
         ['🌙','Primeiro “boa noite”',`💜 ${st.nights.fabricio} × 💙 ${st.nights.maria}`,`${st.nightDays} dias com cumprimento · ${st.nights.ties} empate(s)`],
+        ['🕰️','Horário típico do primeiro “boa noite”',`💜 ${medianGreetingClock(firstOccurrencePerDay('boa noite'),'fabricio')} × 💙 ${medianGreetingClock(firstOccurrencePerDay('boa noite'),'maria')}`,'mediana dos horários em que cada um foi o primeiro a desejar boa noite'],
         ['🌅','Quem iniciou o dia',`💜 ${st.starters.fabricio} × 💙 ${st.starters.maria}`,`${st.activeDays} dias ativos · ${st.starters.ties} empate(s)`],
         ['🎯','Regra da contagem','1 ponto por dia','Respostas e repetições no mesmo dia não aumentam o placar']
       ].map(x=>`<div class="insight-card"><span>${x[0]} ${x[1]}</span><b>${x[2]}</b><small>${x[3]}</small></div>`).join('');
@@ -1441,10 +1448,11 @@
     function applyAnalyticsChartFilters(){
       if(!window.Chart||!parsedMessages.length)return;
       const a=getAnalyticsMessages(),months={},hours=Array(24).fill(0),week=Array(7).fill(0),period=Array(4).fill(0);
-      a.forEach(m=>{const k=m.date.slice(0,7);months[k]=(months[k]||0)+1;hours[m.hour]++;week[new Date(m.date+'T12:00:00').getDay()]++;period[m.hour<6?0:m.hour<12?1:m.hour<18?2:3]++});
-      const labels=Object.keys(months).sort();
+      a.forEach(m=>{const k=m.date.slice(0,7);if(!months[k])months[k]={fabricio:0,maria:0};months[k][temporalAuthorKey(m.author)]++;hours[m.hour]++;week[new Date(m.date+'T12:00:00').getDay()]++;period[m.hour<6?0:m.hour<12?1:m.hour<18?2:3]++});
+      const labels=Object.keys(months).sort(),person=document.getElementById('analyticsPerson')?.value||'all';
       const draw=(id,old,type,data,opts)=>{const el=document.getElementById(id);if(!el)return null;old?.destroy();return new Chart(el,{type,data,options:{responsive:true,...opts}})};
-      timeChartInstance=draw('timeSeriesChart',timeChartInstance,'line',{labels,datasets:[{label:'Mensagens',data:labels.map(k=>months[k]),borderColor:'#8c625d',backgroundColor:'rgba(140,98,93,.15)',fill:true,tension:.3}]},{plugins:{title:{display:true,text:'Mensagens por mês'}}});
+      const monthlySets=person==='all'?[{label:'Fabricio 💜',data:labels.map(k=>months[k].fabricio),borderColor:'#6b21a8',backgroundColor:'rgba(107,33,168,.12)',fill:true,tension:.3},{label:'Meu Amor 💙',data:labels.map(k=>months[k].maria),borderColor:'#2563eb',backgroundColor:'rgba(37,99,235,.12)',fill:true,tension:.3}]:[{label:person==='fabricio'?'Fabricio 💜':'Meu Amor 💙',data:labels.map(k=>months[k][person]),borderColor:person==='fabricio'?'#6b21a8':'#2563eb',tension:.3}];
+      timeChartInstance=draw('timeSeriesChart',timeChartInstance,'line',{labels,datasets:monthlySets},{plugins:{title:{display:true,text:'Mensagens por mês'}}});
       hourlyChartInstance=draw('hourlyChart',hourlyChartInstance,'bar',{labels:Array.from({length:24},(_,i)=>i+'h'),datasets:[{label:'Mensagens',data:hours,backgroundColor:'#8c625d'}]},{onClick:(e,els)=>{if(els.length)selectHour(els[0].index)},plugins:{legend:{display:false},title:{display:true,text:'Atividade por hora'}}});
       weekdayChartInstance=draw('weekdayChart',weekdayChartInstance,'bar',{labels:['Dom','Seg','Ter','Qua','Qui','Sex','Sáb'],datasets:[{label:'Mensagens',data:week,backgroundColor:'#8c625d'}]},{plugins:{legend:{display:false}}});
       periodChartInstance=draw('periodChart',periodChartInstance,'doughnut',{labels:['Madrugada','Manhã','Tarde','Noite'],datasets:[{data:period,backgroundColor:['#8c625d','#d97706','#6b21a8','#2563eb']}]},{plugins:{legend:{position:'bottom'}}});
